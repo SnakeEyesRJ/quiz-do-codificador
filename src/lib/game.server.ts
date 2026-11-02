@@ -20,7 +20,8 @@ export async function loadOwnedMatch(matchId: string) {
     .maybeSingle();
   if (error) throw new Error(error.message);
   if (!match) throw new Error("Partida não encontrada.");
-  if (match.user_id && match.user_id !== userId) throw new Error("Partida não pertence a este jogador.");
+  if (match.user_id && match.user_id !== userId)
+    throw new Error("Partida não pertence a este jogador.");
   return match;
 }
 
@@ -61,7 +62,7 @@ export async function ensureQuestionsSeeded() {
           difficulty: q.difficulty,
           active: q.active,
         })),
-        { onConflict: "statement" }
+        { onConflict: "statement" },
       );
     }
 
@@ -89,7 +90,35 @@ export async function ensureQuestionsSeeded() {
           difficulty: q.difficulty,
           active: q.active,
         })),
-        { onConflict: "statement" }
+        { onConflict: "statement" },
+      );
+    }
+
+    const { data: mediunsQuestions, error: mediunsCheckErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "livro_mediuns")
+      .limit(1);
+
+    if (!mediunsCheckErr && (!mediunsQuestions || mediunsQuestions.length === 0)) {
+      const { LIVRO_MEDIUNS_QUESTIONS } = await import("@/data/livro-mediuns-questions");
+      await supabaseAdmin.from("questions").upsert(
+        LIVRO_MEDIUNS_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
       );
     }
   } catch (e) {

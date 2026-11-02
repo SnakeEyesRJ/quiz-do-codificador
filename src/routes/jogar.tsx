@@ -67,6 +67,7 @@ const BOOK_LABEL: Record<string, string> = {
   evangelho: "O Evangelho Segundo o Espiritismo",
   ceu_inferno: "O Céu e o Inferno",
   genese: "A Gênese",
+  livro_mediuns: "O Livro dos Médiuns",
 };
 
 function Play() {

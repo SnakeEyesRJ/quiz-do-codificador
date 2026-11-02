@@ -32,7 +32,7 @@ export interface MatchState {
 export interface PublicQuestion {
   answerId: string;
   code: number;
-  book: "livro_espiritos" | "evangelho" | "ceu_inferno" | "genese";
+  book: "livro_espiritos" | "evangelho" | "ceu_inferno" | "genese" | "livro_mediuns";
   statement: string;
   difficulty: "facil" | "medio" | "dificil";
   options: { letter: Letter; text: string }[];
