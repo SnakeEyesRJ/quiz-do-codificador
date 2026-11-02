@@ -1,6 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { applyAnswer, applyRoundWin, CODIFICADOR_ACCURACY, type Side } from "./game-rules";
+import {
+  applyAnswer,
+  applyRoundWin,
+  cleanPlayerName,
+  CODIFICADOR_ACCURACY,
+  DIFFICULTY_LEVELS,
+  extractMatchDifficulty,
+  pickQuestionCandidate,
+  type GameDifficulty,
+  type Side,
+} from "./game-rules";
 
 const LETTERS = ["A", "B", "C", "D", "E"] as const;
 type Letter = (typeof LETTERS)[number];
@@ -9,6 +19,7 @@ export interface MatchState {
   matchId: string;
   playerName: string;
   totalRounds: number;
+  difficulty: GameDifficulty;
   status: "in_progress" | "finished";
   currentRound: number;
   playerRounds: number;
@@ -23,6 +34,7 @@ export interface PublicQuestion {
   code: number;
   book: "livro_espiritos" | "evangelho" | "ceu_inferno" | "genese";
   statement: string;
+  difficulty: "facil" | "medio" | "dificil";
   options: { letter: Letter; text: string }[];
 }
 
@@ -61,6 +73,7 @@ export const startMatch = createServerFn({ method: "POST" })
           .union([z.literal(3), z.literal(5), z.literal(7), z.literal(9)])
           .optional()
           .default(3),
+        difficulty: z.enum(DIFFICULTY_LEVELS).optional().default("normal"),
       })
       .parse(d),
   )
@@ -86,24 +99,44 @@ export const startMatch = createServerFn({ method: "POST" })
       throw new Error("O banco de perguntas está vazio. Não é possível iniciar a partida.");
 
     const chosenRounds = data.totalRounds ?? 3;
-    const { data: match, error } = await supabaseAdmin
+    const chosenDifficulty = data.difficulty ?? "normal";
+    const taggedName = `${name} [${chosenRounds}R] [D:${chosenDifficulty}]`;
+
+    let insertPayload: any = {
+      user_id: userId,
+      player_name: taggedName,
+      total_rounds: chosenRounds,
+      difficulty: chosenDifficulty,
+    };
+
+    let match: any;
+    const { data: mData, error: mError } = await supabaseAdmin
       .from("matches")
-      .insert(
-        (chosenRounds
-          ? { user_id: userId, player_name: name, total_rounds: chosenRounds }
-          : { user_id: userId, player_name: name }) as any,
-      )
+      .insert(insertPayload)
       .select()
       .single();
-    if (error) throw new Error(error.message);
+
+    if (mError) {
+      // Se a coluna 'difficulty' ainda não estiver aplicada na tabela remota do Supabase,
+      // insere sem ela (a tag [D:difficulty] no player_name garante a persistência).
+      delete insertPayload.difficulty;
+      const retry = await supabaseAdmin.from("matches").insert(insertPayload).select().single();
+      if (retry.error) throw new Error(retry.error.message);
+      match = retry.data;
+    } else {
+      match = mData;
+    }
+
     const { error: rErr } = await supabaseAdmin
       .from("rounds")
       .insert({ match_id: match.id, number: 1 });
     if (rErr) throw new Error(rErr.message);
+
     return {
       matchId: match.id,
-      playerName: name,
+      playerName: cleanPlayerName(name),
       totalRounds: chosenRounds,
+      difficulty: chosenDifficulty,
       status: "in_progress",
       currentRound: 1,
       playerRounds: 0,
@@ -121,6 +154,7 @@ export const nextQuestion = createServerFn({ method: "POST" })
     const match = await loadOwnedMatch(data.matchId);
     if (match.status !== "in_progress") throw new Error("A partida já terminou.");
     const round = await getCurrentRound(match.id, match.current_round);
+    const matchDifficulty = extractMatchDifficulty(match);
 
     // Re-serve a pending (unanswered) question instead of creating another.
     const { data: pending } = await supabaseAdmin
@@ -143,13 +177,18 @@ export const nextQuestion = createServerFn({ method: "POST" })
       const usedIds = new Set((used ?? []).map((u) => u.question_id));
       const { data: all, error } = await supabaseAdmin
         .from("questions")
-        .select("id")
+        .select("id, difficulty")
         .eq("active", true);
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
+
       const fresh = all.filter((q) => !usedIds.has(q.id));
       const pool = fresh.length ? fresh : all;
-      questionId = pool[Math.floor(Math.random() * pool.length)]!.id;
+
+      // Conduz as perguntas de acordo com o nível de dificuldade selecionado para o jogador
+      const candidate = pickQuestionCandidate(pool, matchDifficulty);
+      questionId = candidate.id;
+
       const { data: ins, error: insErr } = await supabaseAdmin
         .from("answers")
         .insert({ match_id: match.id, round_id: round.id, question_id: questionId })
@@ -161,15 +200,17 @@ export const nextQuestion = createServerFn({ method: "POST" })
 
     const { data: q, error: qErr } = await supabaseAdmin
       .from("questions")
-      .select("code, book, statement, option_a, option_b, option_c, option_d, option_e")
+      .select("code, book, statement, option_a, option_b, option_c, option_d, option_e, difficulty")
       .eq("id", questionId)
       .single();
     if (qErr) throw new Error(qErr.message);
+
     return {
       answerId,
       code: q.code,
       book: q.book as PublicQuestion["book"],
       statement: q.statement,
+      difficulty: q.difficulty as PublicQuestion["difficulty"],
       options: [
         { letter: "A", text: q.option_a },
         { letter: "B", text: q.option_b },
@@ -223,11 +264,7 @@ export const submitAnswer = createServerFn({ method: "POST" })
       .eq("id", locked.id);
 
     const round = await getCurrentRound(match.id, match.current_round);
-    const score = applyAnswer(
-      round.player_score,
-      round.codificador_score,
-      playerCorrect,
-    );
+    const score = applyAnswer(round.player_score, round.codificador_score, playerCorrect);
     await supabaseAdmin
       .from("rounds")
       .update({
@@ -237,10 +274,12 @@ export const submitAnswer = createServerFn({ method: "POST" })
       })
       .eq("id", round.id);
 
+    const matchDifficulty = extractMatchDifficulty(match);
     let state: MatchState = {
       matchId: match.id,
-      playerName: match.player_name.replace(/\s*\[[3579]R\]$/, ""),
+      playerName: cleanPlayerName(match.player_name),
       totalRounds: extractMatchTotalRounds(match),
+      difficulty: matchDifficulty,
       status: "in_progress",
       currentRound: match.current_round,
       playerRounds: match.player_rounds,

@@ -1,5 +1,5 @@
 import { CodificadorPhoto, PlayerAvatar } from "./PlayerAvatar";
-import { getRoundsToWin, ROUND_TARGET } from "@/lib/game-rules";
+import { DIFFICULTY_LABELS, getRoundsToWin, ROUND_TARGET } from "@/lib/game-rules";
 import type { MatchState } from "@/lib/game.functions";
 
 export function Scoreboard({
@@ -11,12 +11,13 @@ export function Scoreboard({
 }) {
   const totalRounds = state.totalRounds || 3;
   const roundsToWin = getRoundsToWin(totalRounds);
+  const difficultyLabel = DIFFICULTY_LABELS[state.difficulty ?? "normal"] ?? "Normal";
 
   return (
     <div className="rounded-2xl border bg-card/80 p-3 shadow-soft sm:p-4">
-      <p className="mb-2 text-center text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-        Rodada {state.currentRound} · Melhor de {totalRounds} ({roundsToWin} vitórias para vencer) ·
-        primeiro a {ROUND_TARGET} pontos
+      <p className="mb-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        Rodada {state.currentRound} · Melhor de {totalRounds} ({roundsToWin} vitórias) · Nível:{" "}
+        <span className="text-ink font-bold">{difficultyLabel}</span> · 1º a {ROUND_TARGET} pontos
       </p>
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4">
         <Side

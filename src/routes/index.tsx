@@ -19,7 +19,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { CodificadorPhoto } from "@/components/PlayerAvatar";
 import { useAuth } from "@/hooks/use-auth";
+import {
+  DIFFICULTY_DESCRIPTIONS,
+  DIFFICULTY_LABELS,
+  DIFFICULTY_LEVELS,
+  type GameDifficulty,
+} from "@/lib/game-rules";
 import { cn } from "@/lib/utils";
+
+const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[] = [
+  { key: "facil", label: "Fácil", hint: "Iniciante" },
+  { key: "normal", label: "Normal", hint: "Equilibrado" },
+  { key: "dificil", label: "Difícil", hint: "Avançado" },
+  { key: "expert", label: "Expert", hint: "Mestre" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,6 +57,7 @@ export const Route = createFileRoute("/")({
 export function Index() {
   const { user } = useAuth();
   const [selectedRounds, setSelectedRounds] = useState<3 | 5 | 7 | 9>(3);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty>("normal");
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col items-center px-4 py-12 sm:py-20">
@@ -94,9 +108,39 @@ export function Index() {
         </p>
       </div>
 
-      <Button asChild variant="hero" size="xl" className="mt-6">
-        <Link to="/jogar" search={{ rodadas: selectedRounds }}>
-          Iniciar partida ({selectedRounds} rodadas)
+      {/* Seletor de Níveis de Dificuldade */}
+      <div className="mt-6 flex flex-col items-center text-center">
+        <label className="text-sm font-semibold tracking-wide text-ink/80">
+          Escolha o nível de dificuldade:
+        </label>
+        <div className="mt-2.5 flex flex-wrap justify-center gap-2">
+          {DIFFICULTY_OPTIONS.map((opt) => (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() => setSelectedDifficulty(opt.key)}
+              className={cn(
+                "flex flex-col items-center justify-center rounded-xl border-2 px-3.5 py-2 transition-all min-w-[85px] sm:min-w-[95px]",
+                selectedDifficulty === opt.key
+                  ? "border-ink bg-peach font-bold shadow-soft scale-105"
+                  : "border-border bg-card/70 hover:bg-peach/30 text-muted-foreground",
+              )}
+            >
+              <span className="text-sm font-bold text-ink">{opt.label}</span>
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-ink/75">
+                {opt.hint}
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 max-w-md text-xs text-muted-foreground">
+          {DIFFICULTY_DESCRIPTIONS[selectedDifficulty]}
+        </p>
+      </div>
+
+      <Button asChild variant="hero" size="xl" className="mt-7">
+        <Link to="/jogar" search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty }}>
+          Iniciar partida ({selectedRounds} rodadas · {DIFFICULTY_LABELS[selectedDifficulty]})
         </Link>
       </Button>
 
@@ -123,12 +167,12 @@ export function Index() {
             "Escolha 3, 5, 7 ou 9 rodadas na disputa. Cada rodada termina quando alguém atinge 10 pontos.",
           ],
           [
-            "Pontuação",
-            "O Codificador não responde: seu acerto vale 1 ponto para você; seu erro concede 1 ponto ao Codificador.",
+            "Dificuldade",
+            "4 níveis (Fácil, Normal, Difícil e Expert) que conduzem a seleção das perguntas pelo grau de exigência.",
           ],
           [
-            "Estudo",
-            "Após cada resposta, veja a explicação doutrinária e a referência exata na obra.",
+            "Pontuação",
+            "O Codificador não responde: seu acerto vale 1 ponto para você; seu erro concede 1 ponto ao Codificador.",
           ],
         ].map(([t, d]) => (
           <div key={t} className="rounded-2xl border bg-card/70 p-5 shadow-soft">
@@ -469,12 +513,14 @@ export function Index() {
             Pronto para testar seu aprendizado?
           </h3>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Enfrente o Codificador em partidas disputadas de 3, 5, 7 ou 9 rodadas com perguntas
+            Enfrente o Codificador em partidas disputadas de 3, 5, 7 ou 9 rodadas no nível de
+            dificuldade de sua escolha ({DIFFICULTY_LABELS[selectedDifficulty]}), com perguntas
             comentadas sobre as obras de Allan Kardec.
           </p>
           <Button asChild variant="hero" size="lg" className="mt-5">
-            <Link to="/jogar" search={{ rodadas: selectedRounds }}>
-              Jogar agora contra o Codificador ({selectedRounds} rodadas)
+            <Link to="/jogar" search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty }}>
+              Jogar agora contra o Codificador ({selectedRounds} rodadas ·{" "}
+              {DIFFICULTY_LABELS[selectedDifficulty]})
             </Link>
           </Button>
         </div>

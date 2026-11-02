@@ -9,6 +9,13 @@ import { Scoreboard } from "@/components/Scoreboard";
 import { CodificadorPhoto, PlayerAvatar } from "@/components/PlayerAvatar";
 import { useAuth } from "@/hooks/use-auth";
 import {
+  DIFFICULTY_DESCRIPTIONS,
+  DIFFICULTY_LABELS,
+  DIFFICULTY_LEVELS,
+  QUESTION_DIFFICULTY_LABELS,
+  type GameDifficulty,
+} from "@/lib/game-rules";
+import {
   nextQuestion,
   startMatch,
   submitAnswer,
@@ -18,11 +25,23 @@ import {
 } from "@/lib/game.functions";
 import { cn } from "@/lib/utils";
 
+const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[] = [
+  { key: "facil", label: "Fácil", hint: "Iniciante" },
+  { key: "normal", label: "Normal", hint: "Equilibrado" },
+  { key: "dificil", label: "Difícil", hint: "Avançado" },
+  { key: "expert", label: "Expert", hint: "Mestre" },
+];
+
 export const Route = createFileRoute("/jogar")({
   validateSearch: (search: Record<string, unknown>) => {
     const r = Number(search.rodadas);
+    const d = String(search.dificuldade || search.difficulty || "normal").toLowerCase();
+    const validD: GameDifficulty = (DIFFICULTY_LEVELS as readonly string[]).includes(d)
+      ? (d as GameDifficulty)
+      : "normal";
     return {
       rodadas: [3, 5, 7, 9].includes(r) ? (r as 3 | 5 | 7 | 9) : 3,
+      dificuldade: validD,
     };
   },
   head: () => ({
@@ -30,7 +49,8 @@ export const Route = createFileRoute("/jogar")({
       { title: "Jogar — Quiz do Codificador" },
       {
         name: "description",
-        content: "Partida contra o Codificador: dispute em 3, 5, 7 ou 9 rodadas.",
+        content:
+          "Partida contra o Codificador: dispute em 3, 5, 7 ou 9 rodadas em 4 níveis de dificuldade.",
       },
       { property: "og:title", content: "Jogar — Quiz do Codificador" },
       {
@@ -50,7 +70,7 @@ const BOOK_LABEL: Record<string, string> = {
 };
 
 function Play() {
-  const { rodadas } = Route.useSearch();
+  const { rodadas, dificuldade } = Route.useSearch();
   const { user, profile, loading } = useAuth();
   const start = useServerFn(startMatch);
   const fetchNext = useServerFn(nextQuestion);
@@ -58,6 +78,7 @@ function Play() {
 
   const [name, setName] = useState("");
   const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(rodadas ?? 3);
+  const [difficulty, setDifficulty] = useState<GameDifficulty>(dificuldade ?? "normal");
   const [state, setState] = useState<MatchState | null>(null);
   const [question, setQuestion] = useState<PublicQuestion | null>(null);
   const [result, setResult] = useState<AnswerResult | null>(null);
@@ -79,7 +100,13 @@ function Play() {
 
   const begin = () =>
     run(async () => {
-      const s = await start({ data: { playerName: name || undefined, totalRounds: rounds } });
+      const s = await start({
+        data: {
+          playerName: name || undefined,
+          totalRounds: rounds,
+          difficulty: difficulty,
+        },
+      });
       setState(s);
       setShown(null);
       setResult(null);
@@ -124,6 +151,7 @@ function Play() {
         <h1 className="mt-6 text-4xl font-bold">Nova partida</h1>
         <p className="mt-2 text-muted-foreground">Desafie o Codificador em rodadas de 10 pontos.</p>
 
+        {/* Formato da disputa */}
         <div className="mt-6 text-left">
           <label className="text-sm font-semibold">Formato da disputa:</label>
           <div className="mt-2 grid grid-cols-4 gap-2">
@@ -151,6 +179,35 @@ function Play() {
             primeiro.
           </p>
         </div>
+
+        {/* Nível de dificuldade */}
+        <div className="mt-6 text-left">
+          <label className="text-sm font-semibold">Nível de dificuldade:</label>
+          <div className="mt-2 grid grid-cols-4 gap-2">
+            {DIFFICULTY_OPTIONS.map((opt) => (
+              <button
+                key={opt.key}
+                type="button"
+                onClick={() => setDifficulty(opt.key)}
+                className={cn(
+                  "flex flex-col items-center justify-center rounded-xl border-2 py-2.5 px-1 transition-all",
+                  difficulty === opt.key
+                    ? "border-ink bg-peach font-bold shadow-soft scale-[1.02]"
+                    : "border-border bg-card/60 hover:bg-peach/30 text-muted-foreground",
+                )}
+              >
+                <span className="text-sm font-bold text-ink">{opt.label}</span>
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-ink/75">
+                  {opt.hint}
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            {DIFFICULTY_DESCRIPTIONS[difficulty]}
+          </p>
+        </div>
+
         {loading ? null : user ? (
           <div className="mt-6 flex items-center justify-center gap-3">
             <PlayerAvatar url={profile?.avatar_url} size={44} />
@@ -175,7 +232,8 @@ function Play() {
           </div>
         )}
         <Button variant="hero" size="xl" className="mt-8" onClick={begin} disabled={busy}>
-          {busy && <Loader2 className="animate-spin" />} Começar
+          {busy && <Loader2 className="animate-spin" />} Começar ({rounds} rodadas ·{" "}
+          {DIFFICULTY_LABELS[difficulty]})
         </Button>
       </main>
     );
@@ -193,9 +251,16 @@ function Play() {
       {question && (
         <section className="mt-6 rounded-2xl border bg-card p-4 shadow-soft sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
-              {BOOK_LABEL[question.book]}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
+                {BOOK_LABEL[question.book]}
+              </span>
+              {question.difficulty && (
+                <span className="rounded-full border border-border bg-peach/40 px-2.5 py-0.5 font-semibold text-ink">
+                  {QUESTION_DIFFICULTY_LABELS[question.difficulty] ?? question.difficulty}
+                </span>
+              )}
+            </div>
             <span className="text-muted-foreground">Pergunta nº {question.code}</span>
           </div>
           <h2 className="mt-4 font-display text-2xl font-semibold leading-snug sm:text-3xl">
@@ -266,6 +331,7 @@ function Play() {
                   </p>
                   <p className="mt-1">
                     Rodadas: você {state.playerRounds} × {state.codificadorRounds} Codificador
+                    (Nível {DIFFICULTY_LABELS[state.difficulty ?? "normal"]})
                   </p>
                 </>
               )}
