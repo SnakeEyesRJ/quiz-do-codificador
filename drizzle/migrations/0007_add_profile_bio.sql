@@ -10,3 +10,4 @@ BEGIN
     ALTER TABLE public.profiles ADD COLUMN bio text;
   END IF;
 END $$;
+

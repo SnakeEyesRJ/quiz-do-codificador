@@ -202,7 +202,7 @@ export function Index() {
                 >
                   <span className="text-lg font-bold">{r}</span>
                   <span className="text-[10px] uppercase font-semibold tracking-wider text-ink/75">
-                    {r === 3 ? "Melhor de 3" : `${Math.floor(r / 2) + 1} vitórias`}
+                    {`${Math.floor(r / 2) + 1} vitórias`}
                   </span>
                 </button>
               ))}

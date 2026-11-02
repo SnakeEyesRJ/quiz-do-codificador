@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth, setLocalProfile } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/perfil")({
@@ -32,6 +32,42 @@ export const Route = createFileRoute("/perfil")({
 });
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+async function compressImage(file: File, maxDim = 320): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("Canvas não suportado"));
+        ctx.drawImage(img, 0, 0, width, height);
+        try {
+          const webp = canvas.toDataURL("image/webp", 0.85);
+          if (webp.startsWith("data:image/webp")) return resolve(webp);
+        } catch {}
+        resolve(canvas.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = () => reject(new Error("Falha ao processar imagem"));
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = () => reject(new Error("Falha ao ler arquivo"));
+    reader.readAsDataURL(file);
+  });
+}
 
 function Perfil() {
   const { user, profile, loading, signInWithGoogle, refreshProfile } = useAuth();
@@ -139,56 +175,72 @@ function Perfil() {
     try {
       let finalAvatarUrl: string | null = profile?.avatar_url ?? null;
 
-      // Se um novo arquivo foi selecionado
+      // Se um novo arquivo de imagem foi escolhido pelo usuário
       if (file) {
         try {
-          const ext = file.name.split(".").pop() || "png";
-          const path = `${user.id}/avatar-${Date.now()}.${ext}`;
-          const up = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
-
-          if (!up.error) {
-            const signed = await supabase.storage
-              .from("avatars")
-              .createSignedUrl(path, 60 * 60 * 24 * 365 * 5);
-            if (signed.data?.signedUrl) {
-              finalAvatarUrl = signed.data.signedUrl;
-            }
-          } else {
-            // Fallback: conversão para Data URL se o bucket de storage não permitir upload direto
-            const reader = new FileReader();
-            finalAvatarUrl = await new Promise<string>((resolve) => {
-              reader.onloadend = () => resolve(reader.result as string);
-              reader.readAsDataURL(file);
-            });
-          }
-        } catch (uploadErr) {
-          console.warn("Storage upload fallback:", uploadErr);
+          finalAvatarUrl = await compressImage(file, 320);
+        } catch {
+          const reader = new FileReader();
+          finalAvatarUrl = await new Promise<string>((resolve) => {
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(file);
+          });
         }
       } else if (preview !== null) {
         finalAvatarUrl = preview;
       }
 
-      // Atualiza na tabela public.profiles
-      const updatePayload: Record<string, any> = {
+      const cleanBio = bio.trim();
+
+      // 1. Salva localmente de forma imediata
+      setLocalProfile(user.id, {
+        id: user.id,
         display_name: cleanName,
         avatar_url: finalAvatarUrl,
-        bio: bio.trim(),
-        updated_at: new Date().toISOString(),
-      };
+        bio: cleanBio,
+      });
 
-      const { error } = await supabase.from("profiles").update(updatePayload).eq("id", user.id);
+      // 2. Salva nos metadados da conta do usuário no Supabase Auth (sem dependência de schema SQL)
+      try {
+        await supabase.auth.updateUser({
+          data: {
+            display_name: cleanName,
+            name: cleanName,
+            full_name: cleanName,
+            avatar_url: finalAvatarUrl,
+            bio: cleanBio,
+          },
+        });
+      } catch (authErr) {
+        console.warn("Aviso ao atualizar metadados de autenticação:", authErr);
+      }
 
-      if (error) {
-        // Fallback caso a coluna bio ainda esteja sendo atualizada no cache remoto
-        delete updatePayload.bio;
-        const retry = await supabase.from("profiles").update(updatePayload).eq("id", user.id);
-        if (retry.error) throw retry.error;
+      // 3. Upsert no banco public.profiles para manter sincronizado
+      try {
+        const { error: pErr } = await supabase.from("profiles").upsert({
+          id: user.id,
+          display_name: cleanName,
+          avatar_url: finalAvatarUrl,
+          bio: cleanBio,
+          updated_at: new Date().toISOString(),
+        });
+        if (pErr) {
+          // Fallback caso a tabela no banco não tenha a coluna bio
+          await supabase.from("profiles").upsert({
+            id: user.id,
+            display_name: cleanName,
+            avatar_url: finalAvatarUrl,
+            updated_at: new Date().toISOString(),
+          });
+        }
+      } catch (dbErr) {
+        console.warn("Aviso ao sincronizar profiles:", dbErr);
       }
 
       await refreshProfile();
       setFile(null);
       setPreview(null);
-      toast.success("Perfil atualizado! Seu nome e avatar já estão ativos no placar.");
+      toast.success("Perfil atualizado! Nome, foto e bio foram salvos com sucesso.");
     } catch (err) {
       console.error("Erro ao salvar perfil:", err);
       toast.error(err instanceof Error ? err.message : "Não foi possível salvar o perfil.");

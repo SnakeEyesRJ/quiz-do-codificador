@@ -171,7 +171,7 @@ function Play() {
               >
                 <span className="text-xl font-bold">{r}</span>
                 <span className="text-[10px] uppercase tracking-wider font-semibold">
-                  {r === 3 ? "Melhor de 3" : `${Math.floor(r / 2) + 1} vitórias`}
+                  {`${Math.floor(r / 2) + 1} vitórias`}
                 </span>
               </button>
             ))}

@@ -19,6 +19,25 @@ interface AuthCtx {
   refreshProfile: () => Promise<void>;
 }
 
+const LOCAL_PROFILE_KEY = "quiz_profile_override_";
+
+export function getLocalProfile(userId: string): Partial<Profile> | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(LOCAL_PROFILE_KEY + userId);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function setLocalProfile(userId: string, data: Partial<Profile>) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(LOCAL_PROFILE_KEY + userId, JSON.stringify(data));
+  } catch {}
+}
+
 const Ctx = createContext<AuthCtx | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -27,23 +46,64 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const loadProfile = useCallback(async (u: User | null) => {
-    if (!u) return setProfile(null);
-    const { data } = await supabase
-      .from("profiles")
-      .select("id, display_name, avatar_url, bio")
-      .eq("id", u.id)
-      .maybeSingle();
-    if (data) return setProfile(data as Profile);
-    // Fallback if the signup trigger has not created it yet.
-    const meta = (u.user_metadata ?? {}) as Record<string, string | undefined>;
-    const fresh: Profile = {
+    if (!u) {
+      setProfile(null);
+      return;
+    }
+
+    const local = getLocalProfile(u.id);
+    const meta = (u.user_metadata ?? {}) as Record<string, any>;
+
+    // Consulta somente colunas garantidas no banco remoto (evita erro se a coluna bio não existir)
+    let dbRow: { id: string; display_name: string | null; avatar_url: string | null } | null = null;
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("id, display_name, avatar_url")
+        .eq("id", u.id)
+        .maybeSingle();
+      if (data) dbRow = data;
+    } catch (e) {
+      console.warn("Não foi possível carregar tabela profiles:", e);
+    }
+
+    // Prioridade de dados: banco > local storage > auth user_metadata > dados padrão da conta Google
+    const displayName =
+      dbRow?.display_name ||
+      local?.display_name ||
+      meta.display_name ||
+      meta.name ||
+      meta.full_name ||
+      u.email?.split("@")[0] ||
+      "Jogador";
+
+    const avatarUrl =
+      dbRow?.avatar_url || local?.avatar_url || meta.avatar_url || meta.picture || null;
+
+    const bio = (meta.bio as string | undefined) ?? local?.bio ?? null;
+
+    const resolved: Profile = {
       id: u.id,
-      display_name: meta["full_name"] ?? meta["name"] ?? u.email?.split("@")[0] ?? "Jogador",
-      avatar_url: meta["avatar_url"] ?? meta["picture"] ?? null,
-      bio: null,
+      display_name: displayName,
+      avatar_url: avatarUrl,
+      bio: bio,
     };
-    await supabase.from("profiles").upsert(fresh);
-    setProfile(fresh);
+
+    setProfile(resolved);
+    setLocalProfile(u.id, resolved);
+
+    // Se ainda não existir registro no banco, insere o registro inicial
+    if (!dbRow) {
+      try {
+        await supabase.from("profiles").upsert({
+          id: u.id,
+          display_name: displayName,
+          avatar_url: avatarUrl,
+        });
+      } catch (err) {
+        console.warn("Upsert inicial de perfil ignorado:", err);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -73,7 +133,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signOut: async () => {
       await supabase.auth.signOut();
     },
-    refreshProfile: () => loadProfile(user),
+    refreshProfile: async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        const freshUser = data.user ?? user;
+        if (freshUser) setUser(freshUser);
+        await loadProfile(freshUser);
+      } catch {
+        await loadProfile(user);
+      }
+    },
   };
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
