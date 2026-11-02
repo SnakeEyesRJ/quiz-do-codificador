@@ -340,3 +340,19 @@ export const submitAnswer = createServerFn({ method: "POST" })
       state,
     };
   });
+
+/** Exclui todo o histórico de partidas do jogador logado (rounds e answers caem em cascata). */
+export const clearMatchHistory = createServerFn({ method: "POST" }).handler(
+  async (): Promise<{ deleted: number }> => {
+    const { supabaseAdmin, getOptionalUserId } = await import("./game.server");
+    const userId = await getOptionalUserId();
+    if (!userId) throw new Error("Entre com sua conta Google para limpar o histórico.");
+    const { data, error } = await supabaseAdmin
+      .from("matches")
+      .delete()
+      .eq("user_id", userId)
+      .select("id");
+    if (error) throw new Error(error.message);
+    return { deleted: data?.length ?? 0 };
+  },
+);

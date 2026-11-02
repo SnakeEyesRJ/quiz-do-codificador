@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { clearMatchHistory } from "@/lib/game.functions";
 import { toast } from "sonner";
 import { History, Loader2, Swords, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,6 +36,7 @@ export const Route = createFileRoute("/historico")({
 function Historico() {
   const { user, signInWithGoogle } = useAuth();
   const queryClient = useQueryClient();
+  const clearHistory = useServerFn(clearMatchHistory);
   const [deleting, setDeleting] = useState(false);
 
   const { data = [], isLoading } = useQuery({
@@ -48,14 +51,9 @@ function Historico() {
     if (!user) return;
     setDeleting(true);
     try {
-      const matchIds = data.map((m) => m.id);
-      if (matchIds.length > 0) {
-        // Exclui respostas das partidas para preservar integridade
-        await supabase.from("answers").delete().in("match_id", matchIds);
-      }
-      const { error } = await supabase.from("matches").delete().eq("user_id", user.id);
-      if (error) throw error;
-
+      // A exclusão é feita no servidor (o cliente só tem permissão de leitura nas tabelas)
+      await clearHistory();
+      queryClient.setQueryData(["matches", user.id], []);
       await queryClient.invalidateQueries({ queryKey: ["matches", user.id] });
       toast.success("Histórico de partidas excluído com sucesso!");
     } catch (err) {
@@ -147,7 +145,7 @@ function Historico() {
             Você ainda não possui partidas concluídas ou o seu histórico foi excluído.
           </p>
           <Button asChild variant="hero" className="mt-6">
-            <Link to="/jogar">
+            <Link to="/jogar" search={{ rodadas: 3, dificuldade: "normal" }}>
               <Swords className="h-4 w-4 mr-1.5" /> Jogar nova partida
             </Link>
           </Button>
