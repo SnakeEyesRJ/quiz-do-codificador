@@ -33,12 +33,7 @@ export interface PublicQuestion {
   answerId: string;
   code: number;
   book:
-    | "livro_espiritos"
-    | "evangelho"
-    | "ceu_inferno"
-    | "genese"
-    | "livro_mediuns"
-    | "obras_postumas";
+    "livro_espiritos" | "evangelho" | "ceu_inferno" | "genese" | "livro_mediuns" | "obras_postumas";
   statement: string;
   difficulty: "facil" | "medio" | "dificil";
   options: { letter: Letter; text: string }[];

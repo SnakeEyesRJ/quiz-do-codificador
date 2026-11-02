@@ -19,14 +19,16 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 251,
     book: "obras_postumas",
-    statement: "Na biografia inicial de Allan Kardec em Obras Póstumas, qual lema fundamental o mestre inscreveu em sua bandeira para orientar o movimento espírita?",
+    statement:
+      "Na biografia inicial de Allan Kardec em Obras Póstumas, qual lema fundamental o mestre inscreveu em sua bandeira para orientar o movimento espírita?",
     option_a: "Trabalho, solidariedade, tolerância.",
     option_b: "Fé cega, obediência monástica, penitência.",
     option_c: "Poder temporal, riqueza material, autoritarismo.",
     option_d: "Ciência pura sem moral, misticismo isolado, reclusão.",
     option_e: "Renúncia ao estudo, dogmatismo eclesiástico, ascetismo.",
     correct_option: "A",
-    explanation: "Na biografia do Codificador em Obras Póstumas destaca-se: 'O mestre inscreveu em sua bandeira estas palavras: Trabalho, solidariedade, tolerância. Sejamos, como ele, infatigáveis, tolerantes e solidários'.",
+    explanation:
+      "Na biografia do Codificador em Obras Póstumas destaca-se: 'O mestre inscreveu em sua bandeira estas palavras: Trabalho, solidariedade, tolerância. Sejamos, como ele, infatigáveis, tolerantes e solidários'.",
     reference: "Biografia de Allan Kardec, p. 11",
     difficulty: "facil",
     active: true,
@@ -34,14 +36,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 252,
     book: "obras_postumas",
-    statement: "Antes de adotar o pseudônimo Allan Kardec em 1855, qual foi a sólida trajetória educacional de Hippolyte-Léon Denizard Rivail registrada na biografia da obra?",
+    statement:
+      "Antes de adotar o pseudônimo Allan Kardec em 1855, qual foi a sólida trajetória educacional de Hippolyte-Léon Denizard Rivail registrada na biografia da obra?",
     option_a: "Comerciante naval e militar da marinha mercante de Marselha.",
-    option_b: "Eminente pedagogo, discípulo de Pestalozzi em Yverdun e autor de obras clássicas de educação e gramática francesa.",
+    option_b:
+      "Eminente pedagogo, discípulo de Pestalozzi em Yverdun e autor de obras clássicas de educação e gramática francesa.",
     option_c: "Magistrado de corte real dedicado exclusivamente ao direito penal em Lyon.",
     option_d: "Médico cirurgião e fundador de hospitais militares na Suíça.",
     option_e: "Sacerdote católico que renunciou aos votos eclesiásticos na velhice.",
     correct_option: "B",
-    explanation: "Educado no célebre Instituto de Pestalozzi em Yverdun, Rivail distinguiu-se como eminente educador, autor de planos pedagógicos e cursos práticos adotados na França e na Alemanha antes do Espiritismo.",
+    explanation:
+      "Educado no célebre Instituto de Pestalozzi em Yverdun, Rivail distinguiu-se como eminente educador, autor de planos pedagógicos e cursos práticos adotados na França e na Alemanha antes do Espiritismo.",
     reference: "Biografia de Allan Kardec, p. 11-12",
     difficulty: "facil",
     active: true,
@@ -49,14 +54,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 253,
     book: "obras_postumas",
-    statement: "No célebre discurso pronunciado junto ao túmulo de Allan Kardec em 1869, como o eminente astrônomo Camille Flammarion definiu a genialidade metodológica do Codificador?",
+    statement:
+      "No célebre discurso pronunciado junto ao túmulo de Allan Kardec em 1869, como o eminente astrônomo Camille Flammarion definiu a genialidade metodológica do Codificador?",
     option_a: "Como um líder místico arrebatado por transes sobrenaturais incontroláveis.",
-    option_b: "Como um experimentador que subordinava a moral ao acaso dos fenômenos materiais de salão.",
-    option_c: "Como 'o bom-senso encarnado', aplicando sem cessar à sua vasta obra as indicações íntimas da razão e do método positivo.",
+    option_b:
+      "Como um experimentador que subordinava a moral ao acaso dos fenômenos materiais de salão.",
+    option_c:
+      "Como 'o bom-senso encarnado', aplicando sem cessar à sua vasta obra as indicações íntimas da razão e do método positivo.",
     option_d: "Como um orador político preocupado em fundar um império temporal na Europa.",
-    option_e: "Como um teórico dogmático avesso ao exame livre e às descobertas das ciências astronômicas.",
+    option_e:
+      "Como um teórico dogmático avesso ao exame livre e às descobertas das ciências astronômicas.",
     correct_option: "C",
-    explanation: "Flammarion declarou junto ao túmulo: 'Ele, porém, era o que eu denominarei simplesmente o bom-senso encarnado. Razão reta e judiciosa, aplicava sem cessar à sua obra permanente as indicações íntimas do senso comum'.",
+    explanation:
+      "Flammarion declarou junto ao túmulo: 'Ele, porém, era o que eu denominarei simplesmente o bom-senso encarnado. Razão reta e judiciosa, aplicava sem cessar à sua obra permanente as indicações íntimas do senso comum'.",
     reference: "Discurso de Camille Flammarion, p. 17",
     difficulty: "facil",
     active: true,
@@ -64,14 +74,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 254,
     book: "obras_postumas",
-    statement: "Na 'Profissão de Fé Espírita Raciocinada' (§ I — Deus), qual é o axioma fundamental que Kardec adota como prova incontestável da existência de Deus?",
+    statement:
+      "Na 'Profissão de Fé Espírita Raciocinada' (§ I — Deus), qual é o axioma fundamental que Kardec adota como prova incontestável da existência de Deus?",
     option_a: "A obediência aos decretos dos concílios clericais medievais.",
     option_b: "A autoridade absoluta dos textos litúrgicos hebraicos.",
     option_c: "A ocorrência de milagres excepcionais que anulam as leis físicas.",
-    option_d: "O princípio lógico de que 'não há efeito sem causa', provando que a harmonia universal decorre de uma causa soberanamente inteligente.",
+    option_d:
+      "O princípio lógico de que 'não há efeito sem causa', provando que a harmonia universal decorre de uma causa soberanamente inteligente.",
     option_e: "A intuição dos sonhos místicos coletivos verificados na infância.",
     correct_option: "D",
-    explanation: "Kardec demonstra que, não havendo efeito sem causa, os grandiosos efeitos do Universo, cuja produção ultrapassa todo poder humano, atestam uma causa soberanamente inteligente acima da Humanidade: Deus.",
+    explanation:
+      "Kardec demonstra que, não havendo efeito sem causa, os grandiosos efeitos do Universo, cuja produção ultrapassa todo poder humano, atestam uma causa soberanamente inteligente acima da Humanidade: Deus.",
     reference: "1ª Parte, Profissão de Fé, § I, item 1",
     difficulty: "facil",
     active: true,
@@ -79,14 +92,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 255,
     book: "obras_postumas",
-    statement: "Por que Allan Kardec refuta categoricamente a doutrina materialista que pretende que 'o cérebro secreta o pensamento como o fígado secreta a bílis' (§ II — A Alma)?",
+    statement:
+      "Por que Allan Kardec refuta categoricamente a doutrina materialista que pretende que 'o cérebro secreta o pensamento como o fígado secreta a bílis' (§ II — A Alma)?",
     option_a: "Porque a Bíblia proíbe terminantemente qualquer pesquisa anatômica sobre o cérebro.",
-    option_b: "Porque os animais demonstram mais capacidade poética e moral do que os seres humanos.",
-    option_c: "Porque a ciência química desconhece a função orgânica de segregar bílis nos seres vertebrados.",
+    option_b:
+      "Porque os animais demonstram mais capacidade poética e moral do que os seres humanos.",
+    option_c:
+      "Porque a ciência química desconhece a função orgânica de segregar bílis nos seres vertebrados.",
     option_d: "Porque o cérebro humano é composto exclusivamente de fluidos imponderáveis etéreos.",
-    option_e: "Porque a matéria inerte não tem a faculdade de pensar, e os órgãos materiais são apenas instrumentos através dos quais a alma independente manifesta seu pensamento.",
+    option_e:
+      "Porque a matéria inerte não tem a faculdade de pensar, e os órgãos materiais são apenas instrumentos através dos quais a alma independente manifesta seu pensamento.",
     correct_option: "E",
-    explanation: "Se o pensamento fosse propriedade da matéria, veríamos a matéria bruta pensar; como o corpo morto cessa de pensar embora os órgãos ainda estejam ali, é evidente que a alma inteligente independe do corpo físico.",
+    explanation:
+      "Se o pensamento fosse propriedade da matéria, veríamos a matéria bruta pensar; como o corpo morto cessa de pensar embora os órgãos ainda estejam ali, é evidente que a alma inteligente independe do corpo físico.",
     reference: "1ª Parte, Profissão de Fé, § II, item 4",
     difficulty: "medio",
     active: true,
@@ -94,14 +112,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 256,
     book: "obras_postumas",
-    statement: "Na seção sobre a Criação (§ III), como a Doutrina Espírita define a origem e a condição primitiva de todos os Espíritos criados por Deus?",
-    option_a: "Todos são criados simples e ignorantes, desprovidos de ciência e do conhecimento do bem e do mal, porém perfectíveis e com igual aptidão para evoluir.",
-    option_b: "Uns são criados santos e puros para o céu e outros condenados eternamente ao abismo do mal.",
+    statement:
+      "Na seção sobre a Criação (§ III), como a Doutrina Espírita define a origem e a condição primitiva de todos os Espíritos criados por Deus?",
+    option_a:
+      "Todos são criados simples e ignorantes, desprovidos de ciência e do conhecimento do bem e do mal, porém perfectíveis e com igual aptidão para evoluir.",
+    option_b:
+      "Uns são criados santos e puros para o céu e outros condenados eternamente ao abismo do mal.",
     option_c: "São gerados prontos e perfeitos, sem necessidade de trabalhar ou progredir.",
     option_d: "Nascem como semideuses privilegiados dotados de conhecimento enciclopédico inato.",
-    option_e: "Surgem como frações materiais temporárias que se extinguem para sempre após a primeira encarnação.",
+    option_e:
+      "Surgem como frações materiais temporárias que se extinguem para sempre após a primeira encarnação.",
     correct_option: "A",
-    explanation: "O Espiritismo ensina que Deus não cria seres privilegiados: todos os Espíritos partem do mesmo estado de infância moral (simples e ignorantes), cabendo-lhes conquistar a perfeição pelo mérito do seu próprio esforço.",
+    explanation:
+      "O Espiritismo ensina que Deus não cria seres privilegiados: todos os Espíritos partem do mesmo estado de infância moral (simples e ignorantes), cabendo-lhes conquistar a perfeição pelo mérito do seu próprio esforço.",
     reference: "1ª Parte, Profissão de Fé, § III, itens 14-15",
     difficulty: "facil",
     active: true,
@@ -109,14 +132,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 257,
     book: "obras_postumas",
-    statement: "Qual a função fundamental atribuída à encarnação corpórea na jornada de aperfeiçoamento dos Espíritos (§ III, item 21)?",
-    option_a: "Servir como castigo perpétuo e irremediável contra rebeldes incorrigíveis do plano invisível.",
-    option_b: "Permitir que, pelo trabalho imposto na matéria, eles desenvolvam a inteligência, cumpram as leis divinas e adquiram os méritos para a felicidade eterna.",
-    option_c: "Reduzir o poder da alma até que ela se esqueça definitivamente de sua origem celeste.",
-    option_d: "Proporcionar o acúmulo de bens e títulos materiais passageiros aos favoritos do destino.",
+    statement:
+      "Qual a função fundamental atribuída à encarnação corpórea na jornada de aperfeiçoamento dos Espíritos (§ III, item 21)?",
+    option_a:
+      "Servir como castigo perpétuo e irremediável contra rebeldes incorrigíveis do plano invisível.",
+    option_b:
+      "Permitir que, pelo trabalho imposto na matéria, eles desenvolvam a inteligência, cumpram as leis divinas e adquiram os méritos para a felicidade eterna.",
+    option_c:
+      "Reduzir o poder da alma até que ela se esqueça definitivamente de sua origem celeste.",
+    option_d:
+      "Proporcionar o acúmulo de bens e títulos materiais passageiros aos favoritos do destino.",
     option_e: "Impedir que a alma adquira novos conhecimentos nas diferentes ciências terrenas.",
     correct_option: "B",
-    explanation: "A encarnação faz parte das leis da Natureza: através das dificuldades e do trabalho da existência corpórea, o Espírito exercita suas faculdades, adquire conhecimentos e depura suas imperfeições.",
+    explanation:
+      "A encarnação faz parte das leis da Natureza: através das dificuldades e do trabalho da existência corpórea, o Espírito exercita suas faculdades, adquire conhecimentos e depura suas imperfeições.",
     reference: "1ª Parte, Profissão de Fé, § III, item 21",
     difficulty: "medio",
     active: true,
@@ -124,14 +153,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 258,
     book: "obras_postumas",
-    statement: "No capítulo sobre as Manifestações dos Espíritos (item 2), por que a ação recíproca entre o mundo visível e o mundo invisível não pode ser classificada como sobrenatural?",
+    statement:
+      "No capítulo sobre as Manifestações dos Espíritos (item 2), por que a ação recíproca entre o mundo visível e o mundo invisível não pode ser classificada como sobrenatural?",
     option_a: "Porque só ocorre sob a invocação solene de fórmulas mágicas dos sacerdotes antigos.",
-    option_b: "Porque se limita estritamente ao momento do transe hipnótico induzido por magnetizadores.",
-    option_c: "Porque é uma das leis e forças naturais da Criação, tão indispensável à harmonia universal quanto a gravidade e as forças físicas.",
+    option_b:
+      "Porque se limita estritamente ao momento do transe hipnótico induzido por magnetizadores.",
+    option_c:
+      "Porque é uma das leis e forças naturais da Criação, tão indispensável à harmonia universal quanto a gravidade e as forças físicas.",
     option_d: "Porque os Espíritos perderam a capacidade de atuar sobre a matéria após o século I.",
     option_e: "Porque é produzida unicamente pela imaginação delirante de assistentes crédulos.",
     correct_option: "C",
-    explanation: "A ação dos Espíritos sobre o mundo corporal não constitui revogação das leis divinas, mas sim a manifestação de uma força natural até então desconhecida pela ciência materialista, afastando todo caráter miraculoso.",
+    explanation:
+      "A ação dos Espíritos sobre o mundo corporal não constitui revogação das leis divinas, mas sim a manifestação de uma força natural até então desconhecida pela ciência materialista, afastando todo caráter miraculoso.",
     reference: "1ª Parte, Manifestações dos Espíritos, item 2",
     difficulty: "facil",
     active: true,
@@ -139,14 +172,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 259,
     book: "obras_postumas",
-    statement: "Como Allan Kardec define o papel do perispírito nas relações entre o Espírito e o corpo material (item 10)?",
+    statement:
+      "Como Allan Kardec define o papel do perispírito nas relações entre o Espírito e o corpo material (item 10)?",
     option_a: "Uma ilusão ótica que desaparece assim que o corpo adormece.",
     option_b: "Uma couraça densa e impenetrável que isola a alma de qualquer influência exterior.",
     option_c: "Um órgão ósseo fossilizável que se desagrega juntamente com o esqueleto físico.",
-    option_d: "O intermediário e órgão de transmissão: o corpo recebe a impressão, o perispírito a transmite e o Espírito a recebe; o que o Espírito quer, o perispírito transmite e o corpo executa.",
-    option_e: "A própria mente consciente do ser humano, desprovida de qualquer substância fluídica.",
+    option_d:
+      "O intermediário e órgão de transmissão: o corpo recebe a impressão, o perispírito a transmite e o Espírito a recebe; o que o Espírito quer, o perispírito transmite e o corpo executa.",
+    option_e:
+      "A própria mente consciente do ser humano, desprovida de qualquer substância fluídica.",
     correct_option: "D",
-    explanation: "O perispírito é o envoltório semimaterial da alma e serve de elo entre a matéria densa e o princípio espiritual; atua como condutor de todas as sensações e da vontade do Espírito para os órgãos corporais.",
+    explanation:
+      "O perispírito é o envoltório semimaterial da alma e serve de elo entre a matéria densa e o princípio espiritual; atua como condutor de todas as sensações e da vontade do Espírito para os órgãos corporais.",
     reference: "1ª Parte, Manifestações dos Espíritos, item 10",
     difficulty: "medio",
     active: true,
@@ -154,14 +191,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 260,
     book: "obras_postumas",
-    statement: "Nas 'Manifestações Visuais' (§ II, item 16), a que processo físico Kardec compara a condensação e invisibilidade do perispírito nas aparições?",
+    statement:
+      "Nas 'Manifestações Visuais' (§ II, item 16), a que processo físico Kardec compara a condensação e invisibilidade do perispírito nas aparições?",
     option_a: "À queima espontânea do magnésio em combustão química rápida.",
     option_b: "À reflexão do arco-íris sobre prismas triangulares de cristal lapidado.",
     option_c: "Ao congelamento abrupto das massas minerais na crosta terrestre.",
     option_d: "À propagação das ondas sonoras no vácuo de laboratório.",
-    option_e: "Às transformações da água, que passa do vapor invisível ao estado brumoso, ao líquido e em seguida ao sólido e tangível.",
+    option_e:
+      "Às transformações da água, que passa do vapor invisível ao estado brumoso, ao líquido e em seguida ao sólido e tangível.",
     correct_option: "E",
-    explanation: "Kardec compara as variações do perispírito ao vapor d'água: assim como a água passa da invisibilidade à névoa, ao líquido e ao gelo sólido e resistente, o perispírito pode condensar-se e tornar-se palpável ou sutilizar-se instantaneamente.",
+    explanation:
+      "Kardec compara as variações do perispírito ao vapor d'água: assim como a água passa da invisibilidade à névoa, ao líquido e ao gelo sólido e resistente, o perispírito pode condensar-se e tornar-se palpável ou sutilizar-se instantaneamente.",
     reference: "1ª Parte, Manifestações Visuais, item 16",
     difficulty: "facil",
     active: true,
@@ -169,14 +209,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 261,
     book: "obras_postumas",
-    statement: "Em que consiste o fenômeno da 'transfiguração' analisado no § III de Obras Póstumas?",
-    option_a: "Uma alteração fluídica no perispírito da pessoa viva em que seu corpo material parece desvanecer-se sob uma camada fluídica, tomando temporariamente outra aparência facial e luminosa.",
+    statement:
+      "Em que consiste o fenômeno da 'transfiguração' analisado no § III de Obras Póstumas?",
+    option_a:
+      "Uma alteração fluídica no perispírito da pessoa viva em que seu corpo material parece desvanecer-se sob uma camada fluídica, tomando temporariamente outra aparência facial e luminosa.",
     option_b: "A substituição definitiva da alma de um encarnado pela alma de um animal doméstico.",
-    option_c: "A morte física aparente de um indivíduo que revive após quarenta dias de sepultamento.",
+    option_c:
+      "A morte física aparente de um indivíduo que revive após quarenta dias de sepultamento.",
     option_d: "A perda total da memória biográfica provocada pelo magnetismo animal.",
     option_e: "A levitação de objetos pesados sem a presença de nenhum ser vivo no aposento.",
     correct_option: "A",
-    explanation: "Na transfiguração, o perispírito da pessoa viva irradia fluidos com abundância, modificando a irradiação externa do rosto a ponto de lhe dar outro semblante, expressar grande beleza ou refletir a fisionomia de outro Espírito.",
+    explanation:
+      "Na transfiguração, o perispírito da pessoa viva irradia fluidos com abundância, modificando a irradiação externa do rosto a ponto de lhe dar outro semblante, expressar grande beleza ou refletir a fisionomia de outro Espírito.",
     reference: "1ª Parte, Transfiguração e Invisibilidade, item 22",
     difficulty: "medio",
     active: true,
@@ -184,14 +228,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 262,
     book: "obras_postumas",
-    statement: "O que acontece com a alma durante o sono físico natural do corpo humano (§ IV — Emancipação da Alma)?",
+    statement:
+      "O que acontece com a alma durante o sono físico natural do corpo humano (§ IV — Emancipação da Alma)?",
     option_a: "A alma se extingue temporariamente no nada até que o cérebro acorde.",
-    option_b: "Apenas o corpo repousa, mas a alma nunca dorme: aproveita o repouso para emancipar-se parcialmente pelo laço fluídico e reencontrar outros seres no mundo espiritual.",
+    option_b:
+      "Apenas o corpo repousa, mas a alma nunca dorme: aproveita o repouso para emancipar-se parcialmente pelo laço fluídico e reencontrar outros seres no mundo espiritual.",
     option_c: "A alma fica aprisionada e adormecida dentro dos ventrículos cerebrais.",
-    option_d: "O laço periespiritual se rompe e um Espírito estranho assume permanentemente o corpo.",
-    option_e: "A alma perde sua consciência moral e regride aos instintos primitivos dos animais selvagens.",
+    option_d:
+      "O laço periespiritual se rompe e um Espírito estranho assume permanentemente o corpo.",
+    option_e:
+      "A alma perde sua consciência moral e regride aos instintos primitivos dos animais selvagens.",
     correct_option: "B",
-    explanation: "O sono é a porta aberta por Deus: enquanto o corpo se refaz das fadigas materiais, o Espírito se desprende parcialmente, viaja, instrui-se e conversa com amigos espirituais, conservando-se preso ao corpo pelo laço fluídico.",
+    explanation:
+      "O sono é a porta aberta por Deus: enquanto o corpo se refaz das fadigas materiais, o Espírito se desprende parcialmente, viaja, instrui-se e conversa com amigos espirituais, conservando-se preso ao corpo pelo laço fluídico.",
     reference: "1ª Parte, Emancipação da Alma, itens 24-25",
     difficulty: "facil",
     active: true,
@@ -199,14 +248,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 263,
     book: "obras_postumas",
-    statement: "Como Kardec define o 'êxtase' em relação aos outros graus de emancipação da alma (item 29)?",
+    statement:
+      "Como Kardec define o 'êxtase' em relação aos outros graus de emancipação da alma (item 29)?",
     option_a: "Um estado doentio de histeria contagiosa que afeta apenas cérebros ignorantes.",
     option_b: "Um transe passageiro induzido exclusivamente por substâncias narcóticas fortes.",
-    option_c: "A emancipação da alma no seu grau máximo, onde o desprendimento corporal é quase completo e o Espírito penetra em esferas mais elevadas.",
-    option_d: "O sono letárgico em que a alma perde para sempre a capacidade de retornar ao organismo físico.",
-    option_e: "Uma alucinação sensorial que impede o Espírito de perceber qualquer verdade espiritual.",
+    option_c:
+      "A emancipação da alma no seu grau máximo, onde o desprendimento corporal é quase completo e o Espírito penetra em esferas mais elevadas.",
+    option_d:
+      "O sono letárgico em que a alma perde para sempre a capacidade de retornar ao organismo físico.",
+    option_e:
+      "Uma alucinação sensorial que impede o Espírito de perceber qualquer verdade espiritual.",
     correct_option: "C",
-    explanation: "No êxtase, o aniquilamento do corpo físico é quase completo; a alma, liberta dos laços mais grosseiros, antecipa a felicidade celeste e penetra no mundo dos Espíritos etéreos com sublime lucidez.",
+    explanation:
+      "No êxtase, o aniquilamento do corpo físico é quase completo; a alma, liberta dos laços mais grosseiros, antecipa a felicidade celeste e penetra no mundo dos Espíritos etéreos com sublime lucidez.",
     reference: "1ª Parte, Emancipação da Alma, item 29",
     difficulty: "medio",
     active: true,
@@ -214,14 +268,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 264,
     book: "obras_postumas",
-    statement: "No § VI (Dos Médiuns), qual é o conceito geral enunciado a respeito da faculdade mediúnica (item 33)?",
+    statement:
+      "No § VI (Dos Médiuns), qual é o conceito geral enunciado a respeito da faculdade mediúnica (item 33)?",
     option_a: "Um privilégio milagroso concedido apenas aos santos e sacerdotes consagrados.",
     option_b: "Uma enfermidade do sistema nervoso que desaparece com a evolução da medicina.",
     option_c: "Um dom exclusivo dos povos antigos que se perdeu na era moderna.",
-    option_d: "Uma aptidão natural inerente ao homem em diferentes graus, sendo médium toda pessoa que sente a influência dos Espíritos e transmite seus pensamentos.",
-    option_e: "Uma habilidade puramente mecânica aprendida por meio de cursos teóricos de filosofia.",
+    option_d:
+      "Uma aptidão natural inerente ao homem em diferentes graus, sendo médium toda pessoa que sente a influência dos Espíritos e transmite seus pensamentos.",
+    option_e:
+      "Uma habilidade puramente mecânica aprendida por meio de cursos teóricos de filosofia.",
     correct_option: "D",
-    explanation: "A mediunidade é uma faculdade natural inerente à espécie humana; todo mundo é mais ou menos médium, reservando-se a denominação especial àqueles em quem a faculdade produz efeitos ostensivos e caracterizados.",
+    explanation:
+      "A mediunidade é uma faculdade natural inerente à espécie humana; todo mundo é mais ou menos médium, reservando-se a denominação especial àqueles em quem a faculdade produz efeitos ostensivos e caracterizados.",
     reference: "1ª Parte, Dos Médiuns, item 33",
     difficulty: "facil",
     active: true,
@@ -229,14 +287,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 265,
     book: "obras_postumas",
-    statement: "Por que Allan Kardec atesta que o exorcismo tradicional com fórmulas e ritos é ineficaz nos casos de obsessão e possessão (§ VII, item 59)?",
+    statement:
+      "Por que Allan Kardec atesta que o exorcismo tradicional com fórmulas e ritos é ineficaz nos casos de obsessão e possessão (§ VII, item 59)?",
     option_a: "Porque os demônios não entendem as línguas modernas ocidentais.",
     option_b: "Porque a Igreja Romana proibiu os padres de realizarem preces e bênçãos a doentes.",
     option_c: "Porque a água benta perde suas propriedades químicas após o toque do sacerdote.",
-    option_d: "Porque os Espíritos obsessores são criaturas imortais incapazes de sentir qualquer dor moral.",
-    option_e: "Porque a autoridade sobre os maus Espíritos repousa na superioridade moral e na pureza de sentimentos do homem, e não em cerimônias exteriores e fórmulas de que eles zombam.",
+    option_d:
+      "Porque os Espíritos obsessores são criaturas imortais incapazes de sentir qualquer dor moral.",
+    option_e:
+      "Porque a autoridade sobre os maus Espíritos repousa na superioridade moral e na pureza de sentimentos do homem, e não em cerimônias exteriores e fórmulas de que eles zombam.",
     correct_option: "E",
-    explanation: "Os maus Espíritos não se curvam a palavras sacramentais ou talismãs; eles cedem apenas à autoridade moral real daquele que pratica o bem e se depura de suas próprias imperfeições.",
+    explanation:
+      "Os maus Espíritos não se curvam a palavras sacramentais ou talismãs; eles cedem apenas à autoridade moral real daquele que pratica o bem e se depura de suas próprias imperfeições.",
     reference: "1ª Parte, Da Obsessão e da Possessão, item 59",
     difficulty: "facil",
     active: true,
@@ -246,14 +308,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 266,
     book: "obras_postumas",
-    statement: "No estudo 'Dos homens duplos e das aparições de pessoas vivas', como Kardec refuta a ideia de que um mesmo indivíduo possa ter vontades e atitudes morais opostas simultâneas nos dois corpos?",
-    option_a: "O princípio inteligente da alma é uno e indivisível; não pode haver antagonismo de vontades em um mesmo ser, tratando-se, em tais casos alegados, de mistificações ou lendas fantásticas.",
+    statement:
+      "No estudo 'Dos homens duplos e das aparições de pessoas vivas', como Kardec refuta a ideia de que um mesmo indivíduo possa ter vontades e atitudes morais opostas simultâneas nos dois corpos?",
+    option_a:
+      "O princípio inteligente da alma é uno e indivisível; não pode haver antagonismo de vontades em um mesmo ser, tratando-se, em tais casos alegados, de mistificações ou lendas fantásticas.",
     option_b: "Cada ser humano possui duas almas congênitas que brigam perpetuamente entre si.",
-    option_c: "O perispírito humano divide-se facilmente em dez entidades autônomas dotadas de cérebros próprios.",
-    option_d: "Os órgãos materiais têm o poder de gerar pensamentos independentes da vontade da alma.",
-    option_e: "As leis da gravidade impedem que o perispírito viaje para fora da cidade natal do indivíduo.",
+    option_c:
+      "O perispírito humano divide-se facilmente em dez entidades autônomas dotadas de cérebros próprios.",
+    option_d:
+      "Os órgãos materiais têm o poder de gerar pensamentos independentes da vontade da alma.",
+    option_e:
+      "As leis da gravidade impedem que o perispírito viaje para fora da cidade natal do indivíduo.",
     correct_option: "A",
-    explanation: "Kardec demonstra a impossibilidade de o mesmo Espírito ser ao mesmo tempo homem honesto num lugar e bandido noutro: o ser espiritual é uno; qualquer divergência moral prova a atuação de um segundo Espírito ou ilusão das testemunhas.",
+    explanation:
+      "Kardec demonstra a impossibilidade de o mesmo Espírito ser ao mesmo tempo homem honesto num lugar e bandido noutro: o ser espiritual é uno; qualquer divergência moral prova a atuação de um segundo Espírito ou ilusão das testemunhas.",
     reference: "1ª Parte, Dos homens duplos, p. 51-52",
     difficulty: "dificil",
     active: true,
@@ -261,14 +329,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 267,
     book: "obras_postumas",
-    statement: "Como Allan Kardec explica o fenômeno da visão à distância na clarividência sonambúlica ('Causa e natureza da clarividência sonambúlica')?",
-    option_a: "O objeto distante aproxima-se materialmente do sonâmbulo através de uma lente magnética invisível.",
-    option_b: "Não é o objeto que se aproxima por miragem ótica, mas a própria alma do sonâmbulo que se transporta em Espírito até o local observado.",
+    statement:
+      "Como Allan Kardec explica o fenômeno da visão à distância na clarividência sonambúlica ('Causa e natureza da clarividência sonambúlica')?",
+    option_a:
+      "O objeto distante aproxima-se materialmente do sonâmbulo através de uma lente magnética invisível.",
+    option_b:
+      "Não é o objeto que se aproxima por miragem ótica, mas a própria alma do sonâmbulo que se transporta em Espírito até o local observado.",
     option_c: "Os raios solares refletem a imagem nas paredes da sala onde o corpo repousa.",
     option_d: "O sonâmbulo adivinha as coisas por deduções puramente matemáticas e estatísticas.",
     option_e: "O nervo ótico físico estica-se através da atmosfera até tocar o ponto contemplado.",
     correct_option: "B",
-    explanation: "Na clarividência à distância, a alma emancipada transporta-se instantaneamente pelo pensamento para onde quer que dirija sua atenção, enxergando os acontecimentos como se estivesse fisicamente presente no local.",
+    explanation:
+      "Na clarividência à distância, a alma emancipada transporta-se instantaneamente pelo pensamento para onde quer que dirija sua atenção, enxergando os acontecimentos como se estivesse fisicamente presente no local.",
     reference: "1ª Parte, Causa e natureza da clarividência sonambúlica, p. 60",
     difficulty: "medio",
     active: true,
@@ -276,14 +348,21 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 268,
     book: "obras_postumas",
-    statement: "Qual é a distinção primordial estabelecida por Kardec entre a clarividência do sonâmbulo e o fenômeno da 'segunda vista'?",
-    option_a: "A segunda vista é uma enfermidade ocular contagiosa, enquanto o sonambulismo é um dom espiritual.",
-    option_b: "A segunda vista só ocorre à noite na escuridão completa, enquanto o sonambulismo ocorre ao meio-dia.",
-    option_c: "No sonambulismo a lucidez atua com os sentidos físicos adormecidos; na segunda vista o indivíduo está perfeitamente desperto e a visão espiritual se opera simultaneamente com a vista dos olhos materiais.",
-    option_d: "A segunda vista exige a utilização de pranchetas e lápis, enquanto o sonambulismo exige mesas girantes.",
-    option_e: "O sonâmbulo conversa apenas com anjos, enquanto o portador de segunda vista só enxerga animais.",
+    statement:
+      "Qual é a distinção primordial estabelecida por Kardec entre a clarividência do sonâmbulo e o fenômeno da 'segunda vista'?",
+    option_a:
+      "A segunda vista é uma enfermidade ocular contagiosa, enquanto o sonambulismo é um dom espiritual.",
+    option_b:
+      "A segunda vista só ocorre à noite na escuridão completa, enquanto o sonambulismo ocorre ao meio-dia.",
+    option_c:
+      "No sonambulismo a lucidez atua com os sentidos físicos adormecidos; na segunda vista o indivíduo está perfeitamente desperto e a visão espiritual se opera simultaneamente com a vista dos olhos materiais.",
+    option_d:
+      "A segunda vista exige a utilização de pranchetas e lápis, enquanto o sonambulismo exige mesas girantes.",
+    option_e:
+      "O sonâmbulo conversa apenas com anjos, enquanto o portador de segunda vista só enxerga animais.",
     correct_option: "C",
-    explanation: "Na segunda vista ou vista dupla, o fenômeno ocorre em estado de vigília: a pessoa conversa normalmente, com os olhos abertos, mas sua alma percebe os quadros e acontecimentos além do alcance da visão comum.",
+    explanation:
+      "Na segunda vista ou vista dupla, o fenômeno ocorre em estado de vigília: a pessoa conversa normalmente, com os olhos abertos, mas sua alma percebe os quadros e acontecimentos além do alcance da visão comum.",
     reference: "1ª Parte, A segunda vista, p. 62-63",
     difficulty: "medio",
     active: true,
@@ -291,14 +370,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 269,
     book: "obras_postumas",
-    statement: "Por que motivo, segundo Kardec no ensaio 'A segunda vista — Conhecimento do futuro', a Providência Divina cobriu com um véu o conhecimento absoluto do futuro?",
+    statement:
+      "Por que motivo, segundo Kardec no ensaio 'A segunda vista — Conhecimento do futuro', a Providência Divina cobriu com um véu o conhecimento absoluto do futuro?",
     option_a: "Porque os anjos guardiães ignoram completamente todas as leis do Universo.",
-    option_b: "Para permitir que os adivinhos e cartomantes cobrassem consultas e fizessem comércio da fé.",
+    option_b:
+      "Para permitir que os adivinhos e cartomantes cobrassem consultas e fizessem comércio da fé.",
     option_c: "Para punir os seres humanos com a incerteza perpétua da morte biológica.",
-    option_d: "Porque a certeza do futuro tiraria ao homem todo o estímulo ao trabalho e esforço, paralisando suas forças e arrastando-o ao perigoso dogma da fatalidade.",
-    option_e: "Porque o futuro do planeta depende unicamente de cataclismos aleatórios sem planejamento espiritual.",
+    option_d:
+      "Porque a certeza do futuro tiraria ao homem todo o estímulo ao trabalho e esforço, paralisando suas forças e arrastando-o ao perigoso dogma da fatalidade.",
+    option_e:
+      "Porque o futuro do planeta depende unicamente de cataclismos aleatórios sem planejamento espiritual.",
     correct_option: "D",
-    explanation: "Se o homem soubesse de antemão seu destino irrevogável, não lutaria para progredir: a certeza da felicidade geraria inércia e a certeza da desgraça causaria desespero e paralisia das forças morais e ativas.",
+    explanation:
+      "Se o homem soubesse de antemão seu destino irrevogável, não lutaria para progredir: a certeza da felicidade geraria inércia e a certeza da desgraça causaria desespero e paralisia das forças morais e ativas.",
     reference: "1ª Parte, A segunda vista, p. 64-65",
     difficulty: "medio",
     active: true,
@@ -306,14 +390,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 270,
     book: "obras_postumas",
-    statement: "Em que consiste o mecanismo da 'fotografia do pensamento' detalhado por Allan Kardec em Obras Póstumas?",
-    option_a: "A gravação mecânica de sinapses nervosas através de placas químicas fotográficas em estúdios.",
-    option_b: "A pintura manual de retratos mediúnicos feita com tintas a óleo em transe hipnótico.",
+    statement:
+      "Em que consiste o mecanismo da 'fotografia do pensamento' detalhado por Allan Kardec em Obras Póstumas?",
+    option_a:
+      "A gravação mecânica de sinapses nervosas através de placas químicas fotográficas em estúdios.",
+    option_b:
+      "A pintura manual de retratos mediúnicos feita com tintas a óleo em transe hipnótico.",
     option_c: "A captura das sombras corporais projetadas pela luz da lua em noites de verão.",
-    option_d: "A transmissão de imagens cerebrais por meio de cabos metálicos submarinos telegráficos.",
-    option_e: "O pensamento atua sobre os fluidos perispiríticos como num espelho, desenhando cenas e imagens fluídicas que retratam com precisão as intenções e ideias íntimas da alma.",
+    option_d:
+      "A transmissão de imagens cerebrais por meio de cabos metálicos submarinos telegráficos.",
+    option_e:
+      "O pensamento atua sobre os fluidos perispiríticos como num espelho, desenhando cenas e imagens fluídicas que retratam com precisão as intenções e ideias íntimas da alma.",
     correct_option: "E",
-    explanation: "O pensamento se reflete no envoltório fluídico da alma: ao conceber uma ideia ou intenção, o ser executa fluidicamente a cena correspondente, permitindo que outros Espíritos leiam na sua aura como num livro aberto.",
+    explanation:
+      "O pensamento se reflete no envoltório fluídico da alma: ao conceber uma ideia ou intenção, o ser executa fluidicamente a cena correspondente, permitindo que outros Espíritos leiam na sua aura como num livro aberto.",
     reference: "1ª Parte, Fotografia e telegrafia do pensamento, p. 70-71",
     difficulty: "dificil",
     active: true,
@@ -322,13 +412,16 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
     code: 271,
     book: "obras_postumas",
     statement: "O que Allan Kardec define como 'telegrafia do pensamento' ou telegrafia humana?",
-    option_a: "A propagação instantânea de pensamentos e sentimentos através das ondas fluídicas que ligam as mentes de encarnados e desencarnados no Universo.",
+    option_a:
+      "A propagação instantânea de pensamentos e sentimentos através das ondas fluídicas que ligam as mentes de encarnados e desencarnados no Universo.",
     option_b: "A invenção de telégrafos elétricos movidos a pilhas químicas para fins militares.",
     option_c: "O código secreto de sinais manuais utilizado por sociedades secretas iniciáticas.",
-    option_d: "O uso de pombos-correio treinados para transportar mensagens entre médiuns de cidades distantes.",
+    option_d:
+      "O uso de pombos-correio treinados para transportar mensagens entre médiuns de cidades distantes.",
     option_e: "A emissão de sons guturais ritmados em cerimônias fúnebres de evocação.",
     correct_option: "A",
-    explanation: "Assim como a telegrafia elétrica conecta continentes pelo mundo material, as ondas de pensamento propagam-se pelo fluido cósmico, ligando os espíritos por afinidade simpática e ação recíproca.",
+    explanation:
+      "Assim como a telegrafia elétrica conecta continentes pelo mundo material, as ondas de pensamento propagam-se pelo fluido cósmico, ligando os espíritos por afinidade simpática e ação recíproca.",
     reference: "1ª Parte, Fotografia e telegrafia do pensamento, p. 71-72",
     difficulty: "facil",
     active: true,
@@ -336,14 +429,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 272,
     book: "obras_postumas",
-    statement: "No 'Estudo sobre a natureza do Cristo' (§ I), onde Kardec afirma que se deve buscar com exclusividade as provas legítimas sobre a natureza de Jesus?",
+    statement:
+      "No 'Estudo sobre a natureza do Cristo' (§ I), onde Kardec afirma que se deve buscar com exclusividade as provas legítimas sobre a natureza de Jesus?",
     option_a: "Nos decretos imperiais do Império Bizantino e nas bulas medievais.",
-    option_b: "Nos atos e nas próprias palavras textuais de Jesus preservadas nos Evangelhos, e não em especulações teológicas posteriores.",
+    option_b:
+      "Nos atos e nas próprias palavras textuais de Jesus preservadas nos Evangelhos, e não em especulações teológicas posteriores.",
     option_c: "Nas lendas populares folclóricas transmitidas oralmente na Idade Média.",
     option_d: "Nas opiniões pessoais dos filósofos materialistas do século XVIII.",
-    option_e: "Exclusivamente nas cartas atribuídas aos imperadores romanos da dinastia júlio-claudiana.",
+    option_e:
+      "Exclusivamente nas cartas atribuídas aos imperadores romanos da dinastia júlio-claudiana.",
     correct_option: "B",
-    explanation: "Kardec demonstra que, para saber se Jesus era Deus ou seu enviado, a única autoridade irrefutável são as suas próprias palavras nos Evangelhos, pois ninguém conhecia melhor a sua própria natureza do que ele mesmo.",
+    explanation:
+      "Kardec demonstra que, para saber se Jesus era Deus ou seu enviado, a única autoridade irrefutável são as suas próprias palavras nos Evangelhos, pois ninguém conhecia melhor a sua própria natureza do que ele mesmo.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § I, p. 73-74",
     difficulty: "medio",
     active: true,
@@ -351,14 +448,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 273,
     book: "obras_postumas",
-    statement: "No § II do Estudo sobre o Cristo, por que os milagres evangélicos não constituem prova da divindade de Jesus?",
+    statement:
+      "No § II do Estudo sobre o Cristo, por que os milagres evangélicos não constituem prova da divindade de Jesus?",
     option_a: "Porque Jesus nunca realizou nenhuma cura ou fenômeno de alívio na Judeia.",
-    option_b: "Porque todos os relatos de curas nos Evangelhos foram comprovadamente inventados por historiadores pagãos.",
-    option_c: "Porque prodígios e curas decorrem de leis naturais psíquicas e magnéticas inerentes ao Espírito, tendo sido operados por profetas, apóstolos e até homens comuns.",
-    option_d: "Porque a Igreja proíbe os cristãos de acreditarem na ressurreição da filha de Jairo.",
+    option_b:
+      "Porque todos os relatos de curas nos Evangelhos foram comprovadamente inventados por historiadores pagãos.",
+    option_c:
+      "Porque prodígios e curas decorrem de leis naturais psíquicas e magnéticas inerentes ao Espírito, tendo sido operados por profetas, apóstolos e até homens comuns.",
+    option_d:
+      "Porque a Igreja proíbe os cristãos de acreditarem na ressurreição da filha de Jairo.",
     option_e: "Porque Jesus exigia dinheiro para operar manifestações perante os fariseus.",
     correct_option: "C",
-    explanation: "Os fenômenos operados por Jesus encontram explicação nas leis do magnetismo e da mediunidade; não sendo derrogações das leis naturais e tendo sido praticados também por discípulos e profetas, não implicam divindade ontológica.",
+    explanation:
+      "Os fenômenos operados por Jesus encontram explicação nas leis do magnetismo e da mediunidade; não sendo derrogações das leis naturais e tendo sido praticados também por discípulos e profetas, não implicam divindade ontológica.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § II, p. 74-75",
     difficulty: "medio",
     active: true,
@@ -366,14 +468,16 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 274,
     book: "obras_postumas",
-    statement: "Qual expressão repetida dezenas de vezes por Jesus nos Evangelhos demonstra de forma incontestável a sua subordinação ao Criador (§ III)?",
+    statement:
+      "Qual expressão repetida dezenas de vezes por Jesus nos Evangelhos demonstra de forma incontestável a sua subordinação ao Criador (§ III)?",
     option_a: "'Eu sou o próprio Deus Criador'.",
     option_b: "'A minha força criou todas as galáxias'.",
     option_c: "'Não devereis prestar contas ao Pai Celestial'.",
     option_d: "'Aquele que me enviou' e 'Não vim de mim mesmo; foi Ele quem me enviou'.",
     option_e: "'Não preciso orar porque tenho o mesmo poder do Altíssimo'.",
     correct_option: "D",
-    explanation: "Aquele que é enviado é necessariamente subordinado e distinto daquele que envia. Jesus nunca se colocou como soberano originário, mas sim como submisso embaixador da vontade de Seu Pai.",
+    explanation:
+      "Aquele que é enviado é necessariamente subordinado e distinto daquele que envia. Jesus nunca se colocou como soberano originário, mas sim como submisso embaixador da vontade de Seu Pai.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § III, p. 76-78",
     difficulty: "facil",
     active: true,
@@ -381,14 +485,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 275,
     book: "obras_postumas",
-    statement: "Quando o jovem rico aproximou-se de Jesus chamando-o de 'Bom Mestre', qual foi a resposta imediata de Jesus que desmente sua igualdade moral com Deus (p. 78)?",
+    statement:
+      "Quando o jovem rico aproximou-se de Jesus chamando-o de 'Bom Mestre', qual foi a resposta imediata de Jesus que desmente sua igualdade moral com Deus (p. 78)?",
     option_a: "'Exijo que te prostres e me adores como único Criador do Universo'.",
     option_b: "'Sim, sou a perfeição suprema de todos os seres celestes'.",
     option_c: "'Minha bondade ultrapassa a sabedoria do Pai Celestial'.",
     option_d: "'Todos os profetas anteriores a mim foram mentirosos'.",
-    option_e: "'Por que me chamas bom? Somente há Deus de bom. Se queres entrar na vida, guarda os mandamentos'.",
+    option_e:
+      "'Por que me chamas bom? Somente há Deus de bom. Se queres entrar na vida, guarda os mandamentos'.",
     correct_option: "E",
-    explanation: "Jesus rejeita categoricamente o atributo de bondade absoluta para si, afirmando que somente Deus é bom por excelência, confessando assim sua inferioridade em face do Criador Supremo.",
+    explanation:
+      "Jesus rejeita categoricamente o atributo de bondade absoluta para si, afirmando que somente Deus é bom por excelência, confessando assim sua inferioridade em face do Criador Supremo.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § III, p. 78",
     difficulty: "facil",
     active: true,
@@ -396,14 +503,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 276,
     book: "obras_postumas",
-    statement: "No horto do Getsêmani, qual prece dolorosa de Jesus confirma de forma sublime a distinção entre a sua alma humana e a soberana vontade divina (p. 80-81)?",
-    option_a: "'Meu Pai, se for possível, afasta de mim este cálice; contudo, não seja como eu quero, mas como tu queiras'.",
+    statement:
+      "No horto do Getsêmani, qual prece dolorosa de Jesus confirma de forma sublime a distinção entre a sua alma humana e a soberana vontade divina (p. 80-81)?",
+    option_a:
+      "'Meu Pai, se for possível, afasta de mim este cálice; contudo, não seja como eu quero, mas como tu queiras'.",
     option_b: "'Anunciarei aos anjos que revogarei a crucificação pelo meu próprio poder'.",
     option_c: "'Minha alma é imune a dores físicas porque meu corpo é puramente ilusório'.",
     option_d: "'Malditos sejam aqueles que conspiram contra o meu trono terreno em Jerusalém'.",
     option_e: "'Que as legiões romanas sejam aniquiladas por relâmpagos vindos dos céus'.",
     correct_option: "A",
-    explanation: "A oração na agonia do Getsêmani revela a submissão filial e o livre-arbítrio submetido à vontade superior do Pai: se Jesus fosse o próprio Deus, não teria a quem orar nem subordinar sua vontade pessoal.",
+    explanation:
+      "A oração na agonia do Getsêmani revela a submissão filial e o livre-arbítrio submetido à vontade superior do Pai: se Jesus fosse o próprio Deus, não teria a quem orar nem subordinar sua vontade pessoal.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § III, p. 80-81",
     difficulty: "facil",
     active: true,
@@ -411,14 +521,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 277,
     book: "obras_postumas",
-    statement: "Como Allan Kardec interpreta a célebre passagem do Evangelho de João 'O Verbo se fez carne e habitou entre nós' (§ VIII)?",
-    option_a: "Significa que Deus abandonou o trono do Universo e se transformou biologicamente num feto mortal.",
-    option_b: "O Verbo é a palavra divina e a verdade de Deus, que encarnou na Terra através de Jesus, seu mensageiro perfeitamente identificado com a vontade do Pai.",
-    option_c: "Representa uma fábula pagã importada da mitologia grega sem nenhum valor filosófico.",
+    statement:
+      "Como Allan Kardec interpreta a célebre passagem do Evangelho de João 'O Verbo se fez carne e habitou entre nós' (§ VIII)?",
+    option_a:
+      "Significa que Deus abandonou o trono do Universo e se transformou biologicamente num feto mortal.",
+    option_b:
+      "O Verbo é a palavra divina e a verdade de Deus, que encarnou na Terra através de Jesus, seu mensageiro perfeitamente identificado com a vontade do Pai.",
+    option_c:
+      "Representa uma fábula pagã importada da mitologia grega sem nenhum valor filosófico.",
     option_d: "Indica que o Verbo é uma divindade rival que destronou o Deus do Antigo Testamento.",
     option_e: "Declara que a carne humana é eterna e nunca sofrerá decomposição no túmulo.",
     correct_option: "B",
-    explanation: "O Verbo é o pensamento e a mensagem divina comunicada à Humanidade; encarnando essa revelação em sua plenitude moral e testemunho, Jesus foi o verbo feito carne, transmitindo a palavra do Pai aos homens.",
+    explanation:
+      "O Verbo é o pensamento e a mensagem divina comunicada à Humanidade; encarnando essa revelação em sua plenitude moral e testemunho, Jesus foi o verbo feito carne, transmitindo a palavra do Pai aos homens.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § VIII, p. 87-88",
     difficulty: "medio",
     active: true,
@@ -426,14 +541,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 278,
     book: "obras_postumas",
-    statement: "No § IX, por que Jesus insistia reiteradamente em autodenominar-se 'Filho do homem' em suas pregações públicas?",
-    option_a: "Para demonstrar que não possuía sentimentos de amor filial por seus genitores terrenos.",
+    statement:
+      "No § IX, por que Jesus insistia reiteradamente em autodenominar-se 'Filho do homem' em suas pregações públicas?",
+    option_a:
+      "Para demonstrar que não possuía sentimentos de amor filial por seus genitores terrenos.",
     option_b: "Para esconder sua ignorância acerca das profecias das escrituras judaicas.",
-    option_c: "Para lembrar categoricamente que pertencia à família humana terrena, protestando de antemão contra qualquer pretensão idolátrica de considerá-lo Deus.",
+    option_c:
+      "Para lembrar categoricamente que pertencia à família humana terrena, protestando de antemão contra qualquer pretensão idolátrica de considerá-lo Deus.",
     option_d: "Para indicar que descendia diretamente dos reis faraônicos do Egito antigo.",
     option_e: "Para repudiar a existência da vida espiritual e dos mundos invisíveis.",
     correct_option: "C",
-    explanation: "À semelhança da expressão bíblica usada pelo profeta Ezequiel, 'Filho do homem' ressalta a natureza humana de Jesus, servindo de barreira inequívoca contra a teologia que tentou equipará-lo ao Criador Supremo.",
+    explanation:
+      "À semelhança da expressão bíblica usada pelo profeta Ezequiel, 'Filho do homem' ressalta a natureza humana de Jesus, servindo de barreira inequívoca contra a teologia que tentou equipará-lo ao Criador Supremo.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § IX, p. 89-90",
     difficulty: "medio",
     active: true,
@@ -441,14 +560,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 279,
     book: "obras_postumas",
-    statement: "Qual fato histórico político decisivo Allan Kardec destaca a respeito da proclamação do Credo de Niceia no ano de 325 (p. 90)?",
-    option_a: "Foi uma decisão ditada espontaneamente por todos os apóstolos reunidos em Jerusalém.",
+    statement:
+      "Qual fato histórico político decisivo Allan Kardec destaca a respeito da proclamação do Credo de Niceia no ano de 325 (p. 90)?",
+    option_a:
+      "Foi uma decisão ditada espontaneamente por todos os apóstolos reunidos em Jerusalém.",
     option_b: "O concílio foi convocado e presidido por apóstolos espíritas sonâmbulos.",
     option_c: "Todos os bispos aprovaram a reencarnação e aboliram o inferno perpétuo.",
-    option_d: "Foi imposto pela pressão política e intimidatória do imperador romano Constantino, que necessitava de uma fórmula unificada por razões de Estado.",
+    option_d:
+      "Foi imposto pela pressão política e intimidatória do imperador romano Constantino, que necessitava de uma fórmula unificada por razões de Estado.",
     option_e: "O dogma da Trindade foi revelado por escrita direta pneumatográfica no altar papal.",
     correct_option: "D",
-    explanation: "Kardec demonstra que o Concílio de Niceia deveu-se à intervenção do imperador romano Constantino, visando a interesses políticos do Império Romano, impondo a derrota dos arianos sob ameaça de exílio e anátemas.",
+    explanation:
+      "Kardec demonstra que o Concílio de Niceia deveu-se à intervenção do imperador romano Constantino, visando a interesses políticos do Império Romano, impondo a derrota dos arianos sob ameaça de exílio e anátemas.",
     reference: "1ª Parte, Estudo sobre a natureza do Cristo, § IX, p. 90",
     difficulty: "dificil",
     active: true,
@@ -456,14 +579,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 280,
     book: "obras_postumas",
-    statement: "No estudo 'Influência perniciosa das ideias materialistas sobre as artes' (p. 92-94), qual o impacto funesto que o materialismo causa sobre os artistas e escritores?",
+    statement:
+      "No estudo 'Influência perniciosa das ideias materialistas sobre as artes' (p. 92-94), qual o impacto funesto que o materialismo causa sobre os artistas e escritores?",
     option_a: "Obriga os artistas a pintarem exclusivamente telas astronômicas em preto e branco.",
-    option_b: "Aumenta extraordinariamente a produção de tragédias poéticas de alta elevação moral.",
-    option_c: "Favorece a criação de orquestras dedicadas à caridade evangélica nos campos de batalha.",
+    option_b:
+      "Aumenta extraordinariamente a produção de tragédias poéticas de alta elevação moral.",
+    option_c:
+      "Favorece a criação de orquestras dedicadas à caridade evangélica nos campos de batalha.",
     option_d: "Faz com que todos os museus da Europa fechem as portas por falta de público.",
-    option_e: "Concentra o pensamento no círculo acanhado da vida carnal efêmera e no nada, esterilizando a inspiração nobre do ideal e conduzindo a arte ao mercantilismo e à decadência.",
+    option_e:
+      "Concentra o pensamento no círculo acanhado da vida carnal efêmera e no nada, esterilizando a inspiração nobre do ideal e conduzindo a arte ao mercantilismo e à decadência.",
     correct_option: "E",
-    explanation: "Quem semeia pedras não colhe frutos: ao negar a imortalidade da alma e a vida futura, o materialismo retira da arte o horizonte do infinito, rebaixando a inspiração criadora às conveniências passageiras da matéria.",
+    explanation:
+      "Quem semeia pedras não colhe frutos: ao negar a imortalidade da alma e a vida futura, o materialismo retira da arte o horizonte do infinito, rebaixando a inspiração criadora às conveniências passageiras da matéria.",
     reference: "1ª Parte, Influência perniciosa das ideias materialistas, p. 92-94",
     difficulty: "medio",
     active: true,
@@ -473,14 +601,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 281,
     book: "obras_postumas",
-    statement: "No ensaio 'Teoria da beleza' (p. 95-98), qual lei bioespiritual Kardec formula sobre a evolução da fisionomia e da estética dos corpos humanos ao longo dos milênios?",
-    option_a: "A beleza real da forma é consequência da depuração moral e espiritual: quanto mais o ser se afasta da animalidade bruta, mais seus traços físicos se tornam delicados, nobres e harmônicos.",
-    option_b: "A beleza humana era perfeita na época dos homens das cavernas e degenerou com a civilização moderna.",
+    statement:
+      "No ensaio 'Teoria da beleza' (p. 95-98), qual lei bioespiritual Kardec formula sobre a evolução da fisionomia e da estética dos corpos humanos ao longo dos milênios?",
+    option_a:
+      "A beleza real da forma é consequência da depuração moral e espiritual: quanto mais o ser se afasta da animalidade bruta, mais seus traços físicos se tornam delicados, nobres e harmônicos.",
+    option_b:
+      "A beleza humana era perfeita na época dos homens das cavernas e degenerou com a civilização moderna.",
     option_c: "A forma exterior independe das qualidades morais do ser espiritual encarnado.",
-    option_d: "Os animais carnívoros selvagens possuem traços fisionômicos mais nobres que os anjos.",
-    option_e: "A riqueza financeira é a causa exclusiva que molda os contornos ósseos das futuras gerações.",
+    option_d:
+      "Os animais carnívoros selvagens possuem traços fisionômicos mais nobres que os anjos.",
+    option_e:
+      "A riqueza financeira é a causa exclusiva que molda os contornos ósseos das futuras gerações.",
     correct_option: "A",
-    explanation: "O semblante é o espelho da alma: a matéria molda-se às necessidades do Espírito. Ao depurar seus instintos grosseiros, a Humanidade avança para formas físicas cada vez mais afastadas da fealdade primitiva dos fósseis.",
+    explanation:
+      "O semblante é o espelho da alma: a matéria molda-se às necessidades do Espírito. Ao depurar seus instintos grosseiros, a Humanidade avança para formas físicas cada vez mais afastadas da fealdade primitiva dos fósseis.",
     reference: "1ª Parte, Teoria da beleza, p. 98",
     difficulty: "dificil",
     active: true,
@@ -488,14 +622,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 282,
     book: "obras_postumas",
-    statement: "No capítulo 'A música celeste' (p. 101-102), que explicação o Espírito São Luís oferece ao pai da jovem que duvidava da existência de música no mundo espiritual?",
+    statement:
+      "No capítulo 'A música celeste' (p. 101-102), que explicação o Espírito São Luís oferece ao pai da jovem que duvidava da existência de música no mundo espiritual?",
     option_a: "Que os Espíritos não possuem audição e comunicam-se apenas por choque elétrico.",
-    option_b: "Que as harmonias do Espaço são de essência divina incomparavelmente superior à música terrena, sendo percebidas pela alma desprendida em êxtase sem necessidade de instrumentos materiais.",
+    option_b:
+      "Que as harmonias do Espaço são de essência divina incomparavelmente superior à música terrena, sendo percebidas pela alma desprendida em êxtase sem necessidade de instrumentos materiais.",
     option_c: "Que a música dos céus utiliza órgãos de tubos de chumbo instalados nas nuvens.",
     option_d: "Que apenas compositores eruditos encarnados têm o privilégio de inventar melodias.",
     option_e: "Que no plano espiritual reina um silêncio absoluto e eterno onde nenhum som ressoa.",
     correct_option: "B",
-    explanation: "São Luís esclarece que os sons materiais e os instrumentos da Terra são pálidos reflexos grosseiros da harmonia do mundo espiritual, que arrebata a alma e a coloca em comunhão extática com Deus.",
+    explanation:
+      "São Luís esclarece que os sons materiais e os instrumentos da Terra são pálidos reflexos grosseiros da harmonia do mundo espiritual, que arrebata a alma e a coloca em comunhão extática com Deus.",
     reference: "1ª Parte, A música celeste, p. 101-102",
     difficulty: "facil",
     active: true,
@@ -503,14 +640,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 283,
     book: "obras_postumas",
-    statement: "Na dissertação mediúnica de Gioachino Rossini sobre a 'Música espírita' (p. 104-107), qual metáfora o célebre compositor utiliza para definir o papel da música terrena?",
+    statement:
+      "Na dissertação mediúnica de Gioachino Rossini sobre a 'Música espírita' (p. 104-107), qual metáfora o célebre compositor utiliza para definir o papel da música terrena?",
     option_a: "A música é o motor a vapor que acelera as fábricas de tecidos mecânicos.",
     option_b: "A música é um brinquedo infantil destinado a distrair crianças na corte dos reis.",
-    option_c: "A música é o médium da harmonia; ela a recebe da alma e a transmite ao ouvinte, assim como o refletor é o médium da luz.",
+    option_c:
+      "A música é o médium da harmonia; ela a recebe da alma e a transmite ao ouvinte, assim como o refletor é o médium da luz.",
     option_d: "A música é um veneno auditivo que corrompe as almas bem-aventuradas.",
-    option_e: "A música terrena é uma invenção exclusivamente comercial criada para enriquecer maestros.",
+    option_e:
+      "A música terrena é uma invenção exclusivamente comercial criada para enriquecer maestros.",
     correct_option: "C",
-    explanation: "Rossini compara a música a um instrumento mediúnico: 'A música é o médium da harmonia; ela a recebe e a dá, como o refletor é o médium da luz e o médium é o intermediário dos pensamentos dos Espíritos'.",
+    explanation:
+      "Rossini compara a música a um instrumento mediúnico: 'A música é o médium da harmonia; ela a recebe e a dá, como o refletor é o médium da luz e o médium é o intermediário dos pensamentos dos Espíritos'.",
     reference: "1ª Parte, Música espírita, p. 106",
     difficulty: "medio",
     active: true,
@@ -518,14 +659,19 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 284,
     book: "obras_postumas",
-    statement: "Em 'O caminho da vida' (p. 108-109), como Kardec responde à clássica objeção sobre o esquecimento das existências anteriores na reencarnação?",
-    option_a: "O esquecimento prova que a reencarnação é uma ilusão e que a alma vive apenas uma vez.",
+    statement:
+      "Em 'O caminho da vida' (p. 108-109), como Kardec responde à clássica objeção sobre o esquecimento das existências anteriores na reencarnação?",
+    option_a:
+      "O esquecimento prova que a reencarnação é uma ilusão e que a alma vive apenas uma vez.",
     option_b: "O Espírito esquece o passado porque o cérebro humano é criado do nada por acaso.",
-    option_c: "Deus apaga a memória das almas para que elas cometam os mesmos crimes perpetuamente.",
-    option_d: "O esquecimento é uma bênção providencial que poupa o homem da humilhação, da dor e dos remorsos das faltas pretéritas, oferecendo um novo recomeço na senda do progresso.",
+    option_c:
+      "Deus apaga a memória das almas para que elas cometam os mesmos crimes perpetuamente.",
+    option_d:
+      "O esquecimento é uma bênção providencial que poupa o homem da humilhação, da dor e dos remorsos das faltas pretéritas, oferecendo um novo recomeço na senda do progresso.",
     option_e: "A memória é destruída pela ação química do oxigênio atmosférico durante o parto.",
     correct_option: "D",
-    explanation: "A ausência de lembrança das vidas passadas preserva o homem do sofrimento constante de suas antigas misérias e dos ódios recíprocos; cada nova existência é um ponto de partida limpo para novas conquistas morais.",
+    explanation:
+      "A ausência de lembrança das vidas passadas preserva o homem do sofrimento constante de suas antigas misérias e dos ódios recíprocos; cada nova existência é um ponto de partida limpo para novas conquistas morais.",
     reference: "1ª Parte, O caminho da vida, p. 108-109",
     difficulty: "facil",
     active: true,
@@ -533,14 +679,21 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 285,
     book: "obras_postumas",
-    statement: "Na célebre alegoria de 'O caminho da vida' (p. 109-111), o que representam a longa estrada, as florestas espessas e a montanha culminante?",
-    option_a: "A estrada é a política partidária, as florestas são as eleições e a montanha é o parlamento.",
-    option_b: "A estrada é o comércio material, as florestas são os bancos e a montanha é o tesouro público.",
-    option_c: "A estrada é o tempo geológico, as florestas são os dinossauros e a montanha é a lua.",
-    option_d: "A estrada é a literatura poética, as florestas são os teatros e a montanha é a glória acadêmica.",
-    option_e: "A estrada representa a vida espiritual contínua da alma, as florestas são as existências corporais de provas e aprendizado, e a montanha é a meta da perfeição conquistada.",
+    statement:
+      "Na célebre alegoria de 'O caminho da vida' (p. 109-111), o que representam a longa estrada, as florestas espessas e a montanha culminante?",
+    option_a:
+      "A estrada é a política partidária, as florestas são as eleições e a montanha é o parlamento.",
+    option_b:
+      "A estrada é o comércio material, as florestas são os bancos e a montanha é o tesouro público.",
+    option_c:
+      "A estrada é o tempo geológico, as florestas são os dinossauros e a montanha é a lua.",
+    option_d:
+      "A estrada é a literatura poética, as florestas são os teatros e a montanha é a glória acadêmica.",
+    option_e:
+      "A estrada representa a vida espiritual contínua da alma, as florestas são as existências corporais de provas e aprendizado, e a montanha é a meta da perfeição conquistada.",
     correct_option: "E",
-    explanation: "A alegoria retrata o homem atravessando florestas sucessivas (vidas corpóreas) onde adquire experiência e cura suas feridas, até contemplar do alto da montanha (perfeição espiritual) o caminho percorrido com gratidão.",
+    explanation:
+      "A alegoria retrata o homem atravessando florestas sucessivas (vidas corpóreas) onde adquire experiência e cura suas feridas, até contemplar do alto da montanha (perfeição espiritual) o caminho percorrido com gratidão.",
     reference: "1ª Parte, O caminho da vida, p. 109-111",
     difficulty: "medio",
     active: true,
@@ -548,14 +701,16 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 286,
     book: "obras_postumas",
-    statement: "No estudo 'As cinco alternativas da Humanidade' (p. 112-116), quais são as cinco doutrinas essenciais comparadas por Allan Kardec?",
+    statement:
+      "No estudo 'As cinco alternativas da Humanidade' (p. 112-116), quais são as cinco doutrinas essenciais comparadas por Allan Kardec?",
     option_a: "Materialismo, Panteísmo, Deísmo, Dogmatismo e Espiritismo.",
     option_b: "Monoteísmo, Politeísmo, Animismo, Xamanismo e Ocultismo.",
     option_c: "Platonismo, Aristotelismo, Estoicismo, Epicurismo e Cinismo.",
     option_d: "Catolicismo, Protestantismo, Judaísmo, Islamismo e Budismo.",
     option_e: "Idealismo, Realismo, Positivismo, Ceticismo e Niilismo.",
     correct_option: "A",
-    explanation: "Kardec resume o destino da alma após a morte às cinco grandes concepções filosófico-religiosas: o materialismo (nada), o panteísmo (fusão no todo), o deísmo, o dogmatismo clerical e o Espiritismo.",
+    explanation:
+      "Kardec resume o destino da alma após a morte às cinco grandes concepções filosófico-religiosas: o materialismo (nada), o panteísmo (fusão no todo), o deísmo, o dogmatismo clerical e o Espiritismo.",
     reference: "1ª Parte, As cinco alternativas da Humanidade, p. 112",
     difficulty: "facil",
     active: true,
@@ -563,14 +718,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 287,
     book: "obras_postumas",
-    statement: "Em 'As cinco alternativas da Humanidade' (§ III), qual a distinção apresentada por Kardec entre o 'deísta independente' e o 'deísta providencialista'?",
-    option_a: "O deísta independente é ateu militante; o providencialista frequenta a missa dominical.",
-    option_b: "O deísta independente crê num Deus criador que não mais se ocupa do mundo; o providencialista crê na intervenção incessante da Providência divina na criação e a Ele ora.",
-    option_c: "O deísta independente defende a ressurreição da carne; o providencialista rejeita a alma imortal.",
-    option_d: "O deísta independente aceita os dogmas católicos; o providencialista admite os sacrifícios de animais.",
+    statement:
+      "Em 'As cinco alternativas da Humanidade' (§ III), qual a distinção apresentada por Kardec entre o 'deísta independente' e o 'deísta providencialista'?",
+    option_a:
+      "O deísta independente é ateu militante; o providencialista frequenta a missa dominical.",
+    option_b:
+      "O deísta independente crê num Deus criador que não mais se ocupa do mundo; o providencialista crê na intervenção incessante da Providência divina na criação e a Ele ora.",
+    option_c:
+      "O deísta independente defende a ressurreição da carne; o providencialista rejeita a alma imortal.",
+    option_d:
+      "O deísta independente aceita os dogmas católicos; o providencialista admite os sacrifícios de animais.",
     option_e: "Ambos são sinônimos perfeitos que negam categoricamente a existência de Deus.",
     correct_option: "B",
-    explanation: "Os deístas independentes veem Deus como um relojoeiro que deu corda ao mundo e o abandonou; os providencialistas creem na solicitude paternal e contínua de Deus sobre todas as criaturas, orando a Ele sem dogmas exteriores.",
+    explanation:
+      "Os deístas independentes veem Deus como um relojoeiro que deu corda ao mundo e o abandonou; os providencialistas creem na solicitude paternal e contínua de Deus sobre todas as criaturas, orando a Ele sem dogmas exteriores.",
     reference: "1ª Parte, As cinco alternativas da Humanidade, § III, p. 114",
     difficulty: "medio",
     active: true,
@@ -578,14 +739,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 288,
     book: "obras_postumas",
-    statement: "No exame da Doutrina Dogmática (§ IV, p. 114-115), qual problema fundamental fica inteiramente sem resposta racional na teologia das penas eternas?",
+    statement:
+      "No exame da Doutrina Dogmática (§ IV, p. 114-115), qual problema fundamental fica inteiramente sem resposta racional na teologia das penas eternas?",
     option_a: "A velocidade da luz no vácuo estelar.",
     option_b: "A composição mineral do solo lunar e marciano.",
-    option_c: "A sorte das crianças mortas em tenra idade, dos deficientes mentais e a justiça das misérias de nascença sem vidas anteriores.",
+    option_c:
+      "A sorte das crianças mortas em tenra idade, dos deficientes mentais e a justiça das misérias de nascença sem vidas anteriores.",
     option_d: "A navegação a vapor nos rios europeus da Idade Média.",
     option_e: "A tradução das obras gregas antigas para a língua latina.",
     correct_option: "C",
-    explanation: "Sem a preexistência da alma e a pluralidade das existências, o dogma das penas eternas não consegue explicar a sorte dos que morrem na infância, dos incapazes nem as desigualdades de nascimento perante a justiça divina.",
+    explanation:
+      "Sem a preexistência da alma e a pluralidade das existências, o dogma das penas eternas não consegue explicar a sorte dos que morrem na infância, dos incapazes nem as desigualdades de nascimento perante a justiça divina.",
     reference: "1ª Parte, As cinco alternativas da Humanidade, § IV, p. 115",
     difficulty: "dificil",
     active: true,
@@ -593,14 +757,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 289,
     book: "obras_postumas",
-    statement: "No capítulo 'A morte espiritual' (p. 117-119), qual é o significado filosófico atribuído à expressão 'morte espiritual' segundo Allan Kardec?",
-    option_a: "O aniquilamento total e definitivo do princípio pensante da alma nas trevas do nada.",
-    option_b: "A decomposição atômica do perispírito que transforma o Espírito em substância fóssil.",
+    statement:
+      "No capítulo 'A morte espiritual' (p. 117-119), qual é o significado filosófico atribuído à expressão 'morte espiritual' segundo Allan Kardec?",
+    option_a:
+      "O aniquilamento total e definitivo do princípio pensante da alma nas trevas do nada.",
+    option_b:
+      "A decomposição atômica do perispírito que transforma o Espírito em substância fóssil.",
     option_c: "A condenação irrevogável de uma alma culpada ao sono letárgico eterno.",
-    option_d: "A regeneração moral contínua: o Espírito 'morre' para os seus hábitos inferiores a cada encarnação, renascendo com novos atributos depurados sem perder sua identidade pessoal.",
-    option_e: "A perda da consciência que ocorre exclusivamente nos anjos quando visitam mundos inferiores.",
+    option_d:
+      "A regeneração moral contínua: o Espírito 'morre' para os seus hábitos inferiores a cada encarnação, renascendo com novos atributos depurados sem perder sua identidade pessoal.",
+    option_e:
+      "A perda da consciência que ocorre exclusivamente nos anjos quando visitam mundos inferiores.",
     correct_option: "D",
-    explanation: "O Espírito não morre no sentido de aniquilamento de sua individualidade (o eu permanece o mesmo); a morte espiritual representa a transformação da alma, que desbasta o homem velho para renascer iluminada de virtudes.",
+    explanation:
+      "O Espírito não morre no sentido de aniquilamento de sua individualidade (o eu permanece o mesmo); a morte espiritual representa a transformação da alma, que desbasta o homem velho para renascer iluminada de virtudes.",
     reference: "1ª Parte, A morte espiritual, p. 119",
     difficulty: "dificil",
     active: true,
@@ -608,14 +778,21 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 290,
     book: "obras_postumas",
-    statement: "Na dissertação sobre as 'Expiações coletivas' dada pelo Espírito Clélia Duplantier (p. 124-125), como o Espiritismo elucida as catástrofes que atingem famílias, cidades e nações inteiras?",
-    option_a: "São acidentes geológicos e meteorológicos arbitrários desprovidos de qualquer plano inteligente da Providência.",
-    option_b: "Representam castigos divinos vindos da cólera de Deus contra os descendentes de Adão.",
-    option_c: "São produzidas exclusivamente por demônios que derrotam temporariamente as falanges dos anjos de Deus.",
-    option_d: "Constituem punições cegas onde os inocentes pagam culpas das quais nunca participaram.",
-    option_e: "Faltas coletivas cometidas por cidadãos reunidos num crime comum no passado são resgatadas em conjunto no presente sob a lei de solidariedade e responsabilidade coletiva.",
+    statement:
+      "Na dissertação sobre as 'Expiações coletivas' dada pelo Espírito Clélia Duplantier (p. 124-125), como o Espiritismo elucida as catástrofes que atingem famílias, cidades e nações inteiras?",
+    option_a:
+      "São acidentes geológicos e meteorológicos arbitrários desprovidos de qualquer plano inteligente da Providência.",
+    option_b:
+      "Representam castigos divinos vindos da cólera de Deus contra os descendentes de Adão.",
+    option_c:
+      "São produzidas exclusivamente por demônios que derrotam temporariamente as falanges dos anjos de Deus.",
+    option_d:
+      "Constituem punições cegas onde os inocentes pagam culpas das quais nunca participaram.",
+    option_e:
+      "Faltas coletivas cometidas por cidadãos reunidos num crime comum no passado são resgatadas em conjunto no presente sob a lei de solidariedade e responsabilidade coletiva.",
     correct_option: "E",
-    explanation: "Assim como há faltas individuais, há crimes coletivos cometidos em comum por famílias ou povos (como guerras, opressões e massacres); pela reencarnação, esses Espíritos reúnem-se para resgatarem solidariamente suas dívidas históricas.",
+    explanation:
+      "Assim como há faltas individuais, há crimes coletivos cometidos em comum por famílias ou povos (como guerras, opressões e massacres); pela reencarnação, esses Espíritos reúnem-se para resgatarem solidariamente suas dívidas históricas.",
     reference: "1ª Parte, Questões e problemas — As expiações coletivas, p. 124-125",
     difficulty: "dificil",
     active: true,
@@ -625,14 +802,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 291,
     book: "obras_postumas",
-    statement: "No capítulo 'O egoísmo e o orgulho' (p. 127-130), em qual sentimento natural e providencial Kardec situa a origem primária dessas duas chagas da Humanidade?",
-    option_a: "No instinto de conservação, que é legítimo e útil em si mesmo, mas que se torna pernicioso pelo excesso e abuso do livre-arbítrio humano.",
+    statement:
+      "No capítulo 'O egoísmo e o orgulho' (p. 127-130), em qual sentimento natural e providencial Kardec situa a origem primária dessas duas chagas da Humanidade?",
+    option_a:
+      "No instinto de conservação, que é legítimo e útil em si mesmo, mas que se torna pernicioso pelo excesso e abuso do livre-arbítrio humano.",
     option_b: "Na tentação física de um demônio exterior com chifres e tridentes corporais.",
     option_c: "Na herança biológica do cérebro transmitida pelas leis de genética animal.",
     option_d: "Na ingestão de alimentos cozidos em vez de frutos crus da natureza primitiva.",
     option_e: "Na prática do comércio e na fundação das primeiras cidades marítimas.",
     correct_option: "A",
-    explanation: "Deus não criou nada inútil ou mau: o instinto de conservação é necessário à vida; quando o homem o exagera e o desvia para o culto exclusivista de si mesmo em detrimento do próximo, faz nascer o egoísmo e o orgulho.",
+    explanation:
+      "Deus não criou nada inútil ou mau: o instinto de conservação é necessário à vida; quando o homem o exagera e o desvia para o culto exclusivista de si mesmo em detrimento do próximo, faz nascer o egoísmo e o orgulho.",
     reference: "1ª Parte, O egoísmo e o orgulho, p. 127",
     difficulty: "facil",
     active: true,
@@ -640,14 +820,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 292,
     book: "obras_postumas",
-    statement: "No ensaio 'Liberdade, igualdade, fraternidade' (p. 131-133), qual dos três termos Kardec define como a base indispensável sobre a qual se apoiam os outros dois?",
-    option_a: "A liberdade, porque um homem livre dispensa a caridade e a solidariedade de seus concidadãos.",
-    option_b: "A fraternidade, pois sem ela a igualdade degenera em inveja e tirania do pequeno contra o grande, e a liberdade vira rédea solta ao egoísmo e à anarquia.",
+    statement:
+      "No ensaio 'Liberdade, igualdade, fraternidade' (p. 131-133), qual dos três termos Kardec define como a base indispensável sobre a qual se apoiam os outros dois?",
+    option_a:
+      "A liberdade, porque um homem livre dispensa a caridade e a solidariedade de seus concidadãos.",
+    option_b:
+      "A fraternidade, pois sem ela a igualdade degenera em inveja e tirania do pequeno contra o grande, e a liberdade vira rédea solta ao egoísmo e à anarquia.",
     option_c: "A igualdade material de salários, imposta por decretos severos da polícia civil.",
     option_d: "O absolutismo monárquico herdado da nobreza feudal da Idade Média.",
     option_e: "A abolição de todas as leis escritas e tribunais judiciários da sociedade civil.",
     correct_option: "B",
-    explanation: "A fraternidade está na primeira linha: é a caridade evangélica em ação. Sem fraternidade no coração, o egoísmo e o orgulho destruirão qualquer ensaio de igualdade e farão da liberdade um instrumento de opressão.",
+    explanation:
+      "A fraternidade está na primeira linha: é a caridade evangélica em ação. Sem fraternidade no coração, o egoísmo e o orgulho destruirão qualquer ensaio de igualdade e farão da liberdade um instrumento de opressão.",
     reference: "1ª Parte, Liberdade, igualdade, fraternidade, p. 131-132",
     difficulty: "facil",
     active: true,
@@ -655,14 +839,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 293,
     book: "obras_postumas",
-    statement: "No estudo 'As aristocracias' (p. 134-137), após analisar a autoridade da força bruta, do nascimento e do dinheiro, qual aristocracia definitiva Kardec prevê para o futuro regenerado da Terra?",
+    statement:
+      "No estudo 'As aristocracias' (p. 134-137), após analisar a autoridade da força bruta, do nascimento e do dinheiro, qual aristocracia definitiva Kardec prevê para o futuro regenerado da Terra?",
     option_a: "A aristocracia militar baseada na posse de armamentos bélicos pesados.",
     option_b: "A aristocracia teocrática comandada por ordens monásticas de clausura.",
-    option_c: "A aristocracia intelecto-moral, onde a união da inteligência esclarecida com a moralidade e a caridade inspirará a confiança e o respeito legítimo das massas.",
-    option_d: "A aristocracia dos banqueiros e financistas das grandes bolsas de valores internacionais.",
+    option_c:
+      "A aristocracia intelecto-moral, onde a união da inteligência esclarecida com a moralidade e a caridade inspirará a confiança e o respeito legítimo das massas.",
+    option_d:
+      "A aristocracia dos banqueiros e financistas das grandes bolsas de valores internacionais.",
     option_e: "A aristocracia hereditária de castas imutáveis da antiguidade oriental.",
     correct_option: "C",
-    explanation: "Todas as aristocracias materiais tiveram sua época. A última e duradoura será a aristocracia intelecto-moral, pois somente a autoridade do saber unido à virtude pode governar com justiça e desinteresse supremo.",
+    explanation:
+      "Todas as aristocracias materiais tiveram sua época. A última e duradoura será a aristocracia intelecto-moral, pois somente a autoridade do saber unido à virtude pode governar com justiça e desinteresse supremo.",
     reference: "1ª Parte, As aristocracias, p. 135-137",
     difficulty: "medio",
     active: true,
@@ -670,14 +858,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 294,
     book: "obras_postumas",
-    statement: "Nos 'Extratos do livro das previsões' (2ª Parte, p. 147), em que ano e através de quem Allan Kardec ouviu falar pela primeira vez no fenômeno das 'mesas falantes' que respondiam a perguntas?",
+    statement:
+      "Nos 'Extratos do livro das previsões' (2ª Parte, p. 147), em que ano e através de quem Allan Kardec ouviu falar pela primeira vez no fenômeno das 'mesas falantes' que respondiam a perguntas?",
     option_a: "Em 1848, pelas irmãs Fox no vilarejo de Hydesville nos Estados Unidos.",
     option_b: "Em 1860, por Camille Flammarion na Sociedade Astronômica de Paris.",
     option_c: "Em 1858, pela médium Srta. Ermance Dufaux no Palais Royal.",
-    option_d: "Em 1854, pelo magnetizador Sr. Fortier, respondendo Kardec inicialmente com ceticismo racional.",
+    option_d:
+      "Em 1854, pelo magnetizador Sr. Fortier, respondendo Kardec inicialmente com ceticismo racional.",
     option_e: "Em 1865, pelo editor Didier na Livraria Acadêmica de Paris.",
     correct_option: "D",
-    explanation: "Foi em 1854 que o Sr. Fortier lhe falou das mesas girantes e, depois, das mesas que respondiam; Kardec replicou que só acreditaria quando visse e lhe provassem que uma mesa tinha cérebro para pensar e nervos para sentir.",
+    explanation:
+      "Foi em 1854 que o Sr. Fortier lhe falou das mesas girantes e, depois, das mesas que respondiam; Kardec replicou que só acreditaria quando visse e lhe provassem que uma mesa tinha cérebro para pensar e nervos para sentir.",
     reference: "2ª Parte, A minha primeira iniciação no Espiritismo, p. 147",
     difficulty: "facil",
     active: true,
@@ -685,14 +876,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 295,
     book: "obras_postumas",
-    statement: "Nas primeiras sessões espíritas que Allan Kardec frequentou na residência da família Baudin em 1855, qual era o nome do Espírito comunicante habitual (p. 148-149)?",
+    statement:
+      "Nas primeiras sessões espíritas que Allan Kardec frequentou na residência da família Baudin em 1855, qual era o nome do Espírito comunicante habitual (p. 148-149)?",
     option_a: "Santo Agostinho.",
     option_b: "São Luís.",
     option_c: "Erasto.",
     option_d: "Sócrates.",
-    option_e: "Zéfiro, espírito familiar que se afeiçoou a Kardec e lhe prestou valioso auxílio inicial.",
+    option_e:
+      "Zéfiro, espírito familiar que se afeiçoou a Kardec e lhe prestou valioso auxílio inicial.",
     correct_option: "E",
-    explanation: "Zéfiro manifestava-se por intermédio das senhoritas Baudin; embora não fosse um Espírito de alta elevação, era extremamente benevolente, espirituoso e protegeu os primeiros passos das investigações de Kardec.",
+    explanation:
+      "Zéfiro manifestava-se por intermédio das senhoritas Baudin; embora não fosse um Espírito de alta elevação, era extremamente benevolente, espirituoso e protegeu os primeiros passos das investigações de Kardec.",
     reference: "2ª Parte, A minha primeira iniciação no Espiritismo, p. 148-149",
     difficulty: "facil",
     active: true,
@@ -700,14 +894,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 296,
     book: "obras_postumas",
-    statement: "Em 25 de março de 1856, após misteriosas pancadas ouvidas no seu gabinete de trabalho na rua dos Mártires, qual identificação foi dada pelo Espírito protetor a Kardec (p. 152)?",
-    option_a: "'Para ti, eu me chamarei A Verdade, e todos os meses, aqui, durante um quarto de hora, estarei à tua disposição'.",
+    statement:
+      "Em 25 de março de 1856, após misteriosas pancadas ouvidas no seu gabinete de trabalho na rua dos Mártires, qual identificação foi dada pelo Espírito protetor a Kardec (p. 152)?",
+    option_a:
+      "'Para ti, eu me chamarei A Verdade, e todos os meses, aqui, durante um quarto de hora, estarei à tua disposição'.",
     option_b: "'Sou o arcanjo Gabriel enviado para ditar-te dogmas infalíveis'.",
     option_c: "'Sou o rei Luís IX da França e exijo vassalagem imediata'.",
     option_d: "'Sou o fantasma de Napoleão Bonaparte e venho comandar teus exércitos'.",
     option_e: "'Não possuo nome nem permissão para auxiliar teus estudos doutrinários'.",
     correct_option: "A",
-    explanation: "O Espírito familiar que produziu as pancadas advertiu Kardec sobre um erro na 30ª linha de seus manuscritos e declarou: 'Para ti, eu me chamarei A Verdade', tornando-se seu sublime guia espiritual.",
+    explanation:
+      "O Espírito familiar que produziu as pancadas advertiu Kardec sobre um erro na 30ª linha de seus manuscritos e declarou: 'Para ti, eu me chamarei A Verdade', tornando-se seu sublime guia espiritual.",
     reference: "2ª Parte, Meu Guia Espiritual, p. 152",
     difficulty: "facil",
     active: true,
@@ -715,14 +912,18 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 297,
     book: "obras_postumas",
-    statement: "Na histórica sessão de 30 de abril de 1856 na casa do Sr. Roustan (médium Srta. Japhet), qual missão providencial foi revelada nominalmente a Rivail (p. 154)?",
+    statement:
+      "Na histórica sessão de 30 de abril de 1856 na casa do Sr. Roustan (médium Srta. Japhet), qual missão providencial foi revelada nominalmente a Rivail (p. 154)?",
     option_a: "Eleger-se deputado na Assembleia Nacional para criar um partido espírita clerical.",
-    option_b: "Ser o 'obreiro que reconstrói o que foi demolido', lançando as bases da nova doutrina de renovação moral da Humanidade.",
+    option_b:
+      "Ser o 'obreiro que reconstrói o que foi demolido', lançando as bases da nova doutrina de renovação moral da Humanidade.",
     option_c: "Fundar uma ordem monástica de retiro permanente nas montanhas suíças.",
-    option_d: "Abandonar os livros e dedicar-se unicamente a espetáculos teatrais de efeitos físicos.",
+    option_d:
+      "Abandonar os livros e dedicar-se unicamente a espetáculos teatrais de efeitos físicos.",
     option_e: "Traduzir obras pagãs gregas sem qualquer conteúdo ético ou espiritual.",
     correct_option: "B",
-    explanation: "A cesta mediúnica voltou-se bruscamente para Rivail escrevendo: 'Quanto a ti, Rivail, a tua missão é aí... Ele, Rivail, virá em segundo lugar: é o obreiro que reconstrói o que foi demolido', consagrando sua missão.",
+    explanation:
+      "A cesta mediúnica voltou-se bruscamente para Rivail escrevendo: 'Quanto a ti, Rivail, a tua missão é aí... Ele, Rivail, virá em segundo lugar: é o obreiro que reconstrói o que foi demolido', consagrando sua missão.",
     reference: "2ª Parte, Primeira revelação da minha missão, p. 154",
     difficulty: "medio",
     active: true,
@@ -730,14 +931,17 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 298,
     book: "obras_postumas",
-    statement: "Qual acontecimento histórico de intolerância religiosa ocorrido em 9 de outubro de 1861 em Barcelona foi interpretado pelos Espíritos como poderoso impulso de difusão doutrinária (p. 166-168)?",
+    statement:
+      "Qual acontecimento histórico de intolerância religiosa ocorrido em 9 de outubro de 1861 em Barcelona foi interpretado pelos Espíritos como poderoso impulso de difusão doutrinária (p. 166-168)?",
     option_a: "A publicação da encíclica papal que aprovou o livre-exame dos Evangelhos.",
     option_b: "A assinatura do tratado de paz entre a Espanha e as nações do Novo Mundo.",
-    option_c: "O Auto-de-Fé de Barcelona, em que o bispo e a Inquisição mandaram queimar em praça pública 300 volumes espíritas, despertando a indignação liberal e a curiosidade mundial.",
+    option_c:
+      "O Auto-de-Fé de Barcelona, em que o bispo e a Inquisição mandaram queimar em praça pública 300 volumes espíritas, despertando a indignação liberal e a curiosidade mundial.",
     option_d: "A inauguração do primeiro observatório astronômico espírita na Catalunha.",
     option_e: "A apreensão de manuscritos de física quântica na Universidade de Berne.",
     correct_option: "C",
-    explanation: "O último auto-de-fé da Inquisição espanhola queimou 300 livros espíritas de Kardec. O Espírito de Verdade advertira que o ato medieval traria imensa publicidade e expansão febricitante às ideias espíritas em toda a Europa.",
+    explanation:
+      "O último auto-de-fé da Inquisição espanhola queimou 300 livros espíritas de Kardec. O Espírito de Verdade advertira que o ato medieval traria imensa publicidade e expansão febricitante às ideias espíritas em toda a Europa.",
     reference: "2ª Parte, Auto-de-fé em Barcelona, p. 166-168",
     difficulty: "medio",
     active: true,
@@ -745,14 +949,21 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 299,
     book: "obras_postumas",
-    statement: "Quando Allan Kardec consultou os Espíritos em dezembro de 1861 a respeito de quem seria seu sucessor na direção do Espiritismo (p. 169), qual foi a resposta dos benfeitores?",
-    option_a: "Que um papa espírita com poderes infalíveis perpétuos seria nomeado imediatamente em Roma.",
-    option_b: "Que o Espiritismo desapareceria completamente logo após a desencarnação do seu fundador.",
-    option_c: "Que um único sucessor secreto recebera anéis sacerdotais para comandar a doutrina com mão de ferro.",
-    option_d: "Que a obra não dependia de um único homem providencial: a Kardec coube o encargo da concepção e meditação, e a seu sucessor caberia a energia da execução prática, a ser revelado na hora oportuna.",
-    option_e: "Que os Espíritos assumiriam fisicamente todos os tribunais e cartórios públicos da França.",
+    statement:
+      "Quando Allan Kardec consultou os Espíritos em dezembro de 1861 a respeito de quem seria seu sucessor na direção do Espiritismo (p. 169), qual foi a resposta dos benfeitores?",
+    option_a:
+      "Que um papa espírita com poderes infalíveis perpétuos seria nomeado imediatamente em Roma.",
+    option_b:
+      "Que o Espiritismo desapareceria completamente logo após a desencarnação do seu fundador.",
+    option_c:
+      "Que um único sucessor secreto recebera anéis sacerdotais para comandar a doutrina com mão de ferro.",
+    option_d:
+      "Que a obra não dependia de um único homem providencial: a Kardec coube o encargo da concepção e meditação, e a seu sucessor caberia a energia da execução prática, a ser revelado na hora oportuna.",
+    option_e:
+      "Que os Espíritos assumiriam fisicamente todos os tribunais e cartórios públicos da França.",
     correct_option: "D",
-    explanation: "Os Espíritos esclareceram que o Espiritismo não periclitaria: a Providência escolhera Kardec para a elaboração teórica da Doutrina e reservava homens de ação para a consolidação futura do edifício institucional.",
+    explanation:
+      "Os Espíritos esclareceram que o Espiritismo não periclitaria: a Providência escolhera Kardec para a elaboração teórica da Doutrina e reservava homens de ação para a consolidação futura do edifício institucional.",
     reference: "2ª Parte, Meu sucessor, p. 169",
     difficulty: "dificil",
     active: true,
@@ -760,14 +971,20 @@ export const OBRAS_POSTUMAS_QUESTIONS: QuestionSeed[] = [
   {
     code: 300,
     book: "obras_postumas",
-    statement: "No projeto 'Constituição do Espiritismo' (§ IV — Comissão Central, p. 196-198), qual modelo institucional Allan Kardec planejou para a direção suprema do movimento após a sua partida?",
+    statement:
+      "No projeto 'Constituição do Espiritismo' (§ IV — Comissão Central, p. 196-198), qual modelo institucional Allan Kardec planejou para a direção suprema do movimento após a sua partida?",
     option_a: "A coroação de um monarca hereditário absoluto com direito de veto universal.",
-    option_b: "A submissão de todos os centros espíritas do mundo ao clero da Igreja Católica romana.",
-    option_c: "A dissolução completa de todas as sociedades espíritas em favor do isolamento individualista.",
-    option_d: "A entrega do patrimônio do Espiritismo a empresas financeiras de capital aberto na bolsa de Paris.",
-    option_e: "Uma Comissão Central permanente e coletiva de até doze membros titulares, com presidente anual de autoridade puramente administrativa, fiscalizada por congressos gerais periódicos para evitar qualquer autocracia pessoal.",
+    option_b:
+      "A submissão de todos os centros espíritas do mundo ao clero da Igreja Católica romana.",
+    option_c:
+      "A dissolução completa de todas as sociedades espíritas em favor do isolamento individualista.",
+    option_d:
+      "A entrega do patrimônio do Espiritismo a empresas financeiras de capital aberto na bolsa de Paris.",
+    option_e:
+      "Uma Comissão Central permanente e coletiva de até doze membros titulares, com presidente anual de autoridade puramente administrativa, fiscalizada por congressos gerais periódicos para evitar qualquer autocracia pessoal.",
     correct_option: "E",
-    explanation: "Para evitar a personificação e os riscos do autoritarismo ou de cismas, Kardec concebeu uma direção central colegiada de até 12 membros, garantindo a gestão coletiva, a unidade doutrinária e a transparência em prol do progresso da Humanidade.",
+    explanation:
+      "Para evitar a personificação e os riscos do autoritarismo ou de cismas, Kardec concebeu uma direção central colegiada de até 12 membros, garantindo a gestão coletiva, a unidade doutrinária e a transparência em prol do progresso da Humanidade.",
     reference: "2ª Parte, Constituição do Espiritismo, § IV, p. 196-198",
     difficulty: "dificil",
     active: true,

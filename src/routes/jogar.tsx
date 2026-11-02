@@ -46,13 +46,13 @@ export const Route = createFileRoute("/jogar")({
   },
   head: () => ({
     meta: [
-      { title: "Quiz do Codificador" },
+      { title: "QUIZ DO CODIFICADOR" },
       {
         name: "description",
         content:
           "Partida contra o Codificador: dispute em 3, 5, 7 ou 9 rodadas em 4 níveis de dificuldade.",
       },
-      { property: "og:title", content: "Quiz do Codificador" },
+      { property: "og:title", content: "QUIZ DO CODIFICADOR" },
       {
         property: "og:description",
         content: "Responda e dispute rodadas de 10 pontos contra o Codificador.",

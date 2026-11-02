@@ -8,9 +8,9 @@ import { DIFFICULTY_LABELS, extractMatchDifficulty } from "@/lib/game-rules";
 export const Route = createFileRoute("/historico")({
   head: () => ({
     meta: [
-      { title: "Quiz do Codificador" },
+      { title: "QUIZ DO CODIFICADOR" },
       { name: "description", content: "Suas partidas anteriores contra o Codificador." },
-      { property: "og:title", content: "Quiz do Codificador" },
+      { property: "og:title", content: "QUIZ DO CODIFICADOR" },
       { property: "og:description", content: "Resultados e rodadas das partidas." },
     ],
   }),

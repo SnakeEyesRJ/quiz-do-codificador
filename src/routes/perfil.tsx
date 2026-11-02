@@ -9,9 +9,9 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/perfil")({
   head: () => ({
     meta: [
-      { title: "Quiz do Codificador" },
+      { title: "QUIZ DO CODIFICADOR" },
       { name: "description", content: "Altere seu avatar e veja suas estatísticas." },
-      { property: "og:title", content: "Quiz do Codificador" },
+      { property: "og:title", content: "QUIZ DO CODIFICADOR" },
       { property: "og:description", content: "Avatar e estatísticas do jogador." },
     ],
   }),

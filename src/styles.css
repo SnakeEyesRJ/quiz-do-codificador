@@ -54,11 +54,12 @@
 }
 
 /*
- * Quiz do Codificador — Nova paleta oficial (imagem anexada):
- *   #2E2910 oliva escuro / tinta profunda
- *   #2C5745 verde pinho / floresta
- *   #EBE3A7 areia suave / creme base
- *   #EB7D00 âmbar alaranjado / ocre
+ * QUIZ DO CODIFICADOR — Paleta oficial (4 faixas da imagem anexada):
+ *   1. #FFEAD3 Creme suave / Pêssego claro (faixa 1 - base)
+ *   2. #BFE7EA Aqua / Céu turquesa suave (faixa 2 - frescor e destaque)
+ *   3. #E89B5B Âmbar alaranjado / Damasco (faixa 3 - secundário e badges)
+ *   4. #D46743 Terracota / Ferrugem profundo (faixa 4 - primário e ênfase)
+ *   Tinta de leitura: #2B1810 Café profundo / Alto contraste
  */
 
 @theme inline {
@@ -92,11 +93,13 @@
   --color-ring: var(--ring);
   --color-ink: var(--ink);
   --color-cream: var(--cream);
+  --color-aqua: var(--aqua);
   --color-peach: var(--peach);
   --color-salmon: var(--salmon);
   --color-rose: var(--rose);
   --color-forest: var(--forest);
   --color-amber: var(--amber);
+  --color-terracotta: var(--terracotta);
   --color-correct: var(--correct);
   --color-wrong: var(--wrong);
 }
@@ -104,22 +107,22 @@
 :root {
   --radius: 0.9rem;
 
-  /* Cores fundamentais da nova paleta */
-  --ink: #2e2910;
-  --forest: #2c5745;
-  --cream: #ebe3a7;
-  --amber: #eb7d00;
+  /* 4 faixas exatas extraídas da imagem anexada */
+  --cream: #ffead3;
+  --aqua: #bfe7ea;
+  --amber: #e89b5b;
+  --terracotta: #d46743;
+
+  /* Tinta de contraste profundo para máxima legibilidade */
+  --ink: #2b1810;
 
   /* Variações tonais para contraste, relevo e elegância */
-  --card-bg: #f7f3d0;
-  --sand-mid: #dfd799;
-  --amber-soft: #fde8cf;
-  --forest-soft: #d6e5dd;
-
-  /* Aliases para classes existentes */
-  --peach: #dfd799;
-  --salmon: #eb7d00;
-  --rose: #fde8cf;
+  --card-bg: #fff5eb;
+  --peach: #bfe7ea;
+  --salmon: #e89b5b;
+  --rose: #fde8d7;
+  --forest: #237666;
+  --forest-soft: #d3f0ed;
 
   --background: var(--cream);
   --foreground: var(--ink);
@@ -127,24 +130,24 @@
   --card-foreground: var(--ink);
   --popover: var(--card-bg);
   --popover-foreground: var(--ink);
-  --primary: var(--forest);
+  --primary: var(--terracotta);
   --primary-foreground: #ffffff;
   --secondary: var(--amber);
   --secondary-foreground: var(--ink);
-  --muted: var(--sand-mid);
-  --muted-foreground: #5c5430;
-  --accent: var(--amber);
+  --muted: #f2decb;
+  --muted-foreground: #6b4c3e;
+  --accent: var(--aqua);
   --accent-foreground: var(--ink);
-  --destructive: #bd3214;
+  --destructive: #c9382b;
   --destructive-foreground: #ffffff;
-  --border: #d1c78a;
-  --input: #d1c78a;
-  --ring: var(--amber);
+  --border: #e3caa8;
+  --input: #e3caa8;
+  --ring: var(--terracotta);
   --correct: var(--forest);
-  --wrong: #bd3214;
+  --wrong: #c9382b;
 
-  --gradient-warm: linear-gradient(160deg, #ebe3a7 0%, #dfd799 45%, #eb7d00 80%, #2e2910 100%);
-  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2e2910 25%, transparent);
+  --gradient-warm: linear-gradient(160deg, #ffead3 0%, #bfe7ea 35%, #e89b5b 70%, #d46743 100%);
+  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2b1810 22%, transparent);
 }
 
 @utility bg-warm {
