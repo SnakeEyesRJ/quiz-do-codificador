@@ -45,6 +45,7 @@ CREATE TABLE public.matches (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid,
   player_name text NOT NULL DEFAULT 'Jogador',
+  total_rounds int NOT NULL DEFAULT 3 CHECK (total_rounds IN (3, 5, 7, 9)),
   status text NOT NULL DEFAULT 'in_progress' CHECK (status IN ('in_progress','finished')),
   current_round int NOT NULL DEFAULT 1,
   player_rounds int NOT NULL DEFAULT 0,

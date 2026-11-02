@@ -57,36 +57,53 @@ export const startMatch = createServerFn({ method: "POST" })
     z
       .object({
         playerName: z.string().trim().max(60).optional(),
-        totalRounds: z.union([z.literal(3), z.literal(5), z.literal(7), z.literal(9)]).optional().default(3),
+        totalRounds: z
+          .union([z.literal(3), z.literal(5), z.literal(7), z.literal(9)])
+          .optional()
+          .default(3),
       })
       .parse(d),
   )
   .handler(async ({ data }): Promise<MatchState> => {
-    const { supabaseAdmin, getOptionalUserId, ensureQuestionsSeeded } = await import("./game.server");
+    const { supabaseAdmin, getOptionalUserId, ensureQuestionsSeeded } =
+      await import("./game.server");
     await ensureQuestionsSeeded();
     const userId = await getOptionalUserId();
     let name = data.playerName || "Jogador";
     if (userId) {
-      const { data: p } = await supabaseAdmin.from("profiles").select("display_name").eq("id", userId).maybeSingle();
+      const { data: p } = await supabaseAdmin
+        .from("profiles")
+        .select("display_name")
+        .eq("id", userId)
+        .maybeSingle();
       if (p?.display_name) name = p.display_name;
     }
     const { count } = await supabaseAdmin
       .from("questions")
       .select("id", { count: "exact", head: true })
       .eq("active", true);
-    if (!count) throw new Error("O banco de perguntas está vazio. Não é possível iniciar a partida.");
+    if (!count)
+      throw new Error("O banco de perguntas está vazio. Não é possível iniciar a partida.");
 
+    const chosenRounds = data.totalRounds ?? 3;
     const { data: match, error } = await supabaseAdmin
       .from("matches")
-      .insert({ user_id: userId, player_name: name })
+      .insert(
+        (chosenRounds
+          ? { user_id: userId, player_name: name, total_rounds: chosenRounds }
+          : { user_id: userId, player_name: name }) as any,
+      )
       .select()
       .single();
     if (error) throw new Error(error.message);
-    const { error: rErr } = await supabaseAdmin.from("rounds").insert({ match_id: match.id, number: 1 });
+    const { error: rErr } = await supabaseAdmin
+      .from("rounds")
+      .insert({ match_id: match.id, number: 1 });
     if (rErr) throw new Error(rErr.message);
     return {
       matchId: match.id,
       playerName: name,
+      totalRounds: chosenRounds,
       status: "in_progress",
       currentRound: 1,
       playerRounds: 0,
@@ -119,9 +136,15 @@ export const nextQuestion = createServerFn({ method: "POST" })
       answerId = pending.id;
       questionId = pending.question_id;
     } else {
-      const { data: used } = await supabaseAdmin.from("answers").select("question_id").eq("match_id", match.id);
+      const { data: used } = await supabaseAdmin
+        .from("answers")
+        .select("question_id")
+        .eq("match_id", match.id);
       const usedIds = new Set((used ?? []).map((u) => u.question_id));
-      const { data: all, error } = await supabaseAdmin.from("questions").select("id").eq("active", true);
+      const { data: all, error } = await supabaseAdmin
+        .from("questions")
+        .select("id")
+        .eq("active", true);
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
       const fresh = all.filter((q) => !usedIds.has(q.id));
@@ -159,7 +182,9 @@ export const nextQuestion = createServerFn({ method: "POST" })
 
 export const submitAnswer = createServerFn({ method: "POST" })
   .inputValidator((d) =>
-    z.object({ matchId: z.string().uuid(), answerId: z.string().uuid(), option: z.enum(LETTERS) }).parse(d),
+    z
+      .object({ matchId: z.string().uuid(), answerId: z.string().uuid(), option: z.enum(LETTERS) })
+      .parse(d),
   )
   .handler(async ({ data }): Promise<AnswerResult> => {
     const { supabaseAdmin, loadOwnedMatch, getCurrentRound } = await import("./game.server");
@@ -190,23 +215,39 @@ export const submitAnswer = createServerFn({ method: "POST" })
     // Codificador: deterministic game logic, no generative AI.
     const codCorrect = Math.random() < (CODIFICADOR_ACCURACY[q.difficulty] ?? 0.7);
     const wrongs = LETTERS.filter((l) => l !== correct);
-    const codOption: Letter = codCorrect ? correct : wrongs[Math.floor(Math.random() * wrongs.length)]!;
+    const codOption: Letter = codCorrect
+      ? correct
+      : wrongs[Math.floor(Math.random() * wrongs.length)]!;
 
     await supabaseAdmin
       .from("answers")
-      .update({ player_correct: playerCorrect, codificador_option: codOption, codificador_correct: codCorrect })
+      .update({
+        player_correct: playerCorrect,
+        codificador_option: codOption,
+        codificador_correct: codCorrect,
+      })
       .eq("id", locked.id);
 
     const round = await getCurrentRound(match.id, match.current_round);
-    const score = applyAnswer(round.player_score, round.codificador_score, playerCorrect, codCorrect);
+    const score = applyAnswer(
+      round.player_score,
+      round.codificador_score,
+      playerCorrect,
+      codCorrect,
+    );
     await supabaseAdmin
       .from("rounds")
-      .update({ player_score: score.player, codificador_score: score.codificador, winner: score.roundWinner })
+      .update({
+        player_score: score.player,
+        codificador_score: score.codificador,
+        winner: score.roundWinner,
+      })
       .eq("id", round.id);
 
     let state: MatchState = {
       matchId: match.id,
-      playerName: match.player_name,
+      playerName: match.player_name.replace(/\s*\[[3579]R\]$/, ""),
+      totalRounds: extractMatchTotalRounds(match),
       status: "in_progress",
       currentRound: match.current_round,
       playerRounds: match.player_rounds,
@@ -217,7 +258,12 @@ export const submitAnswer = createServerFn({ method: "POST" })
     };
 
     if (score.roundWinner) {
-      const r = applyRoundWin(match.player_rounds, match.codificador_rounds, score.roundWinner);
+      const r = applyRoundWin(
+        match.player_rounds,
+        match.codificador_rounds,
+        score.roundWinner,
+        extractMatchTotalRounds(match),
+      );
       const finished = r.matchWinner !== null;
       const nextRound = finished ? match.current_round : match.current_round + 1;
       await supabaseAdmin

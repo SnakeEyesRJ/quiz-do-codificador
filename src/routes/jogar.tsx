@@ -24,7 +24,10 @@ export const Route = createFileRoute("/jogar")({
       { title: "Jogar — Quiz do Codificador" },
       { name: "description", content: "Partida contra o Codificador: melhor de três rodadas." },
       { property: "og:title", content: "Jogar — Quiz do Codificador" },
-      { property: "og:description", content: "Responda e dispute rodadas de 10 pontos contra o Codificador." },
+      {
+        property: "og:description",
+        content: "Responda e dispute rodadas de 10 pontos contra o Codificador.",
+      },
     ],
   }),
   component: Play,
@@ -44,6 +47,7 @@ function Play() {
   const answer = useServerFn(submitAnswer);
 
   const [name, setName] = useState("");
+  const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(3);
   const [state, setState] = useState<MatchState | null>(null);
   const [question, setQuestion] = useState<PublicQuestion | null>(null);
   const [result, setResult] = useState<AnswerResult | null>(null);
@@ -65,7 +69,7 @@ function Play() {
 
   const begin = () =>
     run(async () => {
-      const s = await start({ data: { playerName: name || undefined } });
+      const s = await start({ data: { playerName: name || undefined, totalRounds: rounds } });
       setState(s);
       setShown(null);
       setResult(null);
@@ -77,12 +81,19 @@ function Play() {
     state &&
     !result &&
     run(async () => {
-      const r = await answer({ data: { matchId: state.matchId, answerId: question.answerId, option: letter } });
+      const r = await answer({
+        data: { matchId: state.matchId, answerId: question.answerId, option: letter },
+      });
       setResult(r);
       // Keep the final score of a finished round visible until "next".
       setShown(
         r.roundWinner
-          ? { ...r.state, currentRound: r.finishedRound, playerScore: r.roundScore.player, codificadorScore: r.roundScore.codificador }
+          ? {
+              ...r.state,
+              currentRound: r.finishedRound,
+              playerScore: r.roundScore.player,
+              codificadorScore: r.roundScore.codificador,
+            }
           : r.state,
       );
       setState(r.state);
@@ -101,7 +112,35 @@ function Play() {
       <main className="mx-auto max-w-md px-4 py-16 text-center">
         <CodificadorPhoto size={120} className="mx-auto" />
         <h1 className="mt-6 text-4xl font-bold">Nova partida</h1>
-        <p className="mt-2 text-muted-foreground">Melhor de três rodadas contra o Codificador.</p>
+        <p className="mt-2 text-muted-foreground">Desafie o Codificador em rodadas de 10 pontos.</p>
+
+        <div className="mt-6 text-left">
+          <label className="text-sm font-semibold">Formato da disputa:</label>
+          <div className="mt-2 grid grid-cols-4 gap-2">
+            {([3, 5, 7, 9] as const).map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRounds(r)}
+                className={cn(
+                  "flex flex-col items-center justify-center rounded-xl border-2 py-2.5 px-1 transition-all",
+                  rounds === r
+                    ? "border-ink bg-peach font-bold shadow-soft scale-[1.02]"
+                    : "border-border bg-card/60 hover:bg-peach/30 text-muted-foreground",
+                )}
+              >
+                <span className="text-xl font-bold">{r}</span>
+                <span className="text-[10px] uppercase tracking-wider font-semibold">
+                  {r === 3 ? "Melhor de 3" : `${Math.floor(r / 2) + 1} vitórias`}
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Disputa melhor de {rounds}: vence quem conquistar {Math.floor(rounds / 2) + 1} rodadas
+            primeiro.
+          </p>
+        </div>
         {loading ? null : user ? (
           <div className="mt-6 flex items-center justify-center gap-3">
             <PlayerAvatar url={profile?.avatar_url} size={44} />
@@ -109,9 +148,20 @@ function Play() {
           </div>
         ) : (
           <div className="mt-6 text-left">
-            <label className="text-sm font-medium" htmlFor="nome">Seu nome (opcional)</label>
-            <Input id="nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jogador" className="mt-1 bg-card" maxLength={60} />
-            <p className="mt-2 text-xs text-muted-foreground">Entre com o Google para salvar seu histórico e usar seu avatar.</p>
+            <label className="text-sm font-medium" htmlFor="nome">
+              Seu nome (opcional)
+            </label>
+            <Input
+              id="nome"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Jogador"
+              className="mt-1 bg-card"
+              maxLength={60}
+            />
+            <p className="mt-2 text-xs text-muted-foreground">
+              Entre com o Google para salvar seu histórico e usar seu avatar.
+            </p>
           </div>
         )}
         <Button variant="hero" size="xl" className="mt-8" onClick={begin} disabled={busy}>
@@ -133,10 +183,14 @@ function Play() {
       {question && (
         <section className="mt-6 rounded-2xl border bg-card p-4 shadow-soft sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="rounded-full bg-peach px-3 py-1 font-semibold">{BOOK_LABEL[question.book]}</span>
+            <span className="rounded-full bg-peach px-3 py-1 font-semibold">
+              {BOOK_LABEL[question.book]}
+            </span>
             <span className="text-muted-foreground">Pergunta nº {question.code}</span>
           </div>
-          <h2 className="mt-4 font-display text-2xl font-semibold leading-snug sm:text-3xl">{question.statement}</h2>
+          <h2 className="mt-4 font-display text-2xl font-semibold leading-snug sm:text-3xl">
+            {question.statement}
+          </h2>
           <ul className="mt-5 space-y-2">
             {question.options.map((o) => {
               const isCorrect = result?.correctOption === o.letter;
@@ -154,10 +208,14 @@ function Play() {
                       result && !isCorrect && !isPicked && "opacity-60",
                     )}
                   >
-                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-salmon font-bold">{o.letter}</span>
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-salmon font-bold">
+                      {o.letter}
+                    </span>
                     <span className="flex-1 pt-0.5">{o.text}</span>
                     {result && isCorrect && <Check className="mt-1 h-5 w-5 shrink-0" />}
-                    {result && isPicked && !isCorrect && <X className="mt-1 h-5 w-5 shrink-0 text-destructive" />}
+                    {result && isPicked && !isCorrect && (
+                      <X className="mt-1 h-5 w-5 shrink-0 text-destructive" />
+                    )}
                   </button>
                 </li>
               );
@@ -169,7 +227,9 @@ function Play() {
       {result && (
         <section className="mt-4 rounded-2xl border-2 border-ink/15 bg-cream p-4 sm:p-6">
           <p className="text-lg font-bold">
-            {result.playerCorrect ? "Você acertou! +1 ponto para você." : `Você errou. A correta é ${result.correctOption}. +1 ponto para o Codificador.`}
+            {result.playerCorrect
+              ? "Você acertou! +1 ponto para você."
+              : `Você errou. A correta é ${result.correctOption}. +1 ponto para o Codificador.`}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
             {result.codificadorCounted
@@ -179,7 +239,9 @@ function Play() {
               : "A rodada terminou com a sua resposta."}
           </p>
           <div className="mt-4 rounded-xl bg-peach/60 p-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Explicação</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Explicação
+            </p>
             <p className="mt-1">{result.explanation}</p>
             <p className="mt-2 text-sm italic text-muted-foreground">
               {question && BOOK_LABEL[question.book]} — {result.reference}
@@ -189,12 +251,15 @@ function Play() {
           {result.roundWinner && (
             <div className="mt-4 rounded-xl bg-rose/70 p-4 text-center">
               <p className="font-display text-2xl font-bold">
-                {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a rodada {result.finishedRound}!
+                {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a rodada{" "}
+                {result.finishedRound}!
               </p>
               {matchOver && (
                 <>
                   <p className="mt-2 font-display text-3xl font-bold">
-                    {state.winner === "player" ? "Vitória! Você venceu a partida." : "O Codificador venceu a partida."}
+                    {state.winner === "player"
+                      ? "Vitória! Você venceu a partida."
+                      : "O Codificador venceu a partida."}
                   </p>
                   <p className="mt-1">
                     Rodadas: você {state.playerRounds} × {state.codificadorRounds} Codificador
@@ -207,7 +272,15 @@ function Play() {
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             {matchOver ? (
               <>
-                <Button variant="hero" size="lg" onClick={() => { setState(null); setQuestion(null); setResult(null); }}>
+                <Button
+                  variant="hero"
+                  size="lg"
+                  onClick={() => {
+                    setState(null);
+                    setQuestion(null);
+                    setResult(null);
+                  }}
+                >
                   Nova partida
                 </Button>
                 {user && (
@@ -228,4 +301,3 @@ function Play() {
     </main>
   );
 }
-
