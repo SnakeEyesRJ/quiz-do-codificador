@@ -3,8 +3,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { clearMatchHistory } from "@/lib/game.functions";
+import { mpGuestHistory } from "@/lib/multiplayer.functions";
+import { isMultiplayerName, parseRoomName } from "@/lib/multiplayer";
 import { toast } from "sonner";
-import { History, Loader2, Swords, Trash2 } from "lucide-react";
+import { History, Loader2, Swords, Trash2, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -37,14 +39,32 @@ function Historico() {
   const { user, signInWithGoogle } = useAuth();
   const queryClient = useQueryClient();
   const clearHistory = useServerFn(clearMatchHistory);
+  const fetchGuest = useServerFn(mpGuestHistory);
   const [deleting, setDeleting] = useState(false);
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["matches", user?.id],
     enabled: !!user,
-    queryFn: async () =>
-      (await supabase.from("matches").select("*").order("created_at", { ascending: false })).data ??
-      [],
+    queryFn: async () => {
+      const own =
+        (await supabase.from("matches").select("*").order("created_at", { ascending: false }))
+          .data ?? [];
+      let guests: any[] = [];
+      try {
+        guests = await fetchGuest();
+      } catch {}
+      const combined = [...own];
+      const seen = new Set(own.map((m) => m.id));
+      for (const g of guests) {
+        if (!seen.has(g.id)) {
+          combined.push(g);
+          seen.add(g.id);
+        }
+      }
+      return combined.sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      );
+    },
   });
 
   const handleClearHistory = async () => {
@@ -78,7 +98,9 @@ function Historico() {
     );
 
   const done = data.filter((m) => m.status === "finished");
-  const wins = done.filter((m) => m.winner === "player");
+  const wins = done.filter((m) =>
+    user && m.user_id === user.id ? m.winner === "player" : m.winner === "codificador",
+  );
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8 sm:py-10">
@@ -144,39 +166,74 @@ function Historico() {
           <p className="mt-1 text-sm text-muted-foreground">
             Você ainda não possui partidas concluídas ou o seu histórico foi excluído.
           </p>
-          <Button asChild variant="hero" className="mt-6">
-            <Link to="/jogar" search={{ rodadas: 3, dificuldade: "normal" }}>
-              <Swords className="h-4 w-4 mr-1.5" /> Jogar nova partida
-            </Link>
-          </Button>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button asChild variant="hero">
+              <Link to="/jogar" search={{ rodadas: 3, dificuldade: "normal" }}>
+                <Swords className="h-4 w-4 mr-1.5" /> Jogar Solo
+              </Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link to="/multiplayer" search={{}}>
+                <Users className="h-4 w-4 mr-1.5" /> Jogar Multiplayer
+              </Link>
+            </Button>
+          </div>
         </div>
       ) : (
         <ul className="mt-6 space-y-2">
           {data.map((m) => {
             const diff = extractMatchDifficulty(m);
+            const isMp = isMultiplayerName(m.player_name);
+            const parsed = isMp ? parseRoomName(m.player_name) : null;
+            const isHost = user?.id === m.user_id;
+            const oppName = isMp
+              ? isHost
+                ? (parsed?.guestName ?? "Adversário")
+                : (parsed?.hostName ?? "Anfitrião")
+              : "Codificador";
+            const myRounds = isHost ? m.player_rounds : m.codificador_rounds;
+            const oppRounds = isHost ? m.codificador_rounds : m.player_rounds;
+            const didWin = isHost ? m.winner === "player" : m.winner === "codificador";
+
             return (
               <li
                 key={m.id}
                 className="flex flex-wrap items-center justify-between gap-2 rounded-xl border bg-card p-3 shadow-xs hover:border-ink/30 transition-colors"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm text-muted-foreground">
                     {new Date(m.created_at).toLocaleString("pt-BR")}
                   </span>
-                  <span className="rounded-full border border-border bg-peach/40 px-2 py-0.5 text-xs font-semibold text-ink">
+                  {isMp ? (
+                    <span className="rounded-full border border-forest/40 bg-forest/15 px-2 py-0.5 text-xs font-semibold text-forest flex items-center gap-1">
+                      <Users className="h-3 w-3" /> 1×1 vs {oppName}
+                    </span>
+                  ) : (
+                    <span className="rounded-full border border-border bg-peach/40 px-2 py-0.5 text-xs font-semibold text-ink">
+                      Solo vs Codificador
+                    </span>
+                  )}
+                  <span className="rounded-full border border-border/80 bg-cream/70 px-2 py-0.5 text-[11px] font-semibold text-ink/80">
                     {DIFFICULTY_LABELS[diff]}
                   </span>
                 </div>
-                <span className="font-semibold text-ink">
-                  {m.status !== "finished"
-                    ? "Em andamento"
-                    : m.winner === "player"
-                      ? "Vitória"
-                      : "Derrota"}
-                </span>
-                <span className="text-sm font-medium">
-                  Rodadas {m.player_rounds} × {m.codificador_rounds}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span
+                    className={cn(
+                      "font-semibold",
+                      m.status !== "finished"
+                        ? "text-muted-foreground"
+                        : didWin
+                          ? "text-forest"
+                          : "text-destructive",
+                    )}
+                  >
+                    {m.status !== "finished" ? "Em andamento" : didWin ? "Vitória" : "Derrota"}
+                  </span>
+                  <span className="text-sm font-medium">
+                    {myRounds} × {oppRounds}
+                  </span>
+                </div>
               </li>
             );
           })}

@@ -59,7 +59,7 @@ export function Scoreboard({
   );
 }
 
-function Side(props: {
+export function Side(props: {
   align: "left" | "right";
   image: React.ReactNode;
   label: string;

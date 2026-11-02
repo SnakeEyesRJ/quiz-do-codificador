@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as JogarRouteImport } from './routes/jogar'
+import { Route as MultiplayerRouteImport } from './routes/multiplayer'
 import { Route as PerfilRouteImport } from './routes/perfil'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const JogarRoute = JogarRouteImport.update({
   path: '/jogar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MultiplayerRoute = MultiplayerRouteImport.update({
+  id: '/multiplayer',
+  path: '/multiplayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PerfilRoute = PerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/historico': typeof HistoricoRoute
   '/jogar': typeof JogarRoute
+  '/multiplayer': typeof MultiplayerRoute
   '/perfil': typeof PerfilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/historico': typeof HistoricoRoute
   '/jogar': typeof JogarRoute
+  '/multiplayer': typeof MultiplayerRoute
   '/perfil': typeof PerfilRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/historico': typeof HistoricoRoute
   '/jogar': typeof JogarRoute
+  '/multiplayer': typeof MultiplayerRoute
   '/perfil': typeof PerfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/historico' | '/jogar' | '/perfil'
+  fullPaths: '/' | '/historico' | '/jogar' | '/multiplayer' | '/perfil'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/historico' | '/jogar' | '/perfil'
-  id: '__root__' | '/' | '/historico' | '/jogar' | '/perfil'
+  to: '/' | '/historico' | '/jogar' | '/multiplayer' | '/perfil'
+  id: '__root__' | '/' | '/historico' | '/jogar' | '/multiplayer' | '/perfil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HistoricoRoute: typeof HistoricoRoute
   JogarRoute: typeof JogarRoute
+  MultiplayerRoute: typeof MultiplayerRoute
   PerfilRoute: typeof PerfilRoute
 }
 
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JogarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/multiplayer': {
+      id: '/multiplayer'
+      path: '/multiplayer'
+      fullPath: '/multiplayer'
+      preLoaderRoute: typeof MultiplayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/perfil': {
       id: '/perfil'
       path: '/perfil'
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HistoricoRoute: HistoricoRoute,
   JogarRoute: JogarRoute,
+  MultiplayerRoute: MultiplayerRoute,
   PerfilRoute: PerfilRoute,
 }
 export const routeTree = rootRouteImport

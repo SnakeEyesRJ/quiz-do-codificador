@@ -97,6 +97,9 @@ export function pickQuestionCandidate<T extends QuestionCandidate>(
 
 export function cleanPlayerName(rawName: string): string {
   return rawName
+    .replace(/\s*\[MP:[A-Z0-9]+\]/g, "")
+    .replace(/\s*\[G:[^\]]*\]/g, "")
+    .replace(/\s*\[GN:[^\]]*\]/g, "")
     .replace(/\s*\[[3579]R\]/g, "")
     .replace(/\s*\[D:[a-z]+\]/gi, "")
     .trim();

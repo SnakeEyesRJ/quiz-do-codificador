@@ -15,6 +15,7 @@ import {
   Scroll,
   Sparkles,
   UserRound,
+  Users,
   Globe,
   HelpCircle,
 } from "lucide-react";
@@ -251,6 +252,17 @@ export function Index() {
           >
             <Link to="/jogar" search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty }}>
               Iniciar partida ({selectedRounds} rodadas · {DIFFICULTY_LABELS[selectedDifficulty]})
+            </Link>
+          </Button>
+
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="mt-3.5 h-auto min-h-11 max-w-full whitespace-normal rounded-xl border-2 border-forest/40 px-5 py-2.5 text-center font-bold text-forest hover:bg-forest/10 hover:text-forest"
+          >
+            <Link to="/multiplayer" search={{}}>
+              <Users className="mr-2 h-4 w-4" /> Desafiar Amigo (Multiplayer Online 1×1)
             </Link>
           </Button>
 

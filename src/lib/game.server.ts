@@ -11,6 +11,32 @@ export async function getOptionalUserId(): Promise<string | null> {
   return data.user.id;
 }
 
+/** Exige um usuário logado (modo multiplayer) e devolve seu id e nome de exibição. */
+export async function requireUser(): Promise<{ id: string; name: string }> {
+  const auth = getRequest()?.headers.get("authorization");
+  if (!auth?.startsWith("Bearer ")) {
+    throw new Error("Entre com sua conta Google para jogar no modo multiplayer.");
+  }
+  const { data, error } = await supabaseAdmin.auth.getUser(auth.slice(7));
+  if (error || !data.user) {
+    throw new Error("Sua sessão expirou. Entre novamente com o Google.");
+  }
+  const u = data.user;
+  const meta = (u.user_metadata ?? {}) as Record<string, any>;
+  const { data: p } = await supabaseAdmin
+    .from("profiles")
+    .select("display_name")
+    .eq("id", u.id)
+    .maybeSingle();
+  const name: string =
+    p?.display_name ||
+    meta["display_name"] ||
+    meta["name"] ||
+    meta["full_name"] ||
+    u.email?.split("@")[0] ||
+    "Jogador";
+  return { id: u.id, name };
+}
 export async function loadOwnedMatch(matchId: string) {
   const userId = await getOptionalUserId();
   const { data: match, error } = await supabaseAdmin

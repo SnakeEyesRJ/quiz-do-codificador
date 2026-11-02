@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Check, Loader2, X } from "lucide-react";
+import { Check, Loader2, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -243,6 +243,19 @@ function Play() {
           {busy && <Loader2 className="animate-spin" />} Começar ({rounds} rodadas ·{" "}
           {DIFFICULTY_LABELS[difficulty]})
         </Button>
+
+        <div className="mt-4">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="rounded-xl border-border/80 text-xs font-semibold text-terracotta hover:bg-peach/40"
+          >
+            <Link to="/multiplayer" search={{}}>
+              <Users className="mr-1.5 h-3.5 w-3.5" /> Desafiar amigo no Modo Multiplayer 1×1
+            </Link>
+          </Button>
+        </div>
       </main>
     );
   }
