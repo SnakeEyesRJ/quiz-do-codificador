@@ -4,6 +4,55 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Fontes oficiais Source Code Pro (Light 300, Regular 400/500, Semibold 600/700/800) */
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/SourceCodePro-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/SourceCodePro-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/SourceCodePro-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/SourceCodePro-Semibold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/SourceCodePro-Semibold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/SourceCodePro-Semibold.ttf") format("truetype");
+}
+
 /*
  * Quiz do Codificador — Nova paleta oficial (imagem anexada):
  *   #2E2910 oliva escuro / tinta profunda
@@ -13,8 +62,10 @@
  */
 
 @theme inline {
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Karla", system-ui, sans-serif;
+  --font-display:
+    "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -54,21 +105,21 @@
   --radius: 0.9rem;
 
   /* Cores fundamentais da nova paleta */
-  --ink: #2E2910;
-  --forest: #2C5745;
-  --cream: #EBE3A7;
-  --amber: #EB7D00;
+  --ink: #2e2910;
+  --forest: #2c5745;
+  --cream: #ebe3a7;
+  --amber: #eb7d00;
 
   /* Variações tonais para contraste, relevo e elegância */
-  --card-bg: #F7F3D0;
-  --sand-mid: #DFD799;
-  --amber-soft: #FDE8CF;
-  --forest-soft: #D6E5DD;
+  --card-bg: #f7f3d0;
+  --sand-mid: #dfd799;
+  --amber-soft: #fde8cf;
+  --forest-soft: #d6e5dd;
 
   /* Aliases para classes existentes */
-  --peach: #DFD799;
-  --salmon: #EB7D00;
-  --rose: #FDE8CF;
+  --peach: #dfd799;
+  --salmon: #eb7d00;
+  --rose: #fde8cf;
 
   --background: var(--cream);
   --foreground: var(--ink);
@@ -77,23 +128,23 @@
   --popover: var(--card-bg);
   --popover-foreground: var(--ink);
   --primary: var(--forest);
-  --primary-foreground: #FFFFFF;
+  --primary-foreground: #ffffff;
   --secondary: var(--amber);
   --secondary-foreground: var(--ink);
   --muted: var(--sand-mid);
-  --muted-foreground: #5C5430;
+  --muted-foreground: #5c5430;
   --accent: var(--amber);
   --accent-foreground: var(--ink);
-  --destructive: #BD3214;
-  --destructive-foreground: #FFFFFF;
-  --border: #D1C78A;
-  --input: #D1C78A;
+  --destructive: #bd3214;
+  --destructive-foreground: #ffffff;
+  --border: #d1c78a;
+  --input: #d1c78a;
   --ring: var(--amber);
   --correct: var(--forest);
-  --wrong: #BD3214;
+  --wrong: #bd3214;
 
-  --gradient-warm: linear-gradient(160deg, #EBE3A7 0%, #DFD799 45%, #EB7D00 80%, #2E2910 100%);
-  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2E2910 25%, transparent);
+  --gradient-warm: linear-gradient(160deg, #ebe3a7 0%, #dfd799 45%, #eb7d00 80%, #2e2910 100%);
+  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2e2910 25%, transparent);
 }
 
 @utility bg-warm {
@@ -112,7 +163,12 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
   }
 }
