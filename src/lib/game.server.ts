@@ -121,6 +121,34 @@ export async function ensureQuestionsSeeded() {
         { onConflict: "statement" },
       );
     }
+
+    const { data: obrasQuestions, error: obrasCheckErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "obras_postumas")
+      .limit(1);
+
+    if (!obrasCheckErr && (!obrasQuestions || obrasQuestions.length === 0)) {
+      const { OBRAS_POSTUMAS_QUESTIONS } = await import("@/data/obras-postumas-questions");
+      await supabaseAdmin.from("questions").upsert(
+        OBRAS_POSTUMAS_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
   } catch (e) {
     console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);
   }

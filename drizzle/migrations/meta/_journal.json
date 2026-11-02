@@ -43,6 +43,13 @@
       "when": 1793606000000,
       "tag": "0005_livro_mediuns_questions",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793608000000,
+      "tag": "0006_obras_postumas_questions",
+      "breakpoints": true
     }
   ]
 }

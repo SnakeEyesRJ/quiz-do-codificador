@@ -68,6 +68,7 @@ const BOOK_LABEL: Record<string, string> = {
   ceu_inferno: "O Céu e o Inferno",
   genese: "A Gênese",
   livro_mediuns: "O Livro dos Médiuns",
+  obras_postumas: "Obras Póstumas",
 };
 
 function Play() {
