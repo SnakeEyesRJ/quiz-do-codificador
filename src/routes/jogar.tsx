@@ -245,11 +245,11 @@ function Play() {
   const matchOver = state.status === "finished" && !!result;
 
   return (
-    <main className="mx-auto max-w-3xl px-3 py-3 sm:px-4 sm:py-5">
+    <main className="mx-auto max-w-3xl px-3 py-2 sm:px-4 sm:py-3">
       {/* Bloco integrado: Placar + Caixa de perguntas fixos e imóveis na tela ao rolar */}
-      <div className="sticky top-2 z-20 w-full overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:top-4">
+      <div className="sticky top-2 z-20 flex max-h-[calc(100vh-5rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg">
         {/* Placar no topo da caixa */}
-        <div className="border-b-2 border-border bg-card/95 backdrop-blur-md">
+        <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <Scoreboard
             state={board}
             avatarUrl={profile?.avatar_url}
@@ -260,7 +260,7 @@ function Play() {
 
         {/* Caixa de perguntas: parada e imóvel ao rolar a tela, perfeitamente alinhada com o placar */}
         {question && (
-          <section className="w-full max-h-[calc(100vh-210px)] overflow-y-auto bg-card p-4 sm:p-6">
+          <section className="min-h-0 w-full flex-1 overflow-y-auto bg-card p-3 sm:p-4">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
@@ -274,10 +274,10 @@ function Play() {
               </div>
               <span className="font-medium text-muted-foreground">Pergunta nº {question.code}</span>
             </div>
-            <h2 className="mt-3 font-display text-xl font-bold leading-snug text-ink sm:text-2xl">
+            <h2 className="mt-2 font-display text-base font-bold leading-snug text-ink sm:text-lg">
               {question.statement}
             </h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-3 space-y-1.5">
               {question.options.map((o) => {
                 const isCorrect = result?.correctOption === o.letter;
                 const isPicked = result?.playerOption === o.letter;
@@ -287,22 +287,22 @@ function Play() {
                       disabled={!!result || busy}
                       onClick={() => choose(o.letter)}
                       className={cn(
-                        "flex w-full items-start gap-3 rounded-xl border-2 border-border bg-card p-3 text-left transition-colors",
+                        "flex w-full items-start gap-2.5 rounded-xl border-2 border-border bg-card px-3 py-2 text-left text-sm transition-colors",
                         !result && "hover:border-ink/40 hover:bg-peach",
                         result && isCorrect && "border-forest bg-forest/20 font-semibold text-ink",
                         result && isPicked && !isCorrect && "border-destructive bg-destructive/15",
                         result && !isCorrect && !isPicked && "opacity-60",
                       )}
                     >
-                      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-amber text-ink font-bold shadow-xs">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-amber text-xs text-ink font-bold shadow-xs">
                         {o.letter}
                       </span>
-                      <span className="flex-1 pt-0.5">{o.text}</span>
+                      <span className="flex-1">{o.text}</span>
                       {result && isCorrect && (
-                        <Check className="mt-1 h-5 w-5 shrink-0 text-forest" />
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                       )}
                       {result && isPicked && !isCorrect && (
-                        <X className="mt-1 h-5 w-5 shrink-0 text-destructive" />
+                        <X className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
                       )}
                     </button>
                   </li>
