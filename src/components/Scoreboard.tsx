@@ -2,7 +2,7 @@ import { CodificadorPhoto, PlayerAvatar } from "./PlayerAvatar";
 import { ROUND_TARGET } from "@/lib/game-rules";
 import type { MatchState } from "@/lib/game.functions";
 
-export function Scoreboard({ state, avatarUrl }: { state: MatchState; avatarUrl?: string | null }) {
+export function Scoreboard({ state, avatarUrl }: { state: MatchState; avatarUrl?: string | null | undefined }) {
   return (
     <div className="rounded-2xl border bg-card/80 p-3 shadow-soft sm:p-4">
       <p className="mb-2 text-center text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">

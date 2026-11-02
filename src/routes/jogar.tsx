@@ -46,7 +46,7 @@ function Play() {
   // Score shown while reviewing a round-ending answer (before the next round resets it)
   const [shown, setShown] = useState<MatchState | null>(null);
 
-  async function run<T>(fn: () => Promise<T>) {
+  async function run<T>(fn: () => Promise<T>): Promise<T | undefined> {
     setBusy(true);
     try {
       return await fn();
@@ -55,6 +55,7 @@ function Play() {
     } finally {
       setBusy(false);
     }
+    return undefined;
   }
 
   const begin = () =>

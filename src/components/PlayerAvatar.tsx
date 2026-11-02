@@ -2,7 +2,7 @@ import { UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import chico from "@/assets/chico.png.asset.json";
 
-export function PlayerAvatar({ url, size = 56, className }: { url?: string | null; size?: number; className?: string }) {
+export function PlayerAvatar({ url, size = 56, className }: { url?: string | null | undefined; size?: number; className?: string }) {
   return (
     <div
       className={cn("shrink-0 overflow-hidden rounded-full border-2 border-ink/20 bg-peach grid place-items-center", className)}

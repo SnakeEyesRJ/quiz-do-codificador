@@ -106,7 +106,7 @@ export const nextQuestion = createServerFn({ method: "POST" })
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
       const fresh = all.filter((q) => !usedIds.has(q.id));
       const pool = fresh.length ? fresh : all;
-      questionId = pool[Math.floor(Math.random() * pool.length)].id;
+      questionId = pool[Math.floor(Math.random() * pool.length)]!.id;
       const { data: ins, error: insErr } = await supabaseAdmin
         .from("answers")
         .insert({ match_id: match.id, round_id: round.id, question_id: questionId })
@@ -170,7 +170,7 @@ export const submitAnswer = createServerFn({ method: "POST" })
     // Codificador: deterministic game logic, no generative AI.
     const codCorrect = Math.random() < (CODIFICADOR_ACCURACY[q.difficulty] ?? 0.7);
     const wrongs = LETTERS.filter((l) => l !== correct);
-    const codOption: Letter = codCorrect ? correct : wrongs[Math.floor(Math.random() * wrongs.length)];
+    const codOption: Letter = codCorrect ? correct : wrongs[Math.floor(Math.random() * wrongs.length)]!;
 
     await supabaseAdmin
       .from("answers")
