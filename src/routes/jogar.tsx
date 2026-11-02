@@ -19,10 +19,19 @@ import {
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/jogar")({
+  validateSearch: (search: Record<string, unknown>) => {
+    const r = Number(search.rodadas);
+    return {
+      rodadas: [3, 5, 7, 9].includes(r) ? (r as 3 | 5 | 7 | 9) : 3,
+    };
+  },
   head: () => ({
     meta: [
       { title: "Jogar — Quiz do Codificador" },
-      { name: "description", content: "Partida contra o Codificador: melhor de três rodadas." },
+      {
+        name: "description",
+        content: "Partida contra o Codificador: dispute em 3, 5, 7 ou 9 rodadas.",
+      },
       { property: "og:title", content: "Jogar — Quiz do Codificador" },
       {
         property: "og:description",
@@ -41,13 +50,14 @@ const BOOK_LABEL: Record<string, string> = {
 };
 
 function Play() {
+  const { rodadas } = Route.useSearch();
   const { user, profile, loading } = useAuth();
   const start = useServerFn(startMatch);
   const fetchNext = useServerFn(nextQuestion);
   const answer = useServerFn(submitAnswer);
 
   const [name, setName] = useState("");
-  const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(3);
+  const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(rodadas ?? 3);
   const [state, setState] = useState<MatchState | null>(null);
   const [question, setQuestion] = useState<PublicQuestion | null>(null);
   const [result, setResult] = useState<AnswerResult | null>(null);

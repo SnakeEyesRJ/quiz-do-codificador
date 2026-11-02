@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   BookOpen,
@@ -14,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CodificadorPhoto } from "@/components/PlayerAvatar";
 import { useAuth } from "@/hooks/use-auth";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,6 +39,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { user } = useAuth();
+  const [selectedRounds, setSelectedRounds] = useState<3 | 5 | 7 | 9>(3);
+
   return (
     <main className="mx-auto flex max-w-5xl flex-col items-center px-4 py-12 sm:py-20">
       {/* Hero */}
@@ -55,8 +59,41 @@ function Index() {
         </div>
       </div>
 
-      <Button asChild variant="hero" size="xl" className="mt-10">
-        <Link to="/jogar">Iniciar partida</Link>
+      {/* Seletor de Rodadas */}
+      <div className="mt-8 flex flex-col items-center text-center">
+        <label className="text-sm font-semibold tracking-wide text-ink/80">
+          Escolha o formato da partida:
+        </label>
+        <div className="mt-2.5 flex flex-wrap justify-center gap-2">
+          {([3, 5, 7, 9] as const).map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => setSelectedRounds(r)}
+              className={cn(
+                "flex flex-col items-center justify-center rounded-xl border-2 px-4 py-2 transition-all min-w-[76px]",
+                selectedRounds === r
+                  ? "border-ink bg-peach font-bold shadow-soft scale-105"
+                  : "border-border bg-card/70 hover:bg-peach/30 text-muted-foreground",
+              )}
+            >
+              <span className="text-lg font-bold">{r}</span>
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-ink/75">
+                {r === 3 ? "Melhor de 3" : `${Math.floor(r / 2) + 1} vitórias`}
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Disputa melhor de {selectedRounds}: o primeiro a vencer{" "}
+          {Math.floor(selectedRounds / 2) + 1} rodadas ganha a partida.
+        </p>
+      </div>
+
+      <Button asChild variant="hero" size="xl" className="mt-6">
+        <Link to="/jogar" search={{ rodadas: selectedRounds }}>
+          Iniciar partida ({selectedRounds} rodadas)
+        </Link>
       </Button>
 
       {user && (
@@ -345,7 +382,9 @@ function Index() {
             comentadas sobre as obras de Allan Kardec.
           </p>
           <Button asChild variant="hero" size="lg" className="mt-5">
-            <Link to="/jogar">Jogar agora contra o Codificador</Link>
+            <Link to="/jogar" search={{ rodadas: selectedRounds }}>
+              Jogar agora contra o Codificador ({selectedRounds} rodadas)
+            </Link>
           </Button>
         </div>
       </section>
