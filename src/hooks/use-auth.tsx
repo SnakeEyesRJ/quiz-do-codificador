@@ -30,11 +30,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data } = await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", u.id).maybeSingle();
     if (data) return setProfile(data);
     // Fallback if the signup trigger has not created it yet.
-    const meta = u.user_metadata ?? {};
+    const meta = (u.user_metadata ?? {}) as Record<string, string | undefined>;
     const fresh = {
       id: u.id,
-      display_name: meta.full_name ?? meta.name ?? u.email?.split("@")[0] ?? "Jogador",
-      avatar_url: meta.avatar_url ?? meta.picture ?? null,
+      display_name: meta['full_name'] ?? meta['name'] ?? u.email?.split("@")[0] ?? "Jogador",
+      avatar_url: meta['avatar_url'] ?? meta['picture'] ?? null,
     };
     await supabase.from("profiles").upsert(fresh);
     setProfile(fresh);
