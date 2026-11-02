@@ -244,130 +244,145 @@ function Play() {
   const matchOver = state.status === "finished" && !!result;
 
   return (
-    <main className="mx-auto max-w-3xl px-3 py-6 sm:px-4 sm:py-8">
-      <div className="sticky top-2 z-10">
-        <Scoreboard state={board} avatarUrl={profile?.avatar_url} />
-      </div>
+    <main className="mx-auto max-w-5xl px-3 py-4 sm:px-4 sm:py-6">
+      <div className="lg:grid lg:grid-cols-[340px_1fr] lg:gap-6 lg:items-start">
+        {/* Placar: acompanha a caixa de perguntas ao rolar a tela */}
+        <div className="sticky top-2 sm:top-3 z-30 lg:top-4">
+          <Scoreboard state={board} avatarUrl={profile?.avatar_url} />
+        </div>
 
-      {question && (
-        <section className="mt-6 rounded-2xl border bg-card p-4 shadow-soft sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
-                {BOOK_LABEL[question.book]}
-              </span>
-              {question.difficulty && (
-                <span className="rounded-full border border-border bg-peach/40 px-2.5 py-0.5 font-semibold text-ink">
-                  {QUESTION_DIFFICULTY_LABELS[question.difficulty] ?? question.difficulty}
-                </span>
-              )}
-            </div>
-            <span className="text-muted-foreground">Pergunta nº {question.code}</span>
-          </div>
-          <h2 className="mt-4 font-display text-2xl font-semibold leading-snug sm:text-3xl">
-            {question.statement}
-          </h2>
-          <ul className="mt-5 space-y-2">
-            {question.options.map((o) => {
-              const isCorrect = result?.correctOption === o.letter;
-              const isPicked = result?.playerOption === o.letter;
-              return (
-                <li key={o.letter}>
-                  <button
-                    disabled={!!result || busy}
-                    onClick={() => choose(o.letter)}
-                    className={cn(
-                      "flex w-full items-start gap-3 rounded-xl border-2 border-border bg-card p-3 text-left transition-colors",
-                      !result && "hover:border-ink/40 hover:bg-peach",
-                      result && isCorrect && "border-forest bg-forest/20 font-semibold text-ink",
-                      result && isPicked && !isCorrect && "border-destructive bg-destructive/15",
-                      result && !isCorrect && !isPicked && "opacity-60",
-                    )}
-                  >
-                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-amber text-ink font-bold shadow-xs">
-                      {o.letter}
+        {/* Caixa de perguntas e resultado da rodada */}
+        <div className="mt-4 lg:mt-0 space-y-4">
+          {question && (
+            <section className="rounded-2xl border bg-card p-4 shadow-soft sm:p-6">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
+                    {BOOK_LABEL[question.book]}
+                  </span>
+                  {question.difficulty && (
+                    <span className="rounded-full border border-border bg-peach/40 px-2.5 py-0.5 font-semibold text-ink">
+                      {QUESTION_DIFFICULTY_LABELS[question.difficulty] ?? question.difficulty}
                     </span>
-                    <span className="flex-1 pt-0.5">{o.text}</span>
-                    {result && isCorrect && <Check className="mt-1 h-5 w-5 shrink-0 text-forest" />}
-                    {result && isPicked && !isCorrect && (
-                      <X className="mt-1 h-5 w-5 shrink-0 text-destructive" />
-                    )}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      )}
-
-      {result && (
-        <section className="mt-4 rounded-2xl border-2 border-ink/15 bg-cream p-4 sm:p-6">
-          <p className="text-lg font-bold">
-            {result.playerCorrect
-              ? "Você acertou! +1 ponto para você."
-              : `Você errou. A resposta correta é a alternativa ${result.correctOption}. +1 ponto para o Codificador.`}
-          </p>
-          <div className="mt-4 rounded-xl bg-peach/60 p-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Explicação
-            </p>
-            <p className="mt-1">{result.explanation}</p>
-            <p className="mt-2 text-sm italic text-muted-foreground">
-              {question && BOOK_LABEL[question.book]} — {result.reference}
-            </p>
-          </div>
-
-          {result.roundWinner && (
-            <div className="mt-4 rounded-xl border-2 border-forest bg-forest/15 p-4 text-center">
-              <p className="font-display text-2xl font-bold text-forest">
-                {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a rodada{" "}
-                {result.finishedRound}!
-              </p>
-              {matchOver && (
-                <>
-                  <p className="mt-2 font-display text-3xl font-bold">
-                    {state.winner === "player"
-                      ? "Vitória! Você venceu a partida."
-                      : "O Codificador venceu a partida."}
-                  </p>
-                  <p className="mt-1">
-                    Rodadas: você {state.playerRounds} × {state.codificadorRounds} Codificador
-                    (Nível {DIFFICULTY_LABELS[state.difficulty ?? "normal"]})
-                  </p>
-                </>
-              )}
-            </div>
+                  )}
+                </div>
+                <span className="text-muted-foreground">Pergunta nº {question.code}</span>
+              </div>
+              <h2 className="mt-4 font-display text-2xl font-semibold leading-snug sm:text-3xl">
+                {question.statement}
+              </h2>
+              <ul className="mt-5 space-y-2">
+                {question.options.map((o) => {
+                  const isCorrect = result?.correctOption === o.letter;
+                  const isPicked = result?.playerOption === o.letter;
+                  return (
+                    <li key={o.letter}>
+                      <button
+                        disabled={!!result || busy}
+                        onClick={() => choose(o.letter)}
+                        className={cn(
+                          "flex w-full items-start gap-3 rounded-xl border-2 border-border bg-card p-3 text-left transition-colors",
+                          !result && "hover:border-ink/40 hover:bg-peach",
+                          result &&
+                            isCorrect &&
+                            "border-forest bg-forest/20 font-semibold text-ink",
+                          result &&
+                            isPicked &&
+                            !isCorrect &&
+                            "border-destructive bg-destructive/15",
+                          result && !isCorrect && !isPicked && "opacity-60",
+                        )}
+                      >
+                        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-amber text-ink font-bold shadow-xs">
+                          {o.letter}
+                        </span>
+                        <span className="flex-1 pt-0.5">{o.text}</span>
+                        {result && isCorrect && (
+                          <Check className="mt-1 h-5 w-5 shrink-0 text-forest" />
+                        )}
+                        {result && isPicked && !isCorrect && (
+                          <X className="mt-1 h-5 w-5 shrink-0 text-destructive" />
+                        )}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
           )}
 
-          <div className="mt-5 flex flex-wrap justify-center gap-3">
-            {matchOver ? (
-              <>
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => {
-                    setState(null);
-                    setQuestion(null);
-                    setResult(null);
-                  }}
-                >
-                  Nova partida
-                </Button>
-                {user && (
-                  <Button asChild variant="secondary" size="lg">
-                    <Link to="/historico">Ver histórico</Link>
+          {result && (
+            <section className="rounded-2xl border-2 border-ink/15 bg-cream p-4 sm:p-6">
+              <p className="text-lg font-bold">
+                {result.playerCorrect
+                  ? "Você acertou! +1 ponto para você."
+                  : `Você errou. A resposta correta é a alternativa ${result.correctOption}. +1 ponto para o Codificador.`}
+              </p>
+              <div className="mt-4 rounded-xl bg-peach/60 p-4">
+                <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  Explicação
+                </p>
+                <p className="mt-1">{result.explanation}</p>
+                <p className="mt-2 text-sm italic text-muted-foreground">
+                  {question && BOOK_LABEL[question.book]} — {result.reference}
+                </p>
+              </div>
+
+              {result.roundWinner && (
+                <div className="mt-4 rounded-xl border-2 border-forest bg-forest/15 p-4 text-center">
+                  <p className="font-display text-2xl font-bold text-forest">
+                    {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a
+                    rodada {result.finishedRound}!
+                  </p>
+                  {matchOver && (
+                    <>
+                      <p className="mt-2 font-display text-3xl font-bold">
+                        {state.winner === "player"
+                          ? "Vitória! Você venceu a partida."
+                          : "O Codificador venceu a partida."}
+                      </p>
+                      <p className="mt-1">
+                        Rodadas: você {state.playerRounds} × {state.codificadorRounds} Codificador
+                        (Nível {DIFFICULTY_LABELS[state.difficulty ?? "normal"]})
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+
+              <div className="mt-5 flex flex-wrap justify-center gap-3">
+                {matchOver ? (
+                  <>
+                    <Button
+                      variant="hero"
+                      size="lg"
+                      onClick={() => {
+                        setState(null);
+                        setQuestion(null);
+                        setResult(null);
+                      }}
+                    >
+                      Nova partida
+                    </Button>
+                    {user && (
+                      <Button asChild variant="secondary" size="lg">
+                        <Link to="/historico">Ver histórico</Link>
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <Button variant="hero" size="lg" onClick={next} disabled={busy}>
+                    {busy && <Loader2 className="animate-spin" />}
+                    {result.roundWinner
+                      ? `Iniciar rodada ${state.currentRound}`
+                      : "Próxima pergunta"}
                   </Button>
                 )}
-              </>
-            ) : (
-              <Button variant="hero" size="lg" onClick={next} disabled={busy}>
-                {busy && <Loader2 className="animate-spin" />}
-                {result.roundWinner ? `Iniciar rodada ${state.currentRound}` : "Próxima pergunta"}
-              </Button>
-            )}
-          </div>
-        </section>
-      )}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

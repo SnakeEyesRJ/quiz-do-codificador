@@ -62,3 +62,4 @@ describe("O Livro dos Médiuns - 50 Perguntas", () => {
     expect(segundaParte.length).toBe(42);
   });
 });
+
