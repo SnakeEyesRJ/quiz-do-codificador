@@ -69,6 +69,7 @@ const BOOK_LABEL: Record<string, string> = {
   genese: "A Gênese",
   livro_mediuns: "O Livro dos Médiuns",
   obras_postumas: "Obras Póstumas",
+  nosso_lar: "Nosso Lar",
 };
 
 function Play() {

@@ -80,6 +80,13 @@ const PDF_BOOKS = [
     url: "/livros/Obras-Postumas.pdf",
     size: "3.0 MB",
   },
+  {
+    title: "Nosso Lar",
+    year: "1944",
+    filename: "Nosso-Lar.pdf",
+    url: "/livros/Nosso-Lar.pdf",
+    size: "1.2 MB",
+  },
 ];
 
 export const Route = createFileRoute("/")({
@@ -128,7 +135,7 @@ export function Index() {
                 </div>
               </div>
               <span className="rounded-full bg-peach/80 px-2 py-0.5 text-[10px] font-bold text-ink border border-border">
-                6 Livros
+                7 Livros
               </span>
             </div>
 

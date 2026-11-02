@@ -57,6 +57,13 @@
       "when": 1793610000000,
       "tag": "0007_add_profile_bio",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793618000000,
+      "tag": "0008_nosso_lar_questions",
+      "breakpoints": true
     }
   ]
 }

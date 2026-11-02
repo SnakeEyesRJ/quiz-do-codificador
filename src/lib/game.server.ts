@@ -175,6 +175,34 @@ export async function ensureQuestionsSeeded() {
         { onConflict: "statement" },
       );
     }
+
+    const { count: nlCount } = await supabaseAdmin
+      .from("questions")
+      .select("id", { count: "exact", head: true })
+      .eq("book", "nosso_lar")
+      .eq("active", true);
+
+    if ((nlCount ?? 0) === 0) {
+      const { NOSSO_LAR_QUESTIONS } = await import("@/data/nosso-lar-questions");
+      await supabaseAdmin.from("questions").upsert(
+        NOSSO_LAR_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.options.A,
+          option_b: q.options.B,
+          option_c: q.options.C,
+          option_d: q.options.D,
+          option_e: q.options.E,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
   } catch (e) {
     console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);
   }
