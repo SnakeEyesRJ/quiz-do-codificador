@@ -8,9 +8,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Quiz do Codificador — desafie o Codificador" },
-      { name: "description", content: "Responda perguntas de O Livro dos Espíritos, O Evangelho Segundo o Espiritismo, O Céu e o Inferno e A Gênese contra o Codificador." },
+      {
+        name: "description",
+        content:
+          "Responda perguntas de O Livro dos Espíritos, O Evangelho Segundo o Espiritismo, O Céu e o Inferno e A Gênese contra o Codificador.",
+      },
       { property: "og:title", content: "Quiz do Codificador" },
-      { property: "og:description", content: "Melhor de três rodadas contra o Codificador, com perguntas das obras de Allan Kardec." },
+      {
+        property: "og:description",
+        content:
+          "Melhor de três rodadas contra o Codificador, com perguntas das obras de Allan Kardec.",
+      },
     ],
   }),
   component: Index,
@@ -30,8 +38,7 @@ function Index() {
             Codificador
           </h1>
           <p className="mt-4 max-w-md text-muted-foreground">
-            200 perguntas extraídas de <em>O Livro dos Espíritos</em>, <em>O Evangelho Segundo o Espiritismo</em>, <em>O Céu e o Inferno</em> e <em>A Gênese</em>.
-            Vença duas rodadas de 10 pontos contra o Codificador.
+            TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
           </p>
         </div>
       </div>
@@ -43,10 +50,14 @@ function Index() {
       {user && (
         <div className="mt-6 flex gap-3">
           <Button asChild variant="secondary">
-            <Link to="/perfil"><UserRound /> Meu perfil</Link>
+            <Link to="/perfil">
+              <UserRound /> Meu perfil
+            </Link>
           </Button>
           <Button asChild variant="secondary">
-            <Link to="/historico"><History /> Histórico</Link>
+            <Link to="/historico">
+              <History /> Histórico
+            </Link>
           </Button>
         </div>
       )}
@@ -54,7 +65,10 @@ function Index() {
       <section className="mt-16 grid w-full max-w-3xl gap-4 sm:grid-cols-3">
         {[
           ["Rodadas", "Melhor de três. Cada rodada termina quando alguém chega a 10 pontos."],
-          ["Pontuação", "Seu acerto vale 1 ponto para você; seu erro, 1 ponto para o Codificador — e vice-versa."],
+          [
+            "Pontuação",
+            "Seu acerto vale 1 ponto para você; seu erro, 1 ponto para o Codificador — e vice-versa.",
+          ],
           ["Estudo", "Após cada resposta, veja a explicação e a referência na obra."],
         ].map(([t, d]) => (
           <div key={t} className="rounded-2xl border bg-card/70 p-5 shadow-soft">

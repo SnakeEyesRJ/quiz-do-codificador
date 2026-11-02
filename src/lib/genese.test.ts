@@ -55,3 +55,4 @@ describe("A Gênese - 50 Perguntas", () => {
     expect(predicoesPart.length).toBe(12);
   });
 });
+

@@ -771,3 +771,4 @@ export const GENESE_QUESTIONS: QuestionSeed[] = [
     active: true,
   },
 ];
+
