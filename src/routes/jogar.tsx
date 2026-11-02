@@ -76,13 +76,7 @@ function Play() {
       // Keep the final score of a finished round visible until "next".
       setShown(
         r.roundWinner
-          ? {
-              ...r.state,
-              currentRound: r.finishedRound,
-              playerScore: r.roundWinner && r.state.status === "in_progress" ? scoreFromRound(r, "p") : r.state.playerScore,
-              codificadorScore:
-                r.roundWinner && r.state.status === "in_progress" ? scoreFromRound(r, "c") : r.state.codificadorScore,
-            }
+          ? { ...r.state, currentRound: r.finishedRound, playerScore: r.roundScore.player, codificadorScore: r.roundScore.codificador }
           : r.state,
       );
       setState(r.state);
@@ -229,10 +223,3 @@ function Play() {
   );
 }
 
-// When a round ends mid-match, the returned state already reset scores to 0 for the new round;
-// reconstruct the final score of the finished round for display.
-function scoreFromRound(r: AnswerResult, who: "p" | "c") {
-  const winnerScore = 10;
-  const p = r.roundWinner === "player";
-  return who === "p" ? (p ? winnerScore : -1) : p ? -1 : winnerScore;
-}

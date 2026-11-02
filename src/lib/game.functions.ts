@@ -36,6 +36,7 @@ export interface AnswerResult {
   reference: string;
   roundWinner: Side | null;
   finishedRound: number;
+  roundScore: { player: number; codificador: number };
   state: MatchState;
 }
 
@@ -236,6 +237,7 @@ export const submitAnswer = createServerFn({ method: "POST" })
       reference: q.reference,
       roundWinner: score.roundWinner,
       finishedRound: match.current_round,
+      roundScore: { player: score.player, codificador: score.codificador },
       state,
     };
   });
