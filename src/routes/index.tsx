@@ -109,8 +109,8 @@ export function Index() {
   return (
     <main className="mx-auto max-w-7xl px-3 py-8 sm:px-6 sm:py-12">
       <div className="lg:grid lg:grid-cols-[300px_1fr] lg:gap-8 lg:items-start">
-        {/* Lateral Esquerda: Lista de Downloads dos Livros em PDF */}
-        <aside className="mb-8 w-full lg:mb-0 lg:w-[300px] lg:shrink-0 lg:sticky lg:top-4 z-20">
+        {/* Lateral Esquerda: Lista de Downloads dos Livros em PDF (rola junto com a tela) */}
+        <aside className="mb-8 w-full lg:mb-0 lg:w-[300px] lg:shrink-0 z-10">
           <div className="rounded-2xl border-2 border-border bg-card p-4 sm:p-5 shadow-soft">
             <div className="flex items-center justify-between border-b border-border/80 pb-3">
               <div className="flex items-center gap-2.5">

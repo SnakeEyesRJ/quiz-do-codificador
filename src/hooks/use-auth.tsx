@@ -7,6 +7,7 @@ export interface Profile {
   id: string;
   display_name: string | null;
   avatar_url: string | null;
+  bio: string | null;
 }
 
 interface AuthCtx {
@@ -27,14 +28,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loadProfile = useCallback(async (u: User | null) => {
     if (!u) return setProfile(null);
-    const { data } = await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", u.id).maybeSingle();
-    if (data) return setProfile(data);
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, display_name, avatar_url, bio")
+      .eq("id", u.id)
+      .maybeSingle();
+    if (data) return setProfile(data as Profile);
     // Fallback if the signup trigger has not created it yet.
     const meta = (u.user_metadata ?? {}) as Record<string, string | undefined>;
-    const fresh = {
+    const fresh: Profile = {
       id: u.id,
-      display_name: meta['full_name'] ?? meta['name'] ?? u.email?.split("@")[0] ?? "Jogador",
-      avatar_url: meta['avatar_url'] ?? meta['picture'] ?? null,
+      display_name: meta["full_name"] ?? meta["name"] ?? u.email?.split("@")[0] ?? "Jogador",
+      avatar_url: meta["avatar_url"] ?? meta["picture"] ?? null,
+      bio: null,
     };
     await supabase.from("profiles").upsert(fresh);
     setProfile(fresh);
@@ -59,7 +65,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     profile,
     loading,
     signInWithGoogle: async () => {
-      const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+      const r = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
       if (r.error) throw r.error;
     },
     signOut: async () => {
