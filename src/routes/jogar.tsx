@@ -193,7 +193,7 @@ function Play() {
       {question && (
         <section className="mt-6 rounded-2xl border bg-card p-4 shadow-soft sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="rounded-full bg-peach px-3 py-1 font-semibold">
+            <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
               {BOOK_LABEL[question.book]}
             </span>
             <span className="text-muted-foreground">Pergunta nº {question.code}</span>
@@ -211,18 +211,18 @@ function Play() {
                     disabled={!!result || busy}
                     onClick={() => choose(o.letter)}
                     className={cn(
-                      "flex w-full items-start gap-3 rounded-xl border-2 border-border bg-cream p-3 text-left transition-colors",
+                      "flex w-full items-start gap-3 rounded-xl border-2 border-border bg-card p-3 text-left transition-colors",
                       !result && "hover:border-ink/40 hover:bg-peach",
-                      result && isCorrect && "border-ink bg-peach font-semibold",
-                      result && isPicked && !isCorrect && "border-destructive bg-rose",
+                      result && isCorrect && "border-forest bg-forest/20 font-semibold text-ink",
+                      result && isPicked && !isCorrect && "border-destructive bg-destructive/15",
                       result && !isCorrect && !isPicked && "opacity-60",
                     )}
                   >
-                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-salmon font-bold">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-amber text-ink font-bold shadow-xs">
                       {o.letter}
                     </span>
                     <span className="flex-1 pt-0.5">{o.text}</span>
-                    {result && isCorrect && <Check className="mt-1 h-5 w-5 shrink-0" />}
+                    {result && isCorrect && <Check className="mt-1 h-5 w-5 shrink-0 text-forest" />}
                     {result && isPicked && !isCorrect && (
                       <X className="mt-1 h-5 w-5 shrink-0 text-destructive" />
                     )}
@@ -259,8 +259,8 @@ function Play() {
           </div>
 
           {result.roundWinner && (
-            <div className="mt-4 rounded-xl bg-rose/70 p-4 text-center">
-              <p className="font-display text-2xl font-bold">
+            <div className="mt-4 rounded-xl border-2 border-forest bg-forest/15 p-4 text-center">
+              <p className="font-display text-2xl font-bold text-forest">
                 {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a rodada{" "}
                 {result.finishedRound}!
               </p>

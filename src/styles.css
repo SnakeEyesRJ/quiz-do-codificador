@@ -5,9 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Quiz do Codificador — paleta oficial (imagem PALETA.png):
- *   #FFFAD3 creme · #FFDBB0 pêssego · #FFCCB8 salmão · #FFB1B1 rosa
- * A tinta (texto) é um castanho profundo para garantir legibilidade.
+ * Quiz do Codificador — Nova paleta oficial (imagem anexada):
+ *   #2E2910 oliva escuro / tinta profunda
+ *   #2C5745 verde pinho / floresta
+ *   #EBE3A7 areia suave / creme base
+ *   #EB7D00 âmbar alaranjado / ocre
  */
 
 @theme inline {
@@ -42,42 +44,56 @@
   --color-peach: var(--peach);
   --color-salmon: var(--salmon);
   --color-rose: var(--rose);
+  --color-forest: var(--forest);
+  --color-amber: var(--amber);
   --color-correct: var(--correct);
   --color-wrong: var(--wrong);
 }
 
 :root {
   --radius: 0.9rem;
-  --cream: oklch(0.983 0.047 100);   /* #FFFAD3 */
-  --peach: oklch(0.912 0.068 70);    /* #FFDBB0 */
-  --salmon: oklch(0.88 0.065 45);    /* #FFCCB8 */
-  --rose: oklch(0.83 0.09 18);       /* #FFB1B1 */
-  --ink: oklch(0.3 0.045 35);
+
+  /* Cores fundamentais da nova paleta */
+  --ink: #2E2910;
+  --forest: #2C5745;
+  --cream: #EBE3A7;
+  --amber: #EB7D00;
+
+  /* Variações tonais para contraste, relevo e elegância */
+  --card-bg: #F7F3D0;
+  --sand-mid: #DFD799;
+  --amber-soft: #FDE8CF;
+  --forest-soft: #D6E5DD;
+
+  /* Aliases para classes existentes */
+  --peach: #DFD799;
+  --salmon: #EB7D00;
+  --rose: #FDE8CF;
 
   --background: var(--cream);
   --foreground: var(--ink);
-  --card: oklch(0.995 0.02 100);
+  --card: var(--card-bg);
   --card-foreground: var(--ink);
-  --popover: var(--cream);
+  --popover: var(--card-bg);
   --popover-foreground: var(--ink);
-  --primary: var(--rose);
-  --primary-foreground: var(--ink);
-  --secondary: var(--peach);
+  --primary: var(--forest);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--amber);
   --secondary-foreground: var(--ink);
-  --muted: var(--peach);
-  --muted-foreground: oklch(0.45 0.05 40);
-  --accent: var(--salmon);
+  --muted: var(--sand-mid);
+  --muted-foreground: #5C5430;
+  --accent: var(--amber);
   --accent-foreground: var(--ink);
-  --destructive: oklch(0.55 0.15 20);
-  --destructive-foreground: var(--cream);
-  --border: oklch(0.85 0.06 55);
-  --input: oklch(0.85 0.06 55);
-  --ring: var(--rose);
-  --correct: var(--peach);
-  --wrong: var(--rose);
+  --destructive: #BD3214;
+  --destructive-foreground: #FFFFFF;
+  --border: #D1C78A;
+  --input: #D1C78A;
+  --ring: var(--amber);
+  --correct: var(--forest);
+  --wrong: #BD3214;
 
-  --gradient-warm: linear-gradient(160deg, var(--cream) 0%, var(--peach) 55%, var(--salmon) 80%, var(--rose) 100%);
-  --shadow-soft: 0 12px 30px -14px color-mix(in oklab, var(--ink) 35%, transparent);
+  --gradient-warm: linear-gradient(160deg, #EBE3A7 0%, #DFD799 45%, #EB7D00 80%, #2E2910 100%);
+  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2E2910 25%, transparent);
 }
 
 @utility bg-warm {
