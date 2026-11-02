@@ -268,14 +268,14 @@ function MultiplayerPage() {
         <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-peach p-3 text-ink shadow-soft">
           <Users className="h-8 w-8" />
         </div>
-        <h1 className="mt-4 font-display text-3xl font-bold text-ink sm:text-4xl">
+        <h1 className="mt-4 font-display text-2xl font-bold text-ink sm:text-3xl">
           Multiplayer Online
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-xs sm:text-sm text-muted-foreground">
           Dispute partidas 1 contra 1 em tempo real com amigos ou outros estudantes da Doutrina
           Espírita.
         </p>
-        <div className="mt-8 rounded-2xl border-2 border-border bg-card p-6 shadow-soft">
+        <div className="mt-8 rounded-2xl border-2 border-border bg-card p-5 shadow-soft sm:p-6">
           <p className="text-sm font-semibold text-ink">Login necessário</p>
           <p className="mt-1 text-xs text-muted-foreground">
             Para sincronizar placares, avatar e garantir integridade na disputa, é preciso entrar
@@ -284,7 +284,7 @@ function MultiplayerPage() {
           <Button
             variant="hero"
             size="lg"
-            className="mt-5 w-full"
+            className="mt-5 h-auto min-h-11 w-full whitespace-normal px-4 py-2.5 text-center text-xs sm:text-sm leading-snug"
             onClick={() =>
               signInWithGoogle().catch(() => toast.error("Não foi possível entrar com o Google."))
             }
@@ -293,9 +293,14 @@ function MultiplayerPage() {
           </Button>
         </div>
         <div className="mt-6">
-          <Button asChild variant="outline" size="sm">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="h-auto whitespace-normal px-3 py-2 text-center text-xs"
+          >
             <Link to="/jogar" search={{ rodadas: 3, dificuldade: "normal" }}>
-              <Swords className="mr-1.5 h-4 w-4" /> Jogar contra o Codificador (Solo)
+              <Swords className="mr-1.5 h-4 w-4 shrink-0" /> Jogar contra o Codificador (Solo)
             </Link>
           </Button>
         </div>
@@ -308,13 +313,13 @@ function MultiplayerPage() {
   // ---------------------------------------------------------------------------
   if (!activeCode || !roomState) {
     return (
-      <main className="mx-auto max-w-2xl px-4 py-8 sm:py-12">
+      <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
         <div className="text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-border bg-peach/60 px-3 py-1 text-xs font-bold text-ink shadow-xs">
-            <Users className="h-4 w-4 text-forest" />
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-border bg-peach/60 px-3 py-1 text-[11px] sm:text-xs font-bold text-ink shadow-xs">
+            <Users className="h-3.5 w-3.5 text-forest" />
             <span>MODO MULTIPLAYER ONLINE 1×1</span>
           </div>
-          <h1 className="mt-3 font-display text-3xl font-bold text-ink sm:text-4xl">
+          <h1 className="mt-3 font-display text-2xl font-bold text-ink sm:text-4xl">
             Desafie um Amigo
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
@@ -324,21 +329,23 @@ function MultiplayerPage() {
 
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Coluna: Criar Sala */}
-          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-5 shadow-soft sm:p-6">
+          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-4 shadow-soft sm:p-6">
             <div>
-              <div className="flex items-center gap-2 border-b border-border/80 pb-3">
-                <div className="rounded-xl bg-peach p-2 text-ink">
+              <div className="flex items-center gap-2.5 border-b border-border/80 pb-3">
+                <div className="shrink-0 rounded-xl bg-peach p-2 text-ink">
                   <Swords className="h-5 w-5" />
                 </div>
-                <div>
-                  <h2 className="font-display text-lg font-bold text-ink">Criar Nova Sala</h2>
+                <div className="min-w-0">
+                  <h2 className="font-display text-base sm:text-lg font-bold text-ink leading-tight">
+                    Criar Nova Sala
+                  </h2>
                   <p className="text-[11px] text-muted-foreground">Você será o anfitrião da sala</p>
                 </div>
               </div>
 
               {/* Formato de rodadas */}
               <div className="mt-4">
-                <label className="text-xs font-bold uppercase tracking-wider text-ink/80">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-ink/80">
                   Formato da disputa:
                 </label>
                 <div className="mt-2 grid grid-cols-4 gap-1.5">
@@ -348,14 +355,14 @@ function MultiplayerPage() {
                       type="button"
                       onClick={() => setRounds(r)}
                       className={cn(
-                        "flex flex-col items-center justify-center rounded-xl border-2 py-2 px-1 transition-all",
+                        "flex min-w-0 flex-col items-center justify-center overflow-hidden rounded-xl border-2 py-2 px-1 transition-all",
                         rounds === r
-                          ? "border-ink bg-peach font-bold shadow-soft scale-[1.02]"
+                          ? "border-ink bg-peach font-bold shadow-soft"
                           : "border-border bg-card/60 hover:bg-peach/30 text-muted-foreground",
                       )}
                     >
-                      <span className="text-lg font-bold">{r}</span>
-                      <span className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-tight">
+                      <span className="text-base sm:text-lg font-bold leading-none">{r}</span>
+                      <span className="mt-1 text-[7.5px] sm:text-[8.5px] font-semibold uppercase tracking-normal leading-tight text-center">
                         {`${Math.floor(r / 2) + 1} vitórias`}
                       </span>
                     </button>
@@ -365,7 +372,7 @@ function MultiplayerPage() {
 
               {/* Dificuldade */}
               <div className="mt-4">
-                <label className="text-xs font-bold uppercase tracking-wider text-ink/80">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-ink/80">
                   Nível de dificuldade:
                 </label>
                 <div className="mt-2 grid grid-cols-2 gap-2">
@@ -375,14 +382,14 @@ function MultiplayerPage() {
                       type="button"
                       onClick={() => setDifficulty(opt.key)}
                       className={cn(
-                        "rounded-xl border-2 p-2 text-left transition-all",
+                        "min-w-0 overflow-hidden rounded-xl border-2 px-2.5 py-2 text-left transition-all",
                         difficulty === opt.key
                           ? "border-ink bg-peach font-bold shadow-soft"
                           : "border-border bg-card/60 hover:bg-peach/30 text-muted-foreground",
                       )}
                     >
-                      <p className="text-xs font-bold text-ink">{opt.label}</p>
-                      <p className="text-[10px] text-muted-foreground">{opt.hint}</p>
+                      <p className="truncate text-xs font-bold text-ink">{opt.label}</p>
+                      <p className="truncate text-[10px] text-muted-foreground">{opt.hint}</p>
                     </button>
                   ))}
                 </div>
@@ -391,31 +398,35 @@ function MultiplayerPage() {
 
             <Button
               variant="hero"
-              size="lg"
-              className="mt-6 w-full"
+              size="default"
+              className="mt-6 h-auto min-h-11 w-full overflow-hidden whitespace-normal px-3 py-2.5 text-center text-xs tracking-normal leading-snug"
               onClick={handleCreateRoom}
               disabled={busy}
             >
               {busy ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
               ) : (
-                <Users className="mr-2 h-4 w-4" />
+                <Users className="h-4 w-4 shrink-0" />
               )}
-              Criar Sala ({rounds} rodadas · {DIFFICULTY_LABELS[difficulty]})
+              <span className="min-w-0">
+                Criar Sala ({rounds} rodadas · {DIFFICULTY_LABELS[difficulty]})
+              </span>
             </Button>
           </div>
 
           {/* Coluna: Entrar em Sala */}
-          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-5 shadow-soft sm:p-6">
+          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-4 shadow-soft sm:p-6">
             <div>
-              <div className="flex items-center gap-2 border-b border-border/80 pb-3">
-                <div className="rounded-xl bg-peach p-2 text-ink">
+              <div className="flex items-center gap-2.5 border-b border-border/80 pb-3">
+                <div className="shrink-0 rounded-xl bg-peach p-2 text-ink">
                   <Users className="h-5 w-5" />
                 </div>
-                <div>
-                  <h2 className="font-display text-lg font-bold text-ink">Entrar em uma Sala</h2>
+                <div className="min-w-0">
+                  <h2 className="font-display text-base sm:text-lg font-bold text-ink leading-tight">
+                    Entrar em uma Sala
+                  </h2>
                   <p className="text-[11px] text-muted-foreground">
-                    Digite o código de 5 letras fornecido pelo anfitrião
+                    Digite o código de 5 letras do anfitrião
                   </p>
                 </div>
               </div>
@@ -423,7 +434,7 @@ function MultiplayerPage() {
               <div className="mt-6">
                 <label
                   htmlFor="roomCodeInput"
-                  className="block text-xs font-bold uppercase tracking-wider text-ink/80"
+                  className="block text-[11px] font-bold uppercase tracking-wider text-ink/80"
                 >
                   Código da Sala
                 </label>
@@ -433,9 +444,9 @@ function MultiplayerPage() {
                   onChange={(e) => setInputCode(normalizeRoomCode(e.target.value))}
                   placeholder="EX: ABCDE"
                   maxLength={5}
-                  className="mt-2 text-center font-mono text-2xl font-black uppercase tracking-widest bg-cream/50 h-14"
+                  className="mt-2 h-13 bg-cream/50 text-center font-mono text-xl sm:text-2xl font-black uppercase tracking-widest"
                 />
-                <p className="mt-2 text-[11px] text-muted-foreground text-center">
+                <p className="mt-2 text-center text-[11px] text-muted-foreground">
                   O código da sala não diferencia maiúsculas de minúsculas.
                 </p>
               </div>
@@ -443,17 +454,17 @@ function MultiplayerPage() {
 
             <Button
               variant="secondary"
-              size="lg"
-              className="mt-6 w-full"
+              size="default"
+              className="mt-6 h-auto min-h-11 w-full overflow-hidden whitespace-normal px-3 py-2.5 text-center text-xs tracking-normal leading-snug"
               onClick={() => handleJoinRoom()}
               disabled={busy || normalizeRoomCode(inputCode).length < 5}
             >
               {busy ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
               ) : (
-                <Swords className="mr-2 h-4 w-4" />
+                <Swords className="h-4 w-4 shrink-0" />
               )}
-              Entrar na Partida
+              <span className="min-w-0">Entrar na Partida</span>
             </Button>
           </div>
         </div>
@@ -465,19 +476,14 @@ function MultiplayerPage() {
   // 3. Sala em Fase de Espera (Aguardando Adversário)
   // ---------------------------------------------------------------------------
   if (roomState.phase === "waiting") {
-    const inviteLink =
-      typeof window !== "undefined"
-        ? `${window.location.origin}/multiplayer?code=${roomState.code}`
-        : "";
-
     return (
       <main className="mx-auto max-w-lg px-4 py-8 text-center sm:py-12">
-        <div className="rounded-2xl border-2 border-border bg-card p-6 shadow-soft sm:p-8">
+        <div className="rounded-2xl border-2 border-border bg-card p-5 shadow-soft sm:p-8">
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-peach p-3 text-ink shadow-xs">
             <Clock className="h-7 w-7 animate-pulse text-terracotta" />
           </div>
 
-          <h1 className="mt-4 font-display text-2xl font-bold text-ink sm:text-3xl">
+          <h1 className="mt-4 font-display text-xl font-bold text-ink sm:text-2xl">
             Aguardando Adversário...
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
@@ -489,34 +495,34 @@ function MultiplayerPage() {
             <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
               Código da Sala
             </p>
-            <p className="font-mono text-4xl font-black tracking-widest text-ink mt-1">
+            <p className="mt-1 font-mono text-3xl sm:text-4xl font-black tracking-widest text-ink">
               {roomState.code}
             </p>
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full bg-card"
+                className="h-auto min-h-9 w-full whitespace-normal bg-card px-2.5 py-2 text-xs leading-tight"
                 onClick={handleCopyLink}
               >
                 {copied ? (
-                  <Check className="mr-1.5 h-4 w-4 text-forest" />
+                  <Check className="mr-1.5 h-3.5 w-3.5 shrink-0 text-forest" />
                 ) : (
-                  <Copy className="mr-1.5 h-4 w-4" />
+                  <Copy className="mr-1.5 h-3.5 w-3.5 shrink-0" />
                 )}
-                {copied ? "Link Copiado!" : "Copiar Link de Convite"}
+                <span>{copied ? "Link Copiado!" : "Copiar Link de Convite"}</span>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full bg-card"
+                className="h-auto min-h-9 w-full whitespace-normal bg-card px-2.5 py-2 text-xs leading-tight"
                 onClick={() => {
                   navigator.clipboard.writeText(roomState.code);
                   toast.success(`Código ${roomState.code} copiado!`);
                 }}
               >
-                <Share2 className="mr-1.5 h-4 w-4" />
-                Copiar Código
+                <Share2 className="mr-1.5 h-3.5 w-3.5 shrink-0" />
+                <span>Copiar Código</span>
               </Button>
             </div>
           </div>
@@ -629,20 +635,26 @@ function MultiplayerPage() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Button
               variant="hero"
               size="lg"
-              className="w-full sm:w-auto"
+              className="h-auto min-h-11 w-full whitespace-normal px-4 py-2.5 text-center text-xs sm:text-sm"
               onClick={() => {
                 setActiveCode(null);
                 setRoomState(null);
                 void navigate({ search: {} });
               }}
             >
-              <Users className="mr-2 h-4 w-4" /> Nova Partida Multiplayer
+              <Users className="mr-1.5 h-4 w-4 shrink-0" />
+              <span>Nova Partida Multiplayer</span>
             </Button>
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-auto min-h-11 w-full whitespace-normal px-4 py-2.5 text-center text-xs sm:text-sm"
+            >
               <Link to="/historico">Ver Histórico</Link>
             </Button>
           </div>
