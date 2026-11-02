@@ -37,13 +37,13 @@ const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[]
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Quiz do Codificador — A Doutrina Espírita" },
+      { title: "Quiz do Codificador" },
       {
         name: "description",
         content:
           "Conheça a Doutrina Espírita e teste seus conhecimentos em disputas de 3, 5, 7 ou 9 rodadas contra o Codificador Allan Kardec.",
       },
-      { property: "og:title", content: "Quiz do Codificador — A Doutrina Espírita" },
+      { property: "og:title", content: "Quiz do Codificador" },
       {
         property: "og:description",
         content:
