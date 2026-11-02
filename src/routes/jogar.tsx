@@ -239,14 +239,7 @@ function Play() {
           <p className="text-lg font-bold">
             {result.playerCorrect
               ? "Você acertou! +1 ponto para você."
-              : `Você errou. A correta é ${result.correctOption}. +1 ponto para o Codificador.`}
-          </p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {result.codificadorCounted
-              ? result.codificadorCorrect
-                ? `O Codificador respondeu ${result.codificadorOption} e acertou: +1 ponto para ele.`
-                : `O Codificador respondeu ${result.codificadorOption} e errou: +1 ponto para você.`
-              : "A rodada terminou com a sua resposta."}
+              : `Você errou. A resposta correta é a alternativa ${result.correctOption}. +1 ponto para o Codificador.`}
           </p>
           <div className="mt-4 rounded-xl bg-peach/60 p-4">
             <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">

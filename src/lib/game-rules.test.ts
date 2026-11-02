@@ -1,24 +1,42 @@
 import { describe, expect, it } from "vitest";
 import { applyAnswer, applyRoundWin, getRoundsToWin } from "./game-rules";
 
-describe("pontuação", () => {
-  it("jogador acerta e Codificador erra: jogador recebe 2 pontos", () => {
-    expect(applyAnswer(0, 0, true, false)).toMatchObject({ player: 2, codificador: 0 });
+describe("pontuação - regra oficial: Codificador não responde", () => {
+  it("jogador acerta: jogador ganha 1 ponto e Codificador permanece com 0", () => {
+    expect(applyAnswer(0, 0, true)).toMatchObject({ player: 1, codificador: 0 });
   });
-  it("jogador erra e Codificador acerta: Codificador recebe 2 pontos", () => {
-    expect(applyAnswer(0, 0, false, true)).toMatchObject({ player: 0, codificador: 2 });
+
+  it("jogador erra: Codificador ganha 1 ponto e jogador permanece com 0", () => {
+    expect(applyAnswer(0, 0, false)).toMatchObject({ player: 0, codificador: 1 });
   });
-  it("ambos acertam: 1 ponto para cada", () => {
-    expect(applyAnswer(3, 3, true, true)).toMatchObject({ player: 4, codificador: 4 });
+
+  it("acumula os pontos corretamente a cada acerto ou erro", () => {
+    let score = applyAnswer(0, 0, true);
+    expect(score).toMatchObject({ player: 1, codificador: 0 });
+
+    score = applyAnswer(score.player, score.codificador, false);
+    expect(score).toMatchObject({ player: 1, codificador: 1 });
+
+    score = applyAnswer(score.player, score.codificador, true);
+    expect(score).toMatchObject({ player: 2, codificador: 1 });
   });
-  it("rodada termina ao atingir 10 pontos", () => {
-    const r = applyAnswer(9, 5, true, true);
+
+  it("rodada termina quando jogador atinge 10 pontos", () => {
+    const r = applyAnswer(9, 5, true);
     expect(r.roundWinner).toBe("player");
     expect(r.player).toBe(10);
-    expect(r.codificadorCounted).toBe(false);
+    expect(r.codificador).toBe(5);
   });
-  it("não termina com 9 pontos", () => {
-    expect(applyAnswer(7, 0, true, true).roundWinner).toBeNull();
+
+  it("rodada termina quando Codificador atinge 10 pontos devido a erros do jogador", () => {
+    const r = applyAnswer(5, 9, false);
+    expect(r.roundWinner).toBe("codificador");
+    expect(r.player).toBe(5);
+    expect(r.codificador).toBe(10);
+  });
+
+  it("não termina rodada com 9 pontos", () => {
+    expect(applyAnswer(8, 2, true).roundWinner).toBeNull();
   });
 });
 

@@ -13,30 +13,30 @@ export interface ScoreResult {
   player: number;
   codificador: number;
   roundWinner: Side | null;
-  /** Whether the Codificador's answer was counted (it is skipped if the player's answer already ended the round). */
+  /** Kept for interface compatibility */
   codificadorCounted: boolean;
 }
 
 /**
- * Scoring per question:
- * - player right → player +1; player wrong → codificador +1
- * - codificador right → codificador +1; codificador wrong → player +1
- * The round ends as soon as someone reaches ROUND_TARGET.
+ * Regra de pontuação por pergunta:
+ * - O Codificador NÃO responde às perguntas.
+ * - Se o jogador acerta → Jogador ganha 1 ponto.
+ * - Se o jogador erra → Codificador ganha 1 ponto.
+ * A rodada termina assim que alguém alcança ROUND_TARGET (10 pontos).
  */
 export function applyAnswer(
   player: number,
   codificador: number,
   playerCorrect: boolean,
-  codificadorCorrect: boolean,
+  _codificadorCorrect?: boolean,
 ): ScoreResult {
-  if (playerCorrect) player++;
-  else codificador++;
-  let winner = checkWinner(player, codificador);
-  if (winner) return { player, codificador, roundWinner: winner, codificadorCounted: false };
-  if (codificadorCorrect) codificador++;
-  else player++;
-  winner = checkWinner(player, codificador);
-  return { player, codificador, roundWinner: winner, codificadorCounted: true };
+  if (playerCorrect) {
+    player++;
+  } else {
+    codificador++;
+  }
+  const winner = checkWinner(player, codificador);
+  return { player, codificador, roundWinner: winner, codificadorCounted: false };
 }
 
 function checkWinner(p: number, c: number): Side | null {
@@ -59,7 +59,7 @@ export function applyRoundWin(
   return { playerRounds, codRounds, matchWinner };
 }
 
-/** Chance the Codificador answers correctly, by difficulty. */
+/** Obsoleta: mantida apenas para evitar quebras de importação caso referenciada */
 export const CODIFICADOR_ACCURACY: Record<string, number> = {
   facil: 0.85,
   medio: 0.7,

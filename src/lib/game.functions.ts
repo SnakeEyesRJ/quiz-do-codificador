@@ -30,9 +30,9 @@ export interface AnswerResult {
   correctOption: Letter;
   playerOption: Letter;
   playerCorrect: boolean;
-  codificadorOption: Letter;
-  codificadorCorrect: boolean;
-  codificadorCounted: boolean;
+  codificadorOption?: Letter | string;
+  codificadorCorrect?: boolean;
+  codificadorCounted?: boolean;
   explanation: string;
   reference: string;
   roundWinner: Side | null;
@@ -212,19 +212,13 @@ export const submitAnswer = createServerFn({ method: "POST" })
     const correct = q.correct_option as Letter;
     const playerCorrect = data.option === correct;
 
-    // Codificador: deterministic game logic, no generative AI.
-    const codCorrect = Math.random() < (CODIFICADOR_ACCURACY[q.difficulty] ?? 0.7);
-    const wrongs = LETTERS.filter((l) => l !== correct);
-    const codOption: Letter = codCorrect
-      ? correct
-      : wrongs[Math.floor(Math.random() * wrongs.length)]!;
-
+    // O Codificador não responde: apenas registra se o jogador acertou ou errou.
     await supabaseAdmin
       .from("answers")
       .update({
         player_correct: playerCorrect,
-        codificador_option: codOption,
-        codificador_correct: codCorrect,
+        codificador_option: null,
+        codificador_correct: null,
       })
       .eq("id", locked.id);
 
@@ -233,7 +227,6 @@ export const submitAnswer = createServerFn({ method: "POST" })
       round.player_score,
       round.codificador_score,
       playerCorrect,
-      codCorrect,
     );
     await supabaseAdmin
       .from("rounds")
@@ -296,9 +289,9 @@ export const submitAnswer = createServerFn({ method: "POST" })
       correctOption: correct,
       playerOption: data.option,
       playerCorrect,
-      codificadorOption: codOption,
-      codificadorCorrect: codCorrect,
-      codificadorCounted: score.codificadorCounted,
+      codificadorOption: null,
+      codificadorCorrect: null,
+      codificadorCounted: false,
       explanation: q.explanation,
       reference: q.reference,
       roundWinner: score.roundWinner,

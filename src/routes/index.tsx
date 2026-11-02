@@ -120,7 +120,7 @@ function Index() {
           ],
           [
             "Pontuação",
-            "Seu acerto vale 1 ponto para você; seu erro, 1 ponto para o Codificador — e vice-versa.",
+            "O Codificador não responde: seu acerto vale 1 ponto para você; seu erro concede 1 ponto ao Codificador.",
           ],
           [
             "Estudo",
