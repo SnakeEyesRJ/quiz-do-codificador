@@ -350,18 +350,18 @@ export function Index() {
               </div>
             </div>
 
-            {/* As cinco obras fundamentais */}
+            {/* As seis obras fundamentais */}
             <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
               <div className="flex items-center gap-3">
                 <Library className="h-6 w-6 text-ink/80" />
                 <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
-                  As cinco obras fundamentais
+                  As seis obras fundamentais
                 </h2>
               </div>
 
               <p className="mt-4 leading-relaxed text-ink/90">
-                A Codificação Espírita é composta por cinco livros essenciais, conhecidos como as
-                Obras Básicas:
+                A literatura de Allan Kardec que alicerça o Espiritismo é composta por seis obras
+                essenciais:
               </p>
 
               <div className="mt-6 space-y-3">
@@ -398,6 +398,13 @@ export function Index() {
                     <strong>A Gênese (1868):</strong> aborda a criação, a formação dos mundos, os
                     milagres, as predições e as relações entre os conhecimentos científicos e os
                     princípios espíritas.
+                  </p>
+                </div>
+                <div className="rounded-xl border bg-cream/60 p-4">
+                  <p className="text-sm leading-relaxed text-ink/90">
+                    <strong>Obras Póstumas (1890):</strong> reúne escritos, reflexões e documentos
+                    inéditos deixados por Allan Kardec, abordando a constituição do Espiritismo, sua
+                    história íntima, previsões e diretrizes para o futuro da doutrina.
                   </p>
                 </div>
               </div>
