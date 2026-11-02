@@ -8,6 +8,7 @@ type Letter = (typeof LETTERS)[number];
 export interface MatchState {
   matchId: string;
   playerName: string;
+  totalRounds: number;
   status: "in_progress" | "finished";
   currentRound: number;
   playerRounds: number;
@@ -40,8 +41,26 @@ export interface AnswerResult {
   state: MatchState;
 }
 
+export function extractMatchTotalRounds(match: any): number {
+  if (match.total_rounds && [3, 5, 7, 9].includes(Number(match.total_rounds))) {
+    return Number(match.total_rounds);
+  }
+  const tag = match.player_name?.match(/\[([3579])R\]/);
+  if (tag) {
+    return parseInt(tag[1], 10);
+  }
+  return 3;
+}
+
 export const startMatch = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ playerName: z.string().trim().max(60).optional() }).parse(d))
+  .inputValidator((d) =>
+    z
+      .object({
+        playerName: z.string().trim().max(60).optional(),
+        totalRounds: z.union([z.literal(3), z.literal(5), z.literal(7), z.literal(9)]).optional().default(3),
+      })
+      .parse(d),
+  )
   .handler(async ({ data }): Promise<MatchState> => {
     const { supabaseAdmin, getOptionalUserId, ensureQuestionsSeeded } = await import("./game.server");
     await ensureQuestionsSeeded();

@@ -1,5 +1,12 @@
 export const ROUND_TARGET = 10;
+export const ALLOWED_ROUNDS = [3, 5, 7, 9] as const;
+export type TotalRounds = (typeof ALLOWED_ROUNDS)[number];
 export const ROUNDS_TO_WIN = 2;
+
+export function getRoundsToWin(totalRounds: number = 3): number {
+  return Math.floor(totalRounds / 2) + 1;
+}
+
 export type Side = "player" | "codificador";
 
 export interface ScoreResult {
@@ -38,11 +45,17 @@ function checkWinner(p: number, c: number): Side | null {
   return null;
 }
 
-export function applyRoundWin(playerRounds: number, codRounds: number, winner: Side) {
+export function applyRoundWin(
+  playerRounds: number,
+  codRounds: number,
+  winner: Side,
+  totalRounds: number = 3,
+) {
   if (winner === "player") playerRounds++;
   else codRounds++;
+  const target = getRoundsToWin(totalRounds);
   const matchWinner: Side | null =
-    playerRounds >= ROUNDS_TO_WIN ? "player" : codRounds >= ROUNDS_TO_WIN ? "codificador" : null;
+    playerRounds >= target ? "player" : codRounds >= target ? "codificador" : null;
   return { playerRounds, codRounds, matchWinner };
 }
 
