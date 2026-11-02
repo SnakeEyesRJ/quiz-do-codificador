@@ -22,6 +22,7 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { DIFFICULTY_LABELS, extractMatchDifficulty } from "@/lib/game-rules";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/historico")({
   head: () => ({
@@ -46,17 +47,20 @@ function Historico() {
     queryKey: ["matches", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      const own =
-        (await supabase.from("matches").select("*").order("created_at", { ascending: false }))
-          .data ?? [];
+      const { data: ownData } = await supabase
+        .from("matches")
+        .select("*")
+        .order("created_at", { ascending: false });
+      const own = Array.isArray(ownData) ? ownData : [];
       let guests: any[] = [];
       try {
-        guests = await fetchGuest();
+        const gRes = await fetchGuest();
+        if (Array.isArray(gRes)) guests = gRes;
       } catch {}
       const combined = [...own];
       const seen = new Set(own.map((m) => m.id));
       for (const g of guests) {
-        if (!seen.has(g.id)) {
+        if (g && g.id && !seen.has(g.id)) {
           combined.push(g);
           seen.add(g.id);
         }
