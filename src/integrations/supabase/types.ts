@@ -14,7 +14,222 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answers: {
+        Row: {
+          answered_at: string | null
+          codificador_correct: boolean | null
+          codificador_option: string | null
+          id: string
+          match_id: string
+          player_correct: boolean | null
+          player_option: string | null
+          question_id: string
+          round_id: string
+          served_at: string
+        }
+        Insert: {
+          answered_at?: string | null
+          codificador_correct?: boolean | null
+          codificador_option?: string | null
+          id?: string
+          match_id: string
+          player_correct?: boolean | null
+          player_option?: string | null
+          question_id: string
+          round_id: string
+          served_at?: string
+        }
+        Update: {
+          answered_at?: string | null
+          codificador_correct?: boolean | null
+          codificador_option?: string | null
+          id?: string
+          match_id?: string
+          player_correct?: boolean | null
+          player_option?: string | null
+          question_id?: string
+          round_id?: string
+          served_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "answers_round_id_fkey"
+            columns: ["round_id"]
+            isOneToOne: false
+            referencedRelation: "rounds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          codificador_rounds: number
+          created_at: string
+          current_round: number
+          finished_at: string | null
+          id: string
+          player_name: string
+          player_rounds: number
+          status: string
+          user_id: string | null
+          winner: string | null
+        }
+        Insert: {
+          codificador_rounds?: number
+          created_at?: string
+          current_round?: number
+          finished_at?: string | null
+          id?: string
+          player_name?: string
+          player_rounds?: number
+          status?: string
+          user_id?: string | null
+          winner?: string | null
+        }
+        Update: {
+          codificador_rounds?: number
+          created_at?: string
+          current_round?: number
+          finished_at?: string | null
+          id?: string
+          player_name?: string
+          player_rounds?: number
+          status?: string
+          user_id?: string | null
+          winner?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          active: boolean
+          book: string
+          code: number
+          correct_option: string
+          created_at: string
+          difficulty: string
+          explanation: string
+          id: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          option_e: string
+          reference: string
+          statement: string
+        }
+        Insert: {
+          active?: boolean
+          book: string
+          code?: number
+          correct_option: string
+          created_at?: string
+          difficulty: string
+          explanation: string
+          id?: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          option_e: string
+          reference: string
+          statement: string
+        }
+        Update: {
+          active?: boolean
+          book?: string
+          code?: number
+          correct_option?: string
+          created_at?: string
+          difficulty?: string
+          explanation?: string
+          id?: string
+          option_a?: string
+          option_b?: string
+          option_c?: string
+          option_d?: string
+          option_e?: string
+          reference?: string
+          statement?: string
+        }
+        Relationships: []
+      }
+      rounds: {
+        Row: {
+          codificador_score: number
+          created_at: string
+          id: string
+          match_id: string
+          number: number
+          player_score: number
+          winner: string | null
+        }
+        Insert: {
+          codificador_score?: number
+          created_at?: string
+          id?: string
+          match_id: string
+          number: number
+          player_score?: number
+          winner?: string | null
+        }
+        Update: {
+          codificador_score?: number
+          created_at?: string
+          id?: string
+          match_id?: string
+          number?: number
+          player_score?: number
+          winner?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rounds_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
