@@ -246,15 +246,23 @@ function Play() {
 
   return (
     <main className="mx-auto max-w-3xl px-3 py-4 sm:px-4 sm:py-6">
-      {/* Placar: posicionado acima da caixa de perguntas, com a mesma largura e alinhamento */}
-      <div className="sticky top-2 z-30 mb-4 sm:top-3">
-        <Scoreboard state={board} avatarUrl={profile?.avatar_url} className="w-full shadow-md" />
-      </div>
+      {/* Bloco integrado: Placar grudado diretamente na Caixa de Perguntas */}
+      <div className="w-full">
+        {/* Placar: grudado no topo da caixa de perguntas e fixo ao rolar a tela */}
+        <div className="sticky top-0 z-30 sm:top-2">
+          <Scoreboard
+            state={board}
+            avatarUrl={profile?.avatar_url}
+            className={cn(
+              "w-full shadow-md bg-card/95 backdrop-blur-md transition-all",
+              question ? "rounded-b-none border-b border-border" : "rounded-2xl",
+            )}
+          />
+        </div>
 
-      {/* Caixa de perguntas e resultado da rodada */}
-      <div className="space-y-4">
+        {/* Caixa de perguntas: colada diretamente na parte inferior do placar */}
         {question && (
-          <section className="w-full rounded-2xl border bg-card p-4 shadow-soft sm:p-6">
+          <section className="w-full rounded-b-2xl border-2 border-t-0 border-border bg-card p-4 shadow-soft sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
@@ -306,8 +314,9 @@ function Play() {
           </section>
         )}
 
+        {/* Resultado e explicação da resposta */}
         {result && (
-          <section className="rounded-2xl border-2 border-ink/15 bg-cream p-4 sm:p-6">
+          <section className="mt-4 rounded-2xl border-2 border-ink/15 bg-cream p-4 sm:p-6">
             <p className="text-lg font-bold">
               {result.playerCorrect
                 ? "Você acertou! +1 ponto para você."
