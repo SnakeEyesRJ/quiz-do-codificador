@@ -80,7 +80,7 @@ function Side(props: {
         </p>
 
         {/* Nome do jogador/codificador aumentado para o dobro e em negrito */}
-        <p className="truncate text-base sm:text-xl font-extrabold tracking-tight text-ink leading-tight">
+        <p className="truncate text-sm sm:text-xl font-extrabold tracking-tight text-ink leading-tight">
           {props.name}
         </p>
 

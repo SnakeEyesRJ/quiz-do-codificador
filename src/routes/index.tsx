@@ -108,9 +108,9 @@ export function Index() {
 
   return (
     <main className="mx-auto max-w-7xl px-3 py-8 sm:px-6 sm:py-12">
-      <div className="lg:grid lg:grid-cols-[300px_1fr] lg:gap-8 lg:items-start">
+      <div className="flex flex-col lg:grid lg:grid-cols-[300px_1fr] lg:items-start lg:gap-8">
         {/* Lateral Esquerda: Lista de Downloads dos Livros em PDF (rola junto com a tela) */}
-        <aside className="mb-8 w-full lg:mb-0 lg:w-[300px] lg:shrink-0 z-10">
+        <aside className="order-2 mt-10 w-full lg:order-1 lg:mt-0 lg:w-[300px] lg:shrink-0 z-10">
           <div className="rounded-2xl border-2 border-border bg-card p-4 sm:p-5 shadow-soft">
             <div className="flex items-center justify-between border-b border-border/80 pb-3">
               <div className="flex items-center gap-2.5">
@@ -163,7 +163,7 @@ export function Index() {
         </aside>
 
         {/* Conteúdo Principal */}
-        <div className="flex flex-col items-center min-w-0">
+        <div className="order-1 flex min-w-0 flex-col items-center lg:order-2">
           {/* Hero */}
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-10">
             <CodificadorPhoto size={190} className="rounded-2xl border-4" />
@@ -243,7 +243,12 @@ export function Index() {
             </p>
           </div>
 
-          <Button asChild variant="hero" size="xl" className="mt-7">
+          <Button
+            asChild
+            variant="hero"
+            size="xl"
+            className="mt-7 h-auto min-h-12 max-w-full whitespace-normal px-5 py-3 text-center sm:px-10"
+          >
             <Link to="/jogar" search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty }}>
               Iniciar partida ({selectedRounds} rodadas · {DIFFICULTY_LABELS[selectedDifficulty]})
             </Link>
@@ -633,7 +638,12 @@ export function Index() {
                 dificuldade de sua escolha ({DIFFICULTY_LABELS[selectedDifficulty]}), com perguntas
                 comentadas sobre as obras de Allan Kardec.
               </p>
-              <Button asChild variant="hero" size="lg" className="mt-5">
+              <Button
+                asChild
+                variant="hero"
+                size="lg"
+                className="mt-5 h-auto min-h-10 max-w-full whitespace-normal px-5 py-2.5 text-center sm:px-8"
+              >
                 <Link
                   to="/jogar"
                   search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty }}

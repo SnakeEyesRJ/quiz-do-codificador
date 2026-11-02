@@ -8,11 +8,14 @@ export function SiteHeader() {
   const { user, profile, signInWithGoogle, signOut } = useAuth();
   return (
     <header className="border-b border-border/70 bg-cream/80 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
-        <Link to="/" className="font-display text-xl font-bold tracking-wide">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3">
+        <Link
+          to="/"
+          className="font-display text-sm font-bold leading-tight tracking-wide sm:text-xl"
+        >
           QUIZ DO CODIFICADOR
         </Link>
-        <nav className="flex items-center gap-1 sm:gap-2 text-sm">
+        <nav className="flex shrink-0 items-center gap-0.5 text-sm sm:gap-2">
           <Link
             to="/jogar"
             className="rounded-md px-2 py-1 hover:bg-peach"
@@ -48,7 +51,8 @@ export function SiteHeader() {
                 signInWithGoogle().catch(() => toast.error("Não foi possível entrar com o Google."))
               }
             >
-              Entrar com Google
+              <span className="sm:hidden">Entrar</span>
+              <span className="hidden sm:inline">Entrar com Google</span>
             </Button>
           )}
         </nav>

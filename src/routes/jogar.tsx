@@ -170,7 +170,7 @@ function Play() {
                 )}
               >
                 <span className="text-xl font-bold">{r}</span>
-                <span className="text-[10px] uppercase tracking-wider font-semibold">
+                <span className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-tight sm:text-[10px] sm:tracking-wider">
                   {`${Math.floor(r / 2) + 1} vitórias`}
                 </span>
               </button>
@@ -233,7 +233,13 @@ function Play() {
             </p>
           </div>
         )}
-        <Button variant="hero" size="xl" className="mt-8" onClick={begin} disabled={busy}>
+        <Button
+          variant="hero"
+          size="xl"
+          className="mt-8 h-auto min-h-12 max-w-full whitespace-normal px-5 py-3 text-center sm:px-10"
+          onClick={begin}
+          disabled={busy}
+        >
           {busy && <Loader2 className="animate-spin" />} Começar ({rounds} rodadas ·{" "}
           {DIFFICULTY_LABELS[difficulty]})
         </Button>
