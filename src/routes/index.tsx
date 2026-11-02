@@ -6,11 +6,15 @@ import {
   GraduationCap,
   HeartHandshake,
   History,
+  Library,
+  Radio,
   Repeat,
   Scale,
   Scroll,
   Sparkles,
   UserRound,
+  Globe,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CodificadorPhoto } from "@/components/PlayerAvatar";
@@ -20,24 +24,24 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Quiz do Codificador — desafie o Codificador" },
+      { title: "Quiz do Codificador — A Doutrina Espírita" },
       {
         name: "description",
         content:
-          "Teste seus conhecimentos sobre a Doutrina Espírita em disputas de 3, 5, 7 ou 9 rodadas contra o Codificador Allan Kardec.",
+          "Conheça a Doutrina Espírita e teste seus conhecimentos em disputas de 3, 5, 7 ou 9 rodadas contra o Codificador Allan Kardec.",
       },
-      { property: "og:title", content: "Quiz do Codificador" },
+      { property: "og:title", content: "Quiz do Codificador — A Doutrina Espírita" },
       {
         property: "og:description",
         content:
-          "Dispute partidas contra Allan Kardec com 200 perguntas extraídas das obras fundamentais do Espiritismo.",
+          "Estude as obras fundamentais de Allan Kardec e dispute partidas contra o Codificador.",
       },
     ],
   }),
   component: Index,
 });
 
-function Index() {
+export function Index() {
   const { user } = useAuth();
   const [selectedRounds, setSelectedRounds] = useState<3 | 5 | 7 | 9>(3);
 
@@ -135,238 +139,325 @@ function Index() {
         ))}
       </section>
 
-      {/* Seção Educativa: A Doutrina Espírita e Allan Kardec */}
+      {/* Seção Principal: A Doutrina Espírita */}
       <section className="mt-20 w-full max-w-4xl space-y-12 text-left">
-        {/* Título da Seção */}
+        {/* Cabeçalho */}
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-peach/70 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ink">
             <Sparkles className="h-4 w-4" /> Doutrina dos Espíritos
           </div>
-          <h2 className="mt-4 font-display text-4xl font-bold sm:text-5xl">
-            Sobre o Espiritismo e Allan Kardec
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-            Uma síntese histórica e conceitual para compreender a essência da doutrina, seus pilares
-            universais e a missão de seu Codificador.
-          </p>
+          <h1 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-6xl text-ink">
+            A DOUTRINA ESPÍRITA
+          </h1>
+          <h3 className="mt-2 font-display text-xl font-semibold text-muted-foreground sm:text-2xl">
+            Conhecimento, amor e evolução espiritual
+          </h3>
+          <div className="mt-6 rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8 text-left">
+            <p className="text-base leading-relaxed text-ink/90 sm:text-lg">
+              O Espiritismo é uma doutrina de caráter científico, filosófico e moral, fundamentada
+              na existência de Deus, na imortalidade da alma, na comunicação entre o mundo material
+              e o espiritual e na evolução contínua dos Espíritos. Seu propósito é ajudar a
+              humanidade a compreender sua origem, seu destino e o verdadeiro sentido da existência.
+            </p>
+          </div>
         </div>
 
-        {/* Quem foi Allan Kardec e Como Tudo Começou */}
+        {/* A origem do Espiritismo */}
         <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
           <div className="flex items-center gap-3">
             <GraduationCap className="h-6 w-6 text-ink/80" />
-            <h3 className="font-display text-2xl font-bold sm:text-3xl">
-              Quem foi Allan Kardec e como a Doutrina começou?
-            </h3>
+            <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
+              A origem do Espiritismo
+            </h2>
           </div>
 
           <div className="mt-5 space-y-4 leading-relaxed text-ink/90">
             <p>
-              O nome de nascimento de Allan Kardec era{" "}
-              <strong>Hippolyte Léon Denizard Rivail</strong>, nascido em Lyon (França), em{" "}
-              <strong>3 de outubro de 1804</strong>. Educador e pedagogo de sólida reputação
-              europeia, foi discípulo dileto de <strong>Johann Heinrich Pestalozzi</strong> no
-              célebre Instituto de Yverdon, na Suíça. Poliglota, tradutor e autor de compêndios
-              didáticos adotados na França, o Prof. Rivail dedicou as primeiras décadas de sua vida
-              à reforma educacional e ao método pedagógico racional.
+              A Doutrina Espírita surgiu na França, em meados do século XIX, em um período marcado
+              por intensas transformações científicas, filosóficas e culturais. Seu marco oficial
+              foi o dia 18 de abril de 1857, quando foi publicado <em>O Livro dos Espíritos</em>,
+              obra que apresentou ao mundo os fundamentos do Espiritismo.
             </p>
             <p>
-              Em <strong>1854 e 1855</strong>, em Paris, eclodiu pela Europa a febre das{" "}
-              <em>mesas girantes</em> (mesas e móveis que giravam, levitavam e emitiam pancadas
-              rítmicas). A princípio profundamente cético ante a modéstia dos salões, Rivail
-              declarou que só acreditaria caso lhe demonstrassem que uma mesa tinha cérebro para
-              pensar e nervos para sentir.
+              Seu principal organizador foi Hippolyte Léon Denizard Rivail, conhecido mundialmente
+              pelo pseudônimo de Allan Kardec. Nascido em Lyon, na França, em 3 de outubro de 1804,
+              Kardec foi professor, pedagogo, escritor e pesquisador, com sólida formação
+              intelectual e grande interesse pelo conhecimento e pela educação.
             </p>
             <p>
-              Todavia, ao acompanhar de perto os fenômenos com rigor experimental, constatou que os
-              movimentos e as pancadas (tiptologia) transmitiam{" "}
-              <strong>mensagens inteligentes, coerentes e de elevado teor moral</strong>. Aplicando
-              o axioma científico cartesiano —{" "}
-              <em>&ldquo;A todo efeito inteligente corresponde uma causa inteligente&rdquo;</em> —,
-              deduziu que a fonte causadora daqueles fenômenos não era a matéria física, mas as
-              almas imortais dos homens que haviam vivido na Terra: os <strong>Espíritos</strong>.
+              Ao investigar os fenômenos mediúnicos que despertavam a curiosidade da sociedade
+              europeia, Kardec decidiu estudar suas causas de maneira metódica, comparando
+              informações obtidas por diferentes médiuns e submetendo as respostas à análise
+              racional. Seu trabalho resultou na organização de um conjunto de ensinamentos
+              atribuídos aos Espíritos, dando origem à Codificação Espírita.
             </p>
             <p>
-              Instruído por seu Espírito protetor de que vivera outrora entre os druidas na antiga
-              Gália com o nome de <strong>Allan Kardec</strong>, adotou esse pseudônimo para
-              distinguir sua obra estritamente pedagógica da revelação espiritual. Em{" "}
-              <strong>18 de abril de 1857</strong>, lançou em Paris <em>O Livro dos Espíritos</em>,
-              inaugurando oficialmente o Espiritismo no mundo.
+              Mais do que criar uma nova religião, Kardec buscou estabelecer uma doutrina baseada no
+              estudo, na observação, no raciocínio e na transformação moral do ser humano.
             </p>
           </div>
         </div>
 
-        {/* O que é a Doutrina Espírita (Tríplice Aspecto) */}
+        {/* As cinco obras fundamentais */}
         <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
           <div className="flex items-center gap-3">
-            <Scroll className="h-6 w-6 text-ink/80" />
-            <h3 className="font-display text-2xl font-bold sm:text-3xl">
-              O que é a Doutrina Espírita?
-            </h3>
+            <Library className="h-6 w-6 text-ink/80" />
+            <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
+              As cinco obras fundamentais
+            </h2>
           </div>
+
           <p className="mt-4 leading-relaxed text-ink/90">
-            O Espiritismo é uma doutrina que reúne{" "}
-            <strong>Ciência, Filosofia e Religião (Moral)</strong>, revelada pelos Espíritos
-            Superiores e organizada pela razão humana:
+            A Codificação Espírita é composta por cinco livros essenciais, conhecidos como as Obras
+            Básicas:
           </p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border bg-cream/70 p-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Ciência
-              </span>
-              <h4 className="mt-1 font-bold">Investigação e Fatos</h4>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Estuda as leis naturais que regem as relações entre o mundo espiritual e o mundo
-                corpóreo através da observação e do método experimental.
+
+          <div className="mt-6 space-y-3">
+            <div className="rounded-xl border bg-cream/60 p-4">
+              <p className="text-sm leading-relaxed text-ink/90">
+                <strong>O Livro dos Espíritos (1857):</strong> apresenta os fundamentos da doutrina,
+                abordando Deus, a criação, a natureza dos Espíritos, as leis morais, a vida
+                espiritual e o destino da humanidade.
               </p>
             </div>
-            <div className="rounded-xl border bg-cream/70 p-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Filosofia
-              </span>
-              <h4 className="mt-1 font-bold">Origem e Destino</h4>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Responde às questões essenciais da existência: de onde viemos, para onde vamos, qual
-                a razão da dor e o sentido profundo da vida.
+            <div className="rounded-xl border bg-cream/60 p-4">
+              <p className="text-sm leading-relaxed text-ink/90">
+                <strong>O Livro dos Médiuns (1861):</strong> estuda a mediunidade, os fenômenos
+                espirituais e as possibilidades e responsabilidades da comunicação entre encarnados
+                e desencarnados.
               </p>
             </div>
-            <div className="rounded-xl border bg-cream/70 p-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                Moral
-              </span>
-              <h4 className="mt-1 font-bold">Amor e Caridade</h4>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Revive o Evangelho de Jesus em sua pureza original, estabelecendo como lema supremo:{" "}
-                <em>&ldquo;Fora da caridade não há salvação&rdquo;</em>.
+            <div className="rounded-xl border bg-cream/60 p-4">
+              <p className="text-sm leading-relaxed text-ink/90">
+                <strong>O Evangelho Segundo o Espiritismo (1864):</strong> apresenta os ensinamentos
+                morais de Jesus à luz da Doutrina Espírita, destacando o amor, a caridade, o perdão
+                e a fraternidade.
+              </p>
+            </div>
+            <div className="rounded-xl border bg-cream/60 p-4">
+              <p className="text-sm leading-relaxed text-ink/90">
+                <strong>O Céu e o Inferno (1865):</strong> examina a justiça divina, as
+                consequências morais das ações humanas e as condições dos Espíritos após a morte.
+              </p>
+            </div>
+            <div className="rounded-xl border bg-cream/60 p-4">
+              <p className="text-sm leading-relaxed text-ink/90">
+                <strong>A Gênese (1868):</strong> aborda a criação, a formação dos mundos, os
+                milagres, as predições e as relações entre os conhecimentos científicos e os
+                princípios espíritas.
               </p>
             </div>
           </div>
+
+          <p className="mt-5 leading-relaxed text-ink/90">
+            Essas obras constituem a base para o estudo e a compreensão da doutrina, que continua
+            sendo aprofundada por pesquisadores e estudiosos em todo o mundo.
+          </p>
         </div>
 
-        {/* Conceitos Fundamentais */}
+        {/* Os princípios fundamentais */}
         <div>
           <div className="text-center sm:text-left">
-            <h3 className="font-display text-3xl font-bold">Conceitos Fundamentais da Doutrina</h3>
+            <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">
+              Os princípios fundamentais
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Entenda os principais termos e pilares que norteiam o entendimento espírita da vida
-              universal.
+              Os pilares que sustentam o conhecimento e a visão espírita da vida.
             </p>
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {/* O Codificador */}
+            {/* Deus e a criação */}
             <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-peach p-2.5 text-ink">
-                  <GraduationCap className="h-5 w-5" />
+                  <Sparkles className="h-5 w-5" />
                 </div>
-                <div>
-                  <h4 className="font-display text-xl font-bold">O Codificador</h4>
-                  <p className="text-xs text-muted-foreground">
-                    Allan Kardec como compilador metódico
-                  </p>
-                </div>
+                <h3 className="font-display text-xl font-bold text-ink">Deus e a criação</h3>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-ink/90">
-                Kardec não se considerava profeta nem criador do Espiritismo. Ele foi seu{" "}
-                <strong>Codificador</strong>: interrogou médiuns em várias nações, confrontou e
-                filtrou as respostas pela lógica, reuniu os princípios ensinados pelos Espíritos
-                Superiores e os estruturou de forma didática no Pentateuco Espírita.
+                <strong>Deus e a criação:</strong> Deus é a inteligência suprema, causa primária de
+                todas as coisas. O universo é composto por diferentes dimensões de existência,
+                incluindo o mundo material e o mundo espiritual.
               </p>
             </div>
 
-            {/* O Consolador */}
+            {/* A existência e a imortalidade do Espírito */}
             <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-peach p-2.5 text-ink">
-                  <HeartHandshake className="h-5 w-5" />
+                  <Scroll className="h-5 w-5" />
                 </div>
-                <div>
-                  <h4 className="font-display text-xl font-bold">O Consolador</h4>
-                  <p className="text-xs text-muted-foreground">A promessa do Cristo cumprida</p>
-                </div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  A existência e a imortalidade do Espírito
+                </h3>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-ink/90">
-                O Espiritismo cumpre a promessa de Jesus sobre o <em>Consolador Prometido</em> ou{" "}
-                <em>Espírito de Verdade</em> (João 14:16). Consola os corações aflitos ao
-                desmistificar a morte, explicar a justiça das aflições humanas e trazer a{" "}
-                <strong>fé raciocinada</strong>, que compreende em vez de apenas crer cegamente.
+                <strong>A existência e a imortalidade do Espírito:</strong> o ser humano não é
+                apenas um corpo físico. É um Espírito imortal que utiliza temporariamente um corpo
+                material para vivenciar experiências, adquirir conhecimentos e desenvolver suas
+                capacidades morais e intelectuais.
               </p>
             </div>
 
-            {/* Encarnação */}
-            <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-peach p-2.5 text-ink">
-                  <Compass className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-display text-xl font-bold">Encarnação</h4>
-                  <p className="text-xs text-muted-foreground">O Espírito na matéria física</p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-ink/90">
-                É a união temporária do Espírito a um corpo biológico através do{" "}
-                <strong>perispírito</strong> (envoltório semimaterial intermediário). Pela
-                encarnação, a alma interage com a matéria densa, desenvolve a inteligência, vence as
-                limitações corporais e colabora no progresso material do planeta.
-              </p>
-            </div>
-
-            {/* Reencarnação */}
+            {/* Encarnação e reencarnação */}
             <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-peach p-2.5 text-ink">
                   <Repeat className="h-5 w-5" />
                 </div>
-                <div>
-                  <h4 className="font-display text-xl font-bold">Reencarnação</h4>
-                  <p className="text-xs text-muted-foreground">A pluralidade das existências</p>
-                </div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Encarnação e reencarnação
+                </h3>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-ink/90">
-                Criados simples e ignorantes, os Espíritos precisam de múltiplas vidas em diferentes
-                épocas, corpos e famílias para adquirir conhecimento e perfeição moral. A
-                reencarnação expressa a suprema justiça divina, permitindo a todos infinitas
-                oportunidades de aprendizado e evolução.
+                <strong>Encarnação e reencarnação:</strong> a encarnação representa a união do
+                Espírito com um corpo físico para uma nova existência na matéria. A reencarnação é o
+                retorno do Espírito à vida corporal em sucessivas existências, permitindo novas
+                oportunidades de aprendizado, reparação e evolução.
               </p>
             </div>
 
-            {/* Provas */}
-            <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-              <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-peach p-2.5 text-ink">
-                  <BookOpen className="h-5 w-5" />
-                </div>
-                <div>
-                  <h4 className="font-display text-xl font-bold">Provas</h4>
-                  <p className="text-xs text-muted-foreground">Desafios que exercitam virtudes</p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-ink/90">
-                São os obstáculos, dificuldades materiais e circunstâncias árduas escolhidas ou
-                aceitas pelo Espírito antes de nascer com o objetivo de testar e fortalecer seu
-                caráter moral. A prova permite exercitar virtudes essenciais como a paciência, a
-                coragem, a resignação e a fraternidade.
-              </p>
-            </div>
-
-            {/* Expiações */}
+            {/* Provas e expiações */}
             <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-peach p-2.5 text-ink">
                   <Scale className="h-5 w-5" />
                 </div>
-                <div>
-                  <h4 className="font-display text-xl font-bold">Expiações</h4>
-                  <p className="text-xs text-muted-foreground">Ação e reação reparadora</p>
-                </div>
+                <h3 className="font-display text-xl font-bold text-ink">Provas e expiações</h3>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-ink/90">
-                São os sofrimentos decorrentes da lei de causa e efeito para resgatar e purificar
-                faltas cometidas no passado contra a lei moral. A expiação não é vingança de Deus,
-                mas um processo medicinal pedagógico que corrige o Espírito e restabelece a harmonia
-                de sua consciência.
+                <strong>Provas e expiações:</strong> durante suas existências, os Espíritos
+                enfrentam experiências e dificuldades que contribuem para seu progresso. As provas
+                são desafios que favorecem o desenvolvimento de virtudes e conhecimentos. As
+                expiações representam consequências de experiências e escolhas anteriores,
+                oferecendo oportunidades de reajuste e aprendizado. Não representam castigos
+                eternos, mas possibilidades de transformação dentro da justiça divina.
+              </p>
+            </div>
+
+            {/* Livre-arbítrio e responsabilidade */}
+            <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-peach p-2.5 text-ink">
+                  <Compass className="h-5 w-5" />
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Livre-arbítrio e responsabilidade
+                </h3>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-ink/90">
+                <strong>Livre-arbítrio e responsabilidade:</strong> cada indivíduo possui liberdade
+                para escolher seus caminhos, sendo responsável pelas consequências de suas decisões.
+                A evolução espiritual depende do esforço individual, da prática do bem e da
+                superação das próprias imperfeições.
+              </p>
+            </div>
+
+            {/* Mediunidade e comunicação espiritual */}
+            <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-peach p-2.5 text-ink">
+                  <Radio className="h-5 w-5" />
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Mediunidade e comunicação espiritual
+                </h3>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-ink/90">
+                <strong>Mediunidade e comunicação espiritual:</strong> a mediunidade é a capacidade
+                de estabelecer relações entre o mundo material e o espiritual. Segundo a doutrina,
+                os Espíritos podem se comunicar por intermédio de pessoas dotadas dessa faculdade,
+                trazendo ensinamentos e informações que devem ser sempre examinados com
+                discernimento e responsabilidade.
+              </p>
+            </div>
+
+            {/* Pluralidade dos mundos habitados */}
+            <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40 sm:col-span-2">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-peach p-2.5 text-ink">
+                  <Globe className="h-5 w-5" />
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Pluralidade dos mundos habitados
+                </h3>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-ink/90">
+                <strong>Pluralidade dos mundos habitados:</strong> o universo não se limita à Terra.
+                Segundo os ensinamentos espíritas, existem inúmeros mundos habitados por seres em
+                diferentes estágios de desenvolvimento físico, intelectual e moral. Os Espíritos
+                podem vivenciar experiências em diferentes mundos, de acordo com suas necessidades
+                evolutivas.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* O verdadeiro propósito da existência */}
+        <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
+          <div className="flex items-center gap-3">
+            <HeartHandshake className="h-6 w-6 text-ink/80" />
+            <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
+              O verdadeiro propósito da existência
+            </h2>
+          </div>
+
+          <div className="mt-5 space-y-4 leading-relaxed text-ink/90">
+            <p>
+              Para o Espiritismo, a vida não termina com a morte do corpo físico. A desencarnação
+              representa apenas o encerramento de uma etapa da existência, enquanto o Espírito
+              continua sua jornada no plano espiritual, conservando sua individualidade e
+              prosseguindo em seu caminho evolutivo.
+            </p>
+            <p>
+              A reencarnação oferece novas oportunidades de aprendizado, permitindo que cada
+              Espírito desenvolva o amor, a inteligência, a humildade, a tolerância e a
+              fraternidade. Não existe evolução sem esforço, assim como não existe transformação
+              verdadeira sem o exercício consciente do bem.
+            </p>
+            <p>
+              A caridade, compreendida não apenas como ajuda material, mas também como benevolência,
+              indulgência e perdão, ocupa posição central na filosofia espírita.
+            </p>
+            <div className="rounded-xl border border-secondary/40 bg-peach/40 p-4">
+              <p className="font-semibold text-ink">
+                A mensagem de Jesus Cristo representa o principal referencial moral da doutrina,
+                especialmente por meio do ensinamento:{" "}
+                <span className="font-bold underline decoration-secondary decoration-2 underline-offset-4">
+                  &ldquo;Fora da caridade não há salvação.&rdquo;
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Um convite ao conhecimento */}
+        <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
+          <div className="flex items-center gap-3">
+            <HelpCircle className="h-6 w-6 text-ink/80" />
+            <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
+              Um convite ao conhecimento
+            </h2>
+          </div>
+
+          <div className="mt-5 space-y-4 leading-relaxed text-ink/90">
+            <p>
+              O Espiritismo não propõe uma fé cega. Convida ao estudo, à reflexão e à compreensão,
+              valorizando a razão e o questionamento consciente. Seus ensinamentos procuram
+              responder a algumas das perguntas mais profundas da humanidade: De onde viemos? Por
+              que estamos aqui? O que acontece após a morte? Qual é o propósito da vida? E para onde
+              caminhamos?
+            </p>
+            <p>
+              Mais do que conhecer a existência dos Espíritos ou compreender os mistérios da vida
+              após a morte, estudar a Doutrina Espírita é buscar compreender a nós mesmos.
+            </p>
+            <div className="rounded-xl border border-ink/20 bg-cream/80 p-5 shadow-sm">
+              <p className="font-semibold text-ink sm:text-lg leading-relaxed">
+                Afinal, somos Espíritos imortais em constante aprendizado, e cada existência
+                representa uma nova oportunidade de evoluir, amar, aprender e nos aproximar da
+                perfeição.
               </p>
             </div>
           </div>
@@ -374,7 +465,7 @@ function Index() {
 
         {/* Rodapé da seção com convite ao Quiz */}
         <div className="rounded-2xl border bg-peach/40 p-6 text-center shadow-soft sm:p-8">
-          <h3 className="font-display text-2xl font-bold sm:text-3xl">
+          <h3 className="font-display text-2xl font-bold sm:text-3xl text-ink">
             Pronto para testar seu aprendizado?
           </h3>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
