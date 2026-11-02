@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Quiz do Codificador — desafie o Codificador" },
-      { name: "description", content: "Responda perguntas de O Livro dos Espíritos e O Evangelho Segundo o Espiritismo contra o Codificador." },
+      { name: "description", content: "Responda perguntas de O Livro dos Espíritos, O Evangelho Segundo o Espiritismo e O Céu e o Inferno contra o Codificador." },
       { property: "og:title", content: "Quiz do Codificador" },
       { property: "og:description", content: "Melhor de três rodadas contra o Codificador, com perguntas das obras de Allan Kardec." },
     ],
@@ -30,7 +30,7 @@ function Index() {
             Codificador
           </h1>
           <p className="mt-4 max-w-md text-muted-foreground">
-            100 perguntas extraídas de <em>O Livro dos Espíritos</em> e de <em>O Evangelho Segundo o Espiritismo</em>.
+            150 perguntas extraídas de <em>O Livro dos Espíritos</em>, <em>O Evangelho Segundo o Espiritismo</em> e <em>O Céu e o Inferno</em>.
             Vença duas rodadas de 10 pontos contra o Codificador.
           </p>
         </div>

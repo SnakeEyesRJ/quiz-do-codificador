@@ -27,7 +27,7 @@ CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXEC
 CREATE TABLE public.questions (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   code serial UNIQUE,
-  book text NOT NULL CHECK (book IN ('livro_espiritos','evangelho')),
+  book text NOT NULL CHECK (book IN ('livro_espiritos','evangelho','ceu_inferno')),
   statement text NOT NULL UNIQUE,
   option_a text NOT NULL, option_b text NOT NULL, option_c text NOT NULL, option_d text NOT NULL, option_e text NOT NULL,
   correct_option char(1) NOT NULL CHECK (correct_option IN ('A','B','C','D','E')),

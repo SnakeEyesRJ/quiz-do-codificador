@@ -8,6 +8,13 @@
       "when": 1793594268514,
       "tag": "0000_quiz_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793597000000,
+      "tag": "0001_ceu_inferno_questions",
+      "breakpoints": true
     }
   ]
 }

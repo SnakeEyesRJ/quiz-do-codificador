@@ -35,4 +35,38 @@ export async function getCurrentRound(matchId: string, number: number) {
   return data;
 }
 
+export async function ensureQuestionsSeeded() {
+  try {
+    const { data: ceuQuestions, error: checkErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "ceu_inferno")
+      .limit(1);
+
+    if (!checkErr && (!ceuQuestions || ceuQuestions.length === 0)) {
+      const { CEU_INFERNO_QUESTIONS } = await import("@/data/ceu-inferno-questions");
+      await supabaseAdmin.from("questions").upsert(
+        CEU_INFERNO_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" }
+      );
+    }
+  } catch (e) {
+    console.warn("[Seed] Aviso ao verificar/sincronizar perguntas de O Céu e o Inferno:", e);
+  }
+}
+
 export { supabaseAdmin };

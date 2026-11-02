@@ -30,7 +30,11 @@ export const Route = createFileRoute("/jogar")({
   component: Play,
 });
 
-const BOOK_LABEL = { livro_espiritos: "O Livro dos Espíritos", evangelho: "O Evangelho Segundo o Espiritismo" };
+const BOOK_LABEL: Record<string, string> = {
+  livro_espiritos: "O Livro dos Espíritos",
+  evangelho: "O Evangelho Segundo o Espiritismo",
+  ceu_inferno: "O Céu e o Inferno",
+};
 
 function Play() {
   const { user, profile, loading } = useAuth();

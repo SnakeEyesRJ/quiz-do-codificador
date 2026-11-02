@@ -20,7 +20,7 @@ export interface MatchState {
 export interface PublicQuestion {
   answerId: string;
   code: number;
-  book: "livro_espiritos" | "evangelho";
+  book: "livro_espiritos" | "evangelho" | "ceu_inferno";
   statement: string;
   options: { letter: Letter; text: string }[];
 }
@@ -43,7 +43,8 @@ export interface AnswerResult {
 export const startMatch = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ playerName: z.string().trim().max(60).optional() }).parse(d))
   .handler(async ({ data }): Promise<MatchState> => {
-    const { supabaseAdmin, getOptionalUserId } = await import("./game.server");
+    const { supabaseAdmin, getOptionalUserId, ensureQuestionsSeeded } = await import("./game.server");
+    await ensureQuestionsSeeded();
     const userId = await getOptionalUserId();
     let name = data.playerName || "Jogador";
     if (userId) {
