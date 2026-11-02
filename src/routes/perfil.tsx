@@ -418,14 +418,8 @@ function Perfil() {
         </div>
 
         {/* Botão de Salvar */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-3 border-t border-border/80">
-          <Button
-            type="submit"
-            variant="hero"
-            size="lg"
-            className="w-full sm:w-auto"
-            disabled={busy}
-          >
+        <div className="grid grid-cols-1 gap-3 border-t border-border/80 pt-4 sm:grid-cols-2">
+          <Button type="submit" variant="hero" size="lg" className="w-full px-4" disabled={busy}>
             {busy ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
@@ -434,7 +428,7 @@ function Perfil() {
             Salvar alterações no perfil
           </Button>
 
-          <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto">
+          <Button asChild variant="secondary" size="lg" className="w-full px-4">
             <Link to="/jogar">
               <Swords className="h-4 w-4" /> Jogar partida com seu perfil
             </Link>
