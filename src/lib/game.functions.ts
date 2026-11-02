@@ -20,7 +20,7 @@ export interface MatchState {
 export interface PublicQuestion {
   answerId: string;
   code: number;
-  book: "livro_espiritos" | "evangelho" | "ceu_inferno";
+  book: "livro_espiritos" | "evangelho" | "ceu_inferno" | "genese";
   statement: string;
   options: { letter: Letter; text: string }[];
 }

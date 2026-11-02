@@ -64,8 +64,36 @@ export async function ensureQuestionsSeeded() {
         { onConflict: "statement" }
       );
     }
+
+    const { data: geneseQuestions, error: geneseCheckErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "genese")
+      .limit(1);
+
+    if (!geneseCheckErr && (!geneseQuestions || geneseQuestions.length === 0)) {
+      const { GENESE_QUESTIONS } = await import("@/data/genese-questions");
+      await supabaseAdmin.from("questions").upsert(
+        GENESE_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" }
+      );
+    }
   } catch (e) {
-    console.warn("[Seed] Aviso ao verificar/sincronizar perguntas de O Céu e o Inferno:", e);
+    console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);
   }
 }
 

@@ -49,3 +49,4 @@ describe("O Céu e o Inferno - 50 Perguntas", () => {
     expect(parte2.length).toBe(25);
   });
 });
+
