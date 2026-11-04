@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   BookOpen,
@@ -20,7 +20,11 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CodificadorPhoto } from "@/components/PlayerAvatar";
+import {
+  AvatarPicker1x1,
+  CodificadorPhoto,
+  getStoredCustomAvatar,
+} from "@/components/PlayerAvatar";
 import { useAuth } from "@/hooks/use-auth";
 import {
   DIFFICULTY_DESCRIPTIONS,
@@ -117,9 +121,14 @@ export const Route = createFileRoute("/")({
 });
 
 export function Index() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [selectedRounds, setSelectedRounds] = useState<3 | 5 | 7 | 9>(3);
   const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty>("normal");
+  const [customAvatar, setCustomAvatar] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCustomAvatar(getStoredCustomAvatar());
+  }, []);
 
   return (
     <main className="mx-auto max-w-6xl px-3 py-8 sm:px-6 sm:py-12">
@@ -204,6 +213,14 @@ export function Index() {
               {DIFFICULTY_DESCRIPTIONS[selectedDifficulty]}
             </p>
           </div>
+
+          {/* Campo 1:1 para foto de perfil / avatar antes de começar a partida */}
+          <AvatarPicker1x1
+            avatarUrl={customAvatar ?? profile?.avatar_url}
+            onChange={setCustomAvatar}
+            size={104}
+            className="mt-6"
+          />
 
           <Button
             asChild

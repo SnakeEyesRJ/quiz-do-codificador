@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Loader2, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Scoreboard } from "@/components/Scoreboard";
-import { CodificadorPhoto, PlayerAvatar } from "@/components/PlayerAvatar";
+import {
+  AvatarPicker1x1,
+  CodificadorPhoto,
+  getStoredCustomAvatar,
+} from "@/components/PlayerAvatar";
 import { useAuth } from "@/hooks/use-auth";
 import {
   DIFFICULTY_DESCRIPTIONS,
@@ -83,6 +87,7 @@ function Play() {
   const answer = useServerFn(submitAnswer);
 
   const [name, setName] = useState("");
+  const [customAvatar, setCustomAvatar] = useState<string | null>(null);
   const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(rodadas ?? 3);
   const [difficulty, setDifficulty] = useState<GameDifficulty>(dificuldade ?? "normal");
   const [state, setState] = useState<MatchState | null>(null);
@@ -91,6 +96,10 @@ function Play() {
   const [busy, setBusy] = useState(false);
   // Score shown while reviewing a round-ending answer (before the next round resets it)
   const [shown, setShown] = useState<MatchState | null>(null);
+
+  useEffect(() => {
+    setCustomAvatar(getStoredCustomAvatar());
+  }, []);
 
   async function run<T>(fn: () => Promise<T>): Promise<T | undefined> {
     setBusy(true);
@@ -214,27 +223,34 @@ function Play() {
           </p>
         </div>
 
-        {loading ? null : user ? (
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <PlayerAvatar url={profile?.avatar_url} size={44} />
-            <span className="font-semibold">{profile?.display_name ?? "Jogador"}</span>
-          </div>
-        ) : (
-          <div className="mt-6 text-center">
-            <label className="text-sm font-medium" htmlFor="nome">
-              Seu nome (opcional)
-            </label>
-            <Input
-              id="nome"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Jogador"
-              className="mt-1 bg-card text-center"
-              maxLength={60}
+        {loading ? null : (
+          <div className="mt-6 flex flex-col items-center gap-4 text-center">
+            <AvatarPicker1x1
+              avatarUrl={customAvatar ?? profile?.avatar_url}
+              onChange={setCustomAvatar}
+              size={104}
             />
-            <p className="mt-2 text-xs text-muted-foreground">
-              Entre com o Google para salvar seu histórico e usar seu avatar.
-            </p>
+
+            {user ? (
+              <span className="font-semibold text-ink">{profile?.display_name ?? "Jogador"}</span>
+            ) : (
+              <div className="w-full text-center">
+                <label className="text-sm font-medium" htmlFor="nome">
+                  Seu nome (opcional)
+                </label>
+                <Input
+                  id="nome"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Jogador"
+                  className="mt-1 bg-card text-center"
+                  maxLength={60}
+                />
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Entre com o Google para salvar seu histórico de partidas.
+                </p>
+              </div>
+            )}
           </div>
         )}
         <Button
@@ -275,7 +291,7 @@ function Play() {
         <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <Scoreboard
             state={board}
-            avatarUrl={profile?.avatar_url}
+            avatarUrl={customAvatar ?? profile?.avatar_url}
             playerName={profile?.display_name || state?.playerName}
             className="w-full border-0 rounded-none shadow-none"
           />
