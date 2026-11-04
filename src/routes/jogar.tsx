@@ -33,9 +33,11 @@ const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[]
 ];
 
 export const Route = createFileRoute("/jogar")({
-  validateSearch: (search: Record<string, unknown>) => {
-    const r = Number(search.rodadas);
-    const d = String(search.dificuldade || search.difficulty || "normal").toLowerCase();
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { rodadas?: 3 | 5 | 7 | 9; dificuldade?: GameDifficulty } => {
+    const r = Number(search["rodadas"]);
+    const d = String(search["dificuldade"] || search["difficulty"] || "normal").toLowerCase();
     const validD: GameDifficulty = (DIFFICULTY_LEVELS as readonly string[]).includes(d)
       ? (d as GameDifficulty)
       : "normal";

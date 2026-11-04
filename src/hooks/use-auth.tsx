@@ -71,16 +71,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const displayName =
       dbRow?.display_name ||
       local?.display_name ||
-      meta.display_name ||
-      meta.name ||
-      meta.full_name ||
+      meta["display_name"] ||
+      meta["name"] ||
+      meta["full_name"] ||
       u.email?.split("@")[0] ||
       "Jogador";
 
     const avatarUrl =
-      dbRow?.avatar_url || local?.avatar_url || meta.avatar_url || meta.picture || null;
+      dbRow?.avatar_url || local?.avatar_url || meta["avatar_url"] || meta["picture"] || null;
 
-    const bio = (meta.bio as string | undefined) ?? local?.bio ?? null;
+    const bio = (meta["bio"] as string | undefined) ?? local?.bio ?? null;
 
     const resolved: Profile = {
       id: u.id,

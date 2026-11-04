@@ -99,10 +99,16 @@ async function loadQuestionPublic(
     .single();
   if (error) fail(error.message);
   const q = data as Row;
+  const resolvedBook: string =
+    q["code"] >= 351 && q["code"] <= 400
+      ? "os_mensageiros"
+      : q["code"] >= 301 && q["code"] <= 350
+        ? "nosso_lar"
+        : q["book"];
   return {
     answerId,
     code: q["code"],
-    book: q["book"],
+    book: resolvedBook,
     statement: q["statement"],
     difficulty: q["difficulty"],
     options: [
@@ -557,9 +563,11 @@ export async function submitRoomAnswer(
   }
 
   const column = role === "host" ? "player_option" : "codificador_option";
+  const updatePayload =
+    role === "host" ? { player_option: option } : { codificador_option: option };
   const { data: saved, error: saveErr } = await admin
     .from("answers")
-    .update({ [column]: option })
+    .update(updatePayload)
     .eq("id", answerId)
     .is("answered_at", null)
     .is(column, null)

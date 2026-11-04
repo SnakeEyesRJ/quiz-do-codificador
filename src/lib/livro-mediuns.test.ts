@@ -43,7 +43,7 @@ describe("O Livro dos Médiuns - 50 Perguntas", () => {
   });
 
   it("distribui as alternativas corretas de forma equilibrada entre A, B, C, D e E", () => {
-    const counts: Record<string, number> = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+    const counts: Record<"A" | "B" | "C" | "D" | "E", number> = { A: 0, B: 0, C: 0, D: 0, E: 0 };
     for (const q of LIVRO_MEDIUNS_QUESTIONS) {
       counts[q.correct_option]++;
     }
@@ -62,4 +62,3 @@ describe("O Livro dos Médiuns - 50 Perguntas", () => {
     expect(segundaParte.length).toBe(42);
   });
 });
-

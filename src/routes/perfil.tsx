@@ -141,24 +141,29 @@ function Perfil() {
   }
 
   const googleAvatar =
-    (user.user_metadata?.avatar_url as string | undefined) ??
-    (user.user_metadata?.picture as string | undefined) ??
+    (user.user_metadata?.["avatar_url"] as string | undefined) ??
+    (user.user_metadata?.["picture"] as string | undefined) ??
     null;
 
   const handlePickFile = (f: File | undefined) => {
     if (!f) return;
     if (!ALLOWED_TYPES.includes(f.type)) {
-      return toast.error("Formato inválido. Use JPG, PNG ou WEBP.");
+      toast.error("Formato inválido. Use JPG, PNG ou WEBP.");
+      return;
     }
     if (f.size > 5 * 1024 * 1024) {
-      return toast.error("A imagem deve ter no máximo 5 MB.");
+      toast.error("A imagem deve ter no máximo 5 MB.");
+      return;
     }
     setFile(f);
     setPreview(URL.createObjectURL(f));
   };
 
   const handleRestoreGoogleAvatar = () => {
-    if (!googleAvatar) return toast.info("Foto da conta Google não encontrada.");
+    if (!googleAvatar) {
+      toast.info("Foto da conta Google não encontrada.");
+      return;
+    }
     setFile(null);
     setPreview(googleAvatar);
     toast.success("Foto do Google selecionada para o avatar.");
@@ -168,7 +173,8 @@ function Perfil() {
     e.preventDefault();
     const cleanName = displayName.trim();
     if (!cleanName) {
-      return toast.error("Por favor, digite um nome de usuário.");
+      toast.error("Por favor, digite um nome de usuário.");
+      return;
     }
 
     setBusy(true);

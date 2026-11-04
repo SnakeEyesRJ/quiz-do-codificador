@@ -34,11 +34,10 @@ describe("NOSSO_LAR_QUESTIONS", () => {
   });
 
   it("distributes correct_option evenly across A, B, C, D, and E (10 each)", () => {
-    const counts: Record<string, number> = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+    const counts: Record<"A" | "B" | "C" | "D" | "E", number> = { A: 0, B: 0, C: 0, D: 0, E: 0 };
     for (const q of NOSSO_LAR_QUESTIONS) {
       counts[q.correct_option]++;
     }
     expect(counts).toEqual({ A: 10, B: 10, C: 10, D: 10, E: 10 });
   });
 });
-

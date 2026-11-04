@@ -50,8 +50,8 @@ export interface AnswerResult {
   correctOption: Letter;
   playerOption: Letter;
   playerCorrect: boolean;
-  codificadorOption?: Letter | string;
-  codificadorCorrect?: boolean;
+  codificadorOption?: Letter | string | null;
+  codificadorCorrect?: boolean | null;
   codificadorCounted?: boolean;
   explanation: string;
   reference: string;
@@ -213,10 +213,17 @@ export const nextQuestion = createServerFn({ method: "POST" })
       .single();
     if (qErr) throw new Error(qErr.message);
 
+    const resolvedBook: PublicQuestion["book"] =
+      q.code >= 351 && q.code <= 400
+        ? "os_mensageiros"
+        : q.code >= 301 && q.code <= 350
+          ? "nosso_lar"
+          : (q.book as PublicQuestion["book"]);
+
     return {
       answerId,
       code: q.code,
-      book: q.book as PublicQuestion["book"],
+      book: resolvedBook,
       statement: q.statement,
       difficulty: q.difficulty as PublicQuestion["difficulty"],
       options: [

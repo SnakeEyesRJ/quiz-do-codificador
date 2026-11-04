@@ -62,9 +62,10 @@ const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[]
 ];
 
 export const Route = createFileRoute("/multiplayer")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    code: typeof search.code === "string" ? normalizeRoomCode(search.code) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { code?: string } => {
+    const raw = search["code"];
+    return typeof raw === "string" && raw ? { code: normalizeRoomCode(raw) } : {};
+  },
   head: () => ({
     meta: [
       { title: "Multiplayer · QUIZ DO CODIFICADOR" },
@@ -164,7 +165,8 @@ function MultiplayerPage() {
   // Ação: Criar sala
   const handleCreateRoom = async () => {
     if (!user) {
-      return toast.info("Entre com sua conta Google para criar uma sala.");
+      toast.info("Entre com sua conta Google para criar uma sala.");
+      return;
     }
     setBusy(true);
     try {
@@ -183,11 +185,13 @@ function MultiplayerPage() {
   // Ação: Entrar em sala
   const handleJoinRoom = async (codeToJoin?: string) => {
     if (!user) {
-      return toast.info("Entre com sua conta Google para entrar em uma sala.");
+      toast.info("Entre com sua conta Google para entrar em uma sala.");
+      return;
     }
     const clean = normalizeRoomCode(codeToJoin ?? inputCode);
     if (clean.length < 5) {
-      return toast.error("O código da sala deve ter 5 caracteres.");
+      toast.error("O código da sala deve ter 5 caracteres.");
+      return;
     }
     setBusy(true);
     try {

@@ -176,60 +176,72 @@ export async function ensureQuestionsSeeded() {
       );
     }
 
-    const { count: nlCount } = await supabaseAdmin
+    const { data: nlCheck } = await supabaseAdmin
       .from("questions")
-      .select("id", { count: "exact", head: true })
-      .eq("book", "nosso_lar")
-      .eq("active", true);
+      .select("id")
+      .eq("code", 301)
+      .limit(1);
 
-    if ((nlCount ?? 0) === 0) {
+    if (!nlCheck || nlCheck.length === 0) {
       const { NOSSO_LAR_QUESTIONS } = await import("@/data/nosso-lar-questions");
-      await supabaseAdmin.from("questions").upsert(
-        NOSSO_LAR_QUESTIONS.map((q) => ({
-          code: q.code,
-          book: q.book,
-          statement: q.statement,
-          option_a: q.options.A,
-          option_b: q.options.B,
-          option_c: q.options.C,
-          option_d: q.options.D,
-          option_e: q.options.E,
-          correct_option: q.correct_option,
-          explanation: q.explanation,
-          reference: q.reference,
-          difficulty: q.difficulty,
-          active: q.active,
-        })),
-        { onConflict: "statement" },
-      );
+      const rows = NOSSO_LAR_QUESTIONS.map((q) => ({
+        code: q.code,
+        book: q.book as string,
+        statement: q.statement,
+        option_a: q.options.A,
+        option_b: q.options.B,
+        option_c: q.options.C,
+        option_d: q.options.D,
+        option_e: q.options.E,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: q.active,
+      }));
+      const { error: nlErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rows, { onConflict: "statement" });
+      if (nlErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rows.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
     }
 
-    const { count: omCount } = await supabaseAdmin
+    const { data: omCheck } = await supabaseAdmin
       .from("questions")
-      .select("id", { count: "exact", head: true })
-      .eq("book", "os_mensageiros")
-      .eq("active", true);
+      .select("id")
+      .eq("code", 351)
+      .limit(1);
 
-    if ((omCount ?? 0) === 0) {
+    if (!omCheck || omCheck.length === 0) {
       const { OS_MENSAGEIROS_QUESTIONS } = await import("@/data/os-mensageiros-questions");
-      await supabaseAdmin.from("questions").upsert(
-        OS_MENSAGEIROS_QUESTIONS.map((q) => ({
-          code: q.code,
-          book: q.book,
-          statement: q.statement,
-          option_a: q.options.A,
-          option_b: q.options.B,
-          option_c: q.options.C,
-          option_d: q.options.D,
-          option_e: q.options.E,
-          correct_option: q.correct_option,
-          explanation: q.explanation,
-          reference: q.reference,
-          difficulty: q.difficulty,
-          active: q.active,
-        })),
-        { onConflict: "statement" },
-      );
+      const rows = OS_MENSAGEIROS_QUESTIONS.map((q) => ({
+        code: q.code,
+        book: q.book as string,
+        statement: q.statement,
+        option_a: q.options.A,
+        option_b: q.options.B,
+        option_c: q.options.C,
+        option_d: q.options.D,
+        option_e: q.options.E,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: q.active,
+      }));
+      const { error: omErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rows, { onConflict: "statement" });
+      if (omErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rows.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
     }
   } catch (e) {
     console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);

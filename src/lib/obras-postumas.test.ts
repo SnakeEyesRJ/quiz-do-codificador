@@ -43,7 +43,7 @@ describe("Obras Póstumas - 50 Perguntas", () => {
   });
 
   it("distribui as alternativas corretas de forma equilibrada entre A, B, C, D e E (exatamente 10 de cada)", () => {
-    const counts: Record<string, number> = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+    const counts: Record<"A" | "B" | "C" | "D" | "E", number> = { A: 0, B: 0, C: 0, D: 0, E: 0 };
     for (const q of OBRAS_POSTUMAS_QUESTIONS) {
       counts[q.correct_option]++;
     }
@@ -62,4 +62,3 @@ describe("Obras Póstumas - 50 Perguntas", () => {
     expect(segundaParte.length).toBe(25);
   });
 });
-
