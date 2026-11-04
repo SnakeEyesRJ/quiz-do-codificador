@@ -122,63 +122,10 @@ export function Index() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty>("normal");
 
   return (
-    <main className="mx-auto max-w-7xl px-3 py-8 sm:px-6 sm:py-12">
-      <div className="flex flex-col lg:grid lg:grid-cols-[300px_1fr] lg:items-start lg:gap-8">
-        {/* Lateral Esquerda: Lista de Downloads dos Livros em PDF (rola junto com a tela) */}
-        <aside className="order-2 mt-10 w-full lg:order-1 lg:mt-0 lg:w-[300px] lg:shrink-0 z-10">
-          <div className="rounded-2xl border-2 border-border bg-card p-4 sm:p-5 shadow-soft">
-            <div className="flex items-center justify-between border-b border-border/80 pb-3">
-              <div className="flex items-center gap-2.5">
-                <div className="rounded-xl bg-peach p-2 text-ink shadow-xs">
-                  <FileDown className="h-5 w-5" />
-                </div>
-                <div>
-                  <h2 className="font-display text-base font-bold text-ink leading-tight">
-                    LIVROS EM PDF
-                  </h2>
-                  <p className="text-[11px] text-muted-foreground font-medium">
-                    Download das Obras
-                  </p>
-                </div>
-              </div>
-              <span className="rounded-full bg-peach/80 px-2 py-0.5 text-[10px] font-bold text-ink border border-border">
-                8 Livros
-              </span>
-            </div>
-
-            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-              Faça o download gratuito dos PDFs das obras espíritas utilizadas neste projeto:
-            </p>
-
-            <ul className="mt-4 space-y-2.5">
-              {PDF_BOOKS.map((book) => (
-                <li
-                  key={book.filename}
-                  className="rounded-xl border border-border/80 bg-card/60 p-3 transition-all hover:border-ink/30 hover:bg-peach/20"
-                >
-                  <p className="font-display text-xs font-bold leading-snug text-ink">
-                    {book.title}
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">
-                    Ano {book.year} · {book.size}
-                  </p>
-                  <a
-                    href={book.url}
-                    download={book.filename}
-                    className="mt-2.5 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-border bg-cream/70 px-2.5 py-1.5 text-xs font-semibold text-ink shadow-xs transition-colors hover:bg-terracotta hover:text-white"
-                    title={`Download do PDF de ${book.title}`}
-                  >
-                    <Download className="h-3.5 w-3.5" />
-                    <span>Download PDF</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
-
+    <main className="mx-auto max-w-6xl px-3 py-8 sm:px-6 sm:py-12">
+      <div className="flex min-w-0 flex-col items-center">
         {/* Conteúdo Principal */}
-        <div className="order-1 flex min-w-0 flex-col items-center lg:order-2">
+        <div className="flex w-full min-w-0 flex-col items-center">
           {/* Hero */}
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-10">
             <CodificadorPhoto size={190} className="rounded-2xl border-4" />
@@ -438,6 +385,23 @@ export function Index() {
                     história íntima, previsões e diretrizes para o futuro da doutrina.
                   </p>
                 </div>
+                <div className="rounded-xl border bg-cream/60 p-4">
+                  <p className="text-sm leading-relaxed text-ink/90">
+                    <strong>Nosso Lar (1944 — Chico Xavier / Espírito André Luiz):</strong> inaugura
+                    a série <em>A Vida no Mundo Espiritual</em>, narrando o despertar e o
+                    aprendizado do médico André Luiz na colônia espiritual &ldquo;Nosso Lar&rdquo;,
+                    revelando a organização, o trabalho e a lei de causa e efeito além do túmulo.
+                  </p>
+                </div>
+                <div className="rounded-xl border bg-cream/60 p-4">
+                  <p className="text-sm leading-relaxed text-ink/90">
+                    <strong>Os Mensageiros (1944 — Chico Xavier / Espírito André Luiz):</strong>{" "}
+                    segundo volume da coleção <em>A Vida no Mundo Espiritual</em>, relata o preparo
+                    dos mensageiros no Centro de Mensageiros de &ldquo;Nosso Lar&rdquo; e a
+                    expedição de Aniceto, Vicente e André Luiz a um posto de socorro e à Crosta
+                    terrestre.
+                  </p>
+                </div>
               </div>
 
               <p className="mt-5 leading-relaxed text-ink/90">
@@ -681,6 +645,58 @@ export function Index() {
             </div>
           </section>
         </div>
+
+        {/* Rodapé Horizontal: Lista de Downloads dos Livros em PDF */}
+        <footer id="downloads-pdf" className="mt-14 w-full">
+          <div className="rounded-2xl border-2 border-border bg-card p-5 sm:p-6 shadow-soft">
+            <div className="flex flex-col gap-3 border-b border-border/80 pb-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="shrink-0 rounded-xl bg-peach p-2.5 text-ink shadow-xs">
+                  <FileDown className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="font-display text-lg font-bold text-ink leading-tight sm:text-xl">
+                    LIVROS EM PDF — DOWNLOAD DAS OBRAS
+                  </h2>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Faça o download gratuito dos PDFs das 8 obras espíritas utilizadas neste
+                    projeto:
+                  </p>
+                </div>
+              </div>
+              <span className="w-fit rounded-full bg-peach/80 px-3 py-1 text-xs font-bold text-ink border border-border">
+                8 Livros Disponíveis
+              </span>
+            </div>
+
+            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+              {PDF_BOOKS.map((book) => (
+                <li
+                  key={book.filename}
+                  className="flex flex-col justify-between rounded-xl border border-border/80 bg-card/60 p-3.5 transition-all hover:border-ink/30 hover:bg-peach/20"
+                >
+                  <div>
+                    <p className="font-display text-xs sm:text-sm font-bold leading-snug text-ink">
+                      {book.title}
+                    </p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      Ano {book.year} · {book.size}
+                    </p>
+                  </div>
+                  <a
+                    href={book.url}
+                    download={book.filename}
+                    className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-border bg-cream/70 px-3 py-2 text-xs font-semibold text-ink shadow-xs transition-colors hover:bg-terracotta hover:text-white"
+                    title={`Download do PDF de ${book.title}`}
+                  >
+                    <Download className="h-3.5 w-3.5 shrink-0" />
+                    <span>Download PDF</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </footer>
       </div>
     </main>
   );
