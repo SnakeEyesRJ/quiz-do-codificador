@@ -214,9 +214,9 @@ export const nextQuestion = createServerFn({ method: "POST" })
     if (qErr) throw new Error(qErr.message);
 
     const resolvedBook: PublicQuestion["book"] =
-      q.code >= 351 && q.code <= 400
+      (q.code >= 351 && q.code <= 400) || (q.code >= 751 && q.code <= 800)
         ? "os_mensageiros"
-        : q.code >= 301 && q.code <= 350
+        : (q.code >= 301 && q.code <= 350) || (q.code >= 701 && q.code <= 750)
           ? "nosso_lar"
           : (q.book as PublicQuestion["book"]);
 
