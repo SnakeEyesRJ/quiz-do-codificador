@@ -155,6 +155,24 @@ export function Index() {
                 <br />
                 CODIFICADOR
               </h1>
+
+              {/* Identificação do Grupo Espírita Severino Rosa */}
+              <div className="mx-auto mt-5 inline-flex max-w-xl items-center justify-center gap-3.5 rounded-2xl border border-border/80 bg-card/85 px-4 py-2.5 text-left shadow-soft sm:gap-4 sm:px-5 sm:py-3">
+                <img
+                  src="/logo-severino-rosa.png"
+                  alt="Logo Grupo Espírita Severino Rosa"
+                  className="h-14 w-14 shrink-0 rounded-full object-contain sm:h-16 sm:w-16"
+                />
+                <div className="min-w-0">
+                  <p className="font-display text-sm font-bold leading-snug text-ink sm:text-base">
+                    Grupo Espírita Severino Rosa, desde 1932
+                  </p>
+                  <p className="mt-0.5 text-xs font-semibold leading-snug text-ink/80 sm:text-sm">
+                    Rua Marechal Floriano 173 | Centro | Campos dos Goytacazes
+                  </p>
+                </div>
+              </div>
+
               <p className="mx-auto mt-4 max-w-md font-semibold tracking-wide text-ink/80">
                 TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
               </p>
