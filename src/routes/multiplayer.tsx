@@ -51,6 +51,7 @@ const BOOK_LABEL: Record<string, string> = {
   livro_mediuns: "O Livro dos Médiuns",
   obras_postumas: "Obras Póstumas",
   nosso_lar: "Nosso Lar",
+  os_mensageiros: "Os Mensageiros",
 };
 
 const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[] = [

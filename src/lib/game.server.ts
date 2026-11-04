@@ -203,6 +203,34 @@ export async function ensureQuestionsSeeded() {
         { onConflict: "statement" },
       );
     }
+
+    const { count: omCount } = await supabaseAdmin
+      .from("questions")
+      .select("id", { count: "exact", head: true })
+      .eq("book", "os_mensageiros")
+      .eq("active", true);
+
+    if ((omCount ?? 0) === 0) {
+      const { OS_MENSAGEIROS_QUESTIONS } = await import("@/data/os-mensageiros-questions");
+      await supabaseAdmin.from("questions").upsert(
+        OS_MENSAGEIROS_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.options.A,
+          option_b: q.options.B,
+          option_c: q.options.C,
+          option_d: q.options.D,
+          option_e: q.options.E,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
   } catch (e) {
     console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);
   }

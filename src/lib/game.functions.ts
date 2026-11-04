@@ -39,7 +39,8 @@ export interface PublicQuestion {
     | "genese"
     | "livro_mediuns"
     | "obras_postumas"
-    | "nosso_lar";
+    | "nosso_lar"
+    | "os_mensageiros";
   statement: string;
   difficulty: "facil" | "medio" | "dificil";
   options: { letter: Letter; text: string }[];
