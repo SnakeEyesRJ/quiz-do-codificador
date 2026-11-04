@@ -97,6 +97,8 @@ function Play() {
   const [busy, setBusy] = useState(false);
   // Score shown while reviewing a round-ending answer (before the next round resets it)
   const [shown, setShown] = useState<MatchState | null>(null);
+  // Answers the player missed in this match, collected locally for the optional post-game recap
+  const [missed, setMissed] = useState<StudyRecapItem[]>([]);
 
   useEffect(() => {
     setCustomAvatar(getStoredCustomAvatar());
@@ -126,6 +128,7 @@ function Play() {
       setState(s);
       setShown(null);
       setResult(null);
+      setMissed([]);
       setQuestion(await fetchNext({ data: { matchId: s.matchId } }));
     });
 
@@ -138,6 +141,20 @@ function Play() {
         data: { matchId: state.matchId, answerId: question.answerId, option: letter },
       });
       setResult(r);
+      if (!r.playerCorrect) {
+        setMissed((prev) => [
+          ...prev,
+          {
+            bookLabel: BOOK_LABEL[question.book] ?? question.book,
+            statement: question.statement,
+            options: question.options,
+            playerOption: r.playerOption,
+            correctOption: r.correctOption,
+            explanation: r.explanation,
+            reference: r.reference,
+          },
+        ]);
+      }
       // Keep the final score of a finished round visible until "next".
       setShown(
         r.roundWinner
@@ -403,6 +420,7 @@ function Play() {
                     setState(null);
                     setQuestion(null);
                     setResult(null);
+                    setMissed([]);
                   }}
                 >
                   Nova partida
@@ -422,6 +440,9 @@ function Play() {
           </div>
         </section>
       )}
+
+      {/* Recap de estudo opcional (somente após o fim da partida; sem IA durante o jogo) */}
+      {matchOver && state && <StudyRecap matchId={state.matchId} answers={missed} />}
     </main>
   );
 }
