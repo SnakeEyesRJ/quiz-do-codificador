@@ -162,7 +162,7 @@ export function Index() {
 
           {/* Seletor de Rodadas */}
           <div className="mt-8 flex flex-col items-center text-center">
-            <label className="text-sm font-semibold tracking-wide text-ink/80">
+            <label className="text-base font-bold tracking-wide text-ink sm:text-lg">
               Escolha o formato da partida:
             </label>
             <div className="mt-2.5 flex flex-wrap justify-center gap-2">
@@ -185,7 +185,7 @@ export function Index() {
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-xs text-muted-foreground">
+            <p className="mt-2 text-sm font-bold text-ink/85 sm:text-base">
               Disputa melhor de {selectedRounds}: o primeiro a vencer{" "}
               {Math.floor(selectedRounds / 2) + 1} rodadas ganha a partida.
             </p>
@@ -193,7 +193,7 @@ export function Index() {
 
           {/* Seletor de Níveis de Dificuldade */}
           <div className="mt-6 flex flex-col items-center text-center">
-            <label className="text-sm font-semibold tracking-wide text-ink/80">
+            <label className="text-base font-bold tracking-wide text-ink sm:text-lg">
               Escolha o nível de dificuldade:
             </label>
             <div className="mt-2.5 flex flex-wrap justify-center gap-2">
@@ -216,7 +216,7 @@ export function Index() {
                 </button>
               ))}
             </div>
-            <p className="mt-2 max-w-md text-xs text-muted-foreground">
+            <p className="mt-2 max-w-md text-sm font-bold text-ink/85 sm:text-base">
               {DIFFICULTY_DESCRIPTIONS[selectedDifficulty]}
             </p>
           </div>

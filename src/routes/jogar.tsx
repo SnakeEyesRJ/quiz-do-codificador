@@ -168,7 +168,9 @@ function Play() {
 
         {/* Formato da disputa */}
         <div className="mt-6 text-center">
-          <label className="text-sm font-semibold">Formato da disputa:</label>
+          <label className="text-base font-bold text-ink sm:text-lg">
+            Escolha o formato da partida:
+          </label>
           <div className="mt-2 grid grid-cols-4 gap-2">
             {([3, 5, 7, 9] as const).map((r) => (
               <button
@@ -189,15 +191,17 @@ function Play() {
               </button>
             ))}
           </div>
-          <p className="mt-1.5 text-xs text-muted-foreground">
-            Disputa melhor de {rounds}: vence quem conquistar {Math.floor(rounds / 2) + 1} rodadas
-            primeiro.
+          <p className="mt-1.5 text-sm font-bold text-ink/85 sm:text-base">
+            Disputa melhor de {rounds}: o primeiro a vencer {Math.floor(rounds / 2) + 1} rodadas
+            ganha a partida.
           </p>
         </div>
 
         {/* Nível de dificuldade */}
         <div className="mt-6 text-center">
-          <label className="text-sm font-semibold">Nível de dificuldade:</label>
+          <label className="text-base font-bold text-ink sm:text-lg">
+            Escolha o nível de dificuldade:
+          </label>
           <div className="mt-2 grid grid-cols-4 gap-2">
             {DIFFICULTY_OPTIONS.map((opt) => (
               <button
@@ -218,7 +222,7 @@ function Play() {
               </button>
             ))}
           </div>
-          <p className="mt-1.5 text-xs text-muted-foreground">
+          <p className="mt-1.5 text-sm font-bold text-ink/85 sm:text-base">
             {DIFFICULTY_DESCRIPTIONS[difficulty]}
           </p>
         </div>

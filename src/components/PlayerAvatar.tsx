@@ -119,7 +119,7 @@ export function AvatarPicker1x1({
       const cropped = await cropImageToSquare1x1(file, 320);
       setStoredCustomAvatar(cropped);
       onChange(cropped);
-      toast.success("Foto 1:1 atualizada para a partida!");
+      toast.success("Foto atualizada para a partida!");
     } catch {
       toast.error("Não foi possível carregar a imagem selecionada.");
     }
@@ -127,8 +127,8 @@ export function AvatarPicker1x1({
 
   return (
     <div className={cn("flex flex-col items-center gap-2 text-center", className)}>
-      <span className="text-xs font-semibold tracking-wide text-ink/80">
-        Seu avatar / foto de perfil (1:1):
+      <span className="text-base font-bold tracking-wide text-ink sm:text-lg">
+        Seu avatar / foto de perfil:
       </span>
 
       <div className="relative group">
@@ -137,12 +137,12 @@ export function AvatarPicker1x1({
           onClick={() => inputRef.current?.click()}
           className="relative aspect-square overflow-hidden rounded-2xl border-2 border-dashed border-ink/40 bg-card shadow-soft transition-all hover:border-ink hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring grid place-items-center cursor-pointer"
           style={{ width: size, height: size }}
-          title="Clique para enviar uma foto de perfil 1:1"
+          title="Clique para enviar uma foto de perfil"
         >
           {avatarUrl ? (
             <img
               src={avatarUrl}
-              alt="Foto de perfil 1:1 do jogador"
+              alt="Foto de perfil do jogador"
               className="h-full w-full aspect-square object-cover"
               referrerPolicy="no-referrer"
             />
@@ -150,7 +150,7 @@ export function AvatarPicker1x1({
             <div className="flex flex-col items-center justify-center gap-1 p-2 text-muted-foreground">
               <Camera className="h-7 w-7 text-ink/70" />
               <span className="text-[10px] font-bold uppercase tracking-wider text-ink/75">
-                Foto 1:1
+                Foto
               </span>
             </div>
           )}
@@ -186,8 +186,8 @@ export function AvatarPicker1x1({
         onChange={(e) => void handleFileChange(e.target.files?.[0])}
       />
 
-      <p className="text-[11px] text-muted-foreground">
-        Clique no quadro 1:1 para escolher sua foto antes de iniciar.
+      <p className="text-xs font-bold text-ink/80">
+        Clique no quadro para escolher sua foto antes de iniciar.
       </p>
     </div>
   );
