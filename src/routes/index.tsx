@@ -85,6 +85,13 @@ const PDF_BOOKS = [
     size: "3.0 MB",
   },
   {
+    title: "O Que é o Espiritismo",
+    year: "1859",
+    filename: "O-Que-E-O-Espiritismo.pdf",
+    url: "/livros/O-Que-E-O-Espiritismo.pdf",
+    size: "1.5 MB",
+  },
+  {
     title: "Nosso Lar",
     year: "1944",
     filename: "Nosso-Lar.pdf",
@@ -662,17 +669,17 @@ export function Index() {
                     LIVROS EM PDF — DOWNLOAD DAS OBRAS
                   </h2>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    Faça o download gratuito dos PDFs das 8 obras espíritas utilizadas neste
+                    Faça o download gratuito dos PDFs das 9 obras espíritas utilizadas neste
                     projeto:
                   </p>
                 </div>
               </div>
               <span className="w-fit rounded-full bg-peach/80 px-3 py-1 text-xs font-bold text-ink border border-border">
-                8 Livros Disponíveis
+                9 Livros Disponíveis
               </span>
             </div>
 
-            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+            <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
               {PDF_BOOKS.map((book) => (
                 <li
                   key={book.filename}

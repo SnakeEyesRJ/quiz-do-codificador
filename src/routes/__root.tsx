@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/hooks/use-auth";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SpiritsOfLightBackground } from "@/components/SpiritsOfLightBackground";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -125,9 +126,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <div className="min-h-screen bg-warm">
-          <SiteHeader />
-          <Outlet />
+        <div className="relative min-h-screen bg-warm isolate">
+          <SpiritsOfLightBackground />
+          <div className="relative z-10">
+            <SiteHeader />
+            <Outlet />
+          </div>
         </div>
         <Toaster />
       </AuthProvider>
