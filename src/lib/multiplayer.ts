@@ -13,10 +13,10 @@ import { ROUND_TARGET, type GameDifficulty, type Side } from "./game-rules";
 export type Letter = "A" | "B" | "C" | "D" | "E";
 export type MpRole = "host" | "guest";
 
-/** Tempo máximo para responder cada pergunta. */
-export const QUESTION_SECONDS = 30;
+/** Tempo máximo para responder cada pergunta (30s + 15s = 45s). */
+export const QUESTION_SECONDS = 45;
 /** Tempo de exibição do gabarito antes da próxima pergunta. */
-export const REVEAL_SECONDS = 8;
+export const REVEAL_SECONDS = 15;
 /** Salas que continuam aguardando um adversário por mais tempo que isso expiram. */
 export const ROOM_WAIT_MINUTES = 180;
 export const ROOM_CODE_LENGTH = 5;
