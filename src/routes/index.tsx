@@ -716,6 +716,21 @@ export function Index() {
               ))}
             </ul>
           </div>
+
+          <div className="mt-8 border-t border-border/80 pt-6 pb-2 text-center">
+            <p className="font-display text-sm font-bold tracking-wider text-ink sm:text-base">
+              DESENVOLVIDO POR EMILDO LAHUD ABREU
+            </p>
+            <p className="mt-1 text-xs font-semibold text-ink/85 sm:text-sm">
+              E-Mail:{" "}
+              <a
+                href="mailto:emildo.abreu@gmail.com"
+                className="underline decoration-ink/50 underline-offset-4 hover:text-terracotta"
+              >
+                emildo.abreu@gmail.com
+              </a>
+            </p>
+          </div>
         </footer>
       </div>
     </main>
