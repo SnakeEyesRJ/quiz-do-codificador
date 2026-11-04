@@ -139,7 +139,7 @@ export function Index() {
           <div className="flex flex-col items-center gap-6 text-center">
             <CodificadorPhoto size={190} className="rounded-2xl border-4" />
             <div className="text-center">
-              <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
+              <p className="text-xl font-bold uppercase tracking-[0.3em] text-ink sm:text-2xl">
                 Allan Kardec
               </p>
               <h1 className="mt-2 font-display text-5xl font-bold leading-none sm:text-7xl">
