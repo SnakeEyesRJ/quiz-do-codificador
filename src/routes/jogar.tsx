@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Scoreboard } from "@/components/Scoreboard";
+import { StudyRecap, type StudyRecapItem } from "@/components/StudyRecap";
 import {
   AvatarPicker1x1,
   CodificadorPhoto,
