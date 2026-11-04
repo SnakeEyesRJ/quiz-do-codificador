@@ -730,6 +730,12 @@ export function Index() {
                 emildo.abreu@gmail.com
               </a>
             </p>
+            <p className="mt-3 text-xs font-bold text-ink sm:text-sm">
+              Doações: Grupo Espírita Severino Rosa
+            </p>
+            <p className="mt-0.5 text-xs font-semibold text-ink/85 sm:text-sm">
+              Chave Pix (CNPJ): 28977643000109
+            </p>
           </div>
         </footer>
       </div>
