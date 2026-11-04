@@ -80,6 +80,7 @@ export type Database = {
           codificador_rounds: number
           created_at: string
           current_round: number
+          difficulty: string
           finished_at: string | null
           id: string
           player_name: string
@@ -93,6 +94,7 @@ export type Database = {
           codificador_rounds?: number
           created_at?: string
           current_round?: number
+          difficulty?: string
           finished_at?: string | null
           id?: string
           player_name?: string
@@ -106,6 +108,7 @@ export type Database = {
           codificador_rounds?: number
           created_at?: string
           current_round?: number
+          difficulty?: string
           finished_at?: string | null
           id?: string
           player_name?: string
@@ -120,6 +123,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           created_at: string
           display_name: string | null
           id: string
@@ -127,6 +131,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           id: string
@@ -134,6 +139,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           display_name?: string | null
           id?: string
