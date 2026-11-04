@@ -405,23 +405,6 @@ export function Index() {
                     história íntima, previsões e diretrizes para o futuro da doutrina.
                   </p>
                 </div>
-                <div className="rounded-xl border bg-cream/60 p-4">
-                  <p className="text-sm leading-relaxed text-ink/90">
-                    <strong>Nosso Lar (1944 — Chico Xavier / Espírito André Luiz):</strong> inaugura
-                    a série <em>A Vida no Mundo Espiritual</em>, narrando o despertar e o
-                    aprendizado do médico André Luiz na colônia espiritual &ldquo;Nosso Lar&rdquo;,
-                    revelando a organização, o trabalho e a lei de causa e efeito além do túmulo.
-                  </p>
-                </div>
-                <div className="rounded-xl border bg-cream/60 p-4">
-                  <p className="text-sm leading-relaxed text-ink/90">
-                    <strong>Os Mensageiros (1944 — Chico Xavier / Espírito André Luiz):</strong>{" "}
-                    segundo volume da coleção <em>A Vida no Mundo Espiritual</em>, relata o preparo
-                    dos mensageiros no Centro de Mensageiros de &ldquo;Nosso Lar&rdquo; e a
-                    expedição de Aniceto, Vicente e André Luiz a um posto de socorro e à Crosta
-                    terrestre.
-                  </p>
-                </div>
               </div>
 
               <p className="mt-5 leading-relaxed text-ink/90">
