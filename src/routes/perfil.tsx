@@ -260,8 +260,8 @@ function Perfil() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-8 sm:py-12">
       {/* Cabeçalho do Perfil */}
-      <div className="rounded-2xl border-2 border-border bg-card p-6 shadow-soft sm:p-8">
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
+      <div className="rounded-2xl border-2 border-border bg-card p-6 text-center shadow-soft sm:p-8">
+        <div className="flex flex-col items-center gap-4 text-center">
           {/* Avatar com ação de troca */}
           <div className="flex flex-col items-center">
             <div className="relative group">
@@ -295,7 +295,7 @@ function Perfil() {
           </div>
 
           {/* Dados do usuário */}
-          <div className="flex-1 text-center sm:text-left">
+          <div className="flex-1 text-center">
             <div className="inline-flex items-center gap-1.5 rounded-full bg-peach/70 px-2.5 py-0.5 text-[11px] font-bold text-ink border border-border/80">
               <CheckCircle2 className="h-3.5 w-3.5 text-forest" />
               Conta Google Verificada
@@ -345,7 +345,7 @@ function Perfil() {
         onSubmit={handleSave}
         className="mt-6 rounded-2xl border-2 border-border bg-card p-6 shadow-soft sm:p-8 space-y-5"
       >
-        <div className="border-b border-border/80 pb-3">
+        <div className="border-b border-border/80 pb-3 text-center">
           <h2 className="font-display text-xl font-bold text-ink">Editar Dados do Perfil</h2>
           <p className="text-xs text-muted-foreground">
             As alterações de nome e avatar serão exibidas imediatamente no placar das suas partidas.

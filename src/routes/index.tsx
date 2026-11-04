@@ -127,9 +127,9 @@ export function Index() {
         {/* Conteúdo Principal */}
         <div className="flex w-full min-w-0 flex-col items-center">
           {/* Hero */}
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:gap-10">
+          <div className="flex flex-col items-center gap-6 text-center">
             <CodificadorPhoto size={190} className="rounded-2xl border-4" />
-            <div className="text-center sm:text-left">
+            <div className="text-center">
               <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
                 Allan Kardec
               </p>
@@ -138,7 +138,7 @@ export function Index() {
                 <br />
                 CODIFICADOR
               </h1>
-              <p className="mt-4 max-w-md font-semibold tracking-wide text-ink/80">
+              <p className="mx-auto mt-4 max-w-md font-semibold tracking-wide text-ink/80">
                 TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
               </p>
             </div>
@@ -258,7 +258,10 @@ export function Index() {
                 "O Codificador não responde: seu acerto vale 1 ponto para você; seu erro concede 1 ponto ao Codificador.",
               ],
             ].map(([t, d]) => (
-              <div key={t} className="rounded-2xl border bg-card/70 p-5 shadow-soft">
+              <div
+                key={t}
+                className="flex flex-col items-center rounded-2xl border bg-card/70 p-5 text-center shadow-soft"
+              >
                 <BookOpen className="mb-2 h-5 w-5 text-ink/70" />
                 <h3 className="text-xl font-bold">{t}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{d}</p>
@@ -267,7 +270,7 @@ export function Index() {
           </section>
 
           {/* Seção Principal: A Doutrina Espírita */}
-          <section className="mt-20 w-full max-w-4xl space-y-12 text-left">
+          <section className="mt-20 w-full max-w-4xl space-y-12 text-center">
             {/* Cabeçalho */}
             <div className="text-center">
               <div className="inline-flex items-center gap-2 rounded-full bg-peach/70 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-ink">
@@ -279,7 +282,7 @@ export function Index() {
               <h3 className="mt-2 font-display text-xl font-semibold text-muted-foreground sm:text-2xl">
                 Conhecimento, amor e evolução espiritual
               </h3>
-              <div className="mt-6 rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8 text-left">
+              <div className="mt-6 rounded-2xl border bg-card/80 p-6 text-center shadow-soft sm:p-8">
                 <p className="text-base leading-relaxed text-ink/90 sm:text-lg">
                   O Espiritismo é uma doutrina de caráter científico, filosófico e moral,
                   fundamentada na existência de Deus, na imortalidade da alma, na comunicação entre
@@ -291,8 +294,8 @@ export function Index() {
             </div>
 
             {/* A origem do Espiritismo */}
-            <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
-              <div className="flex items-center gap-3">
+            <div className="rounded-2xl border bg-card/80 p-6 text-center shadow-soft sm:p-8">
+              <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                 <GraduationCap className="h-6 w-6 text-ink/80" />
                 <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
                   A origem do Espiritismo
@@ -329,8 +332,8 @@ export function Index() {
             </div>
 
             {/* As seis obras fundamentais */}
-            <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
-              <div className="flex items-center gap-3">
+            <div className="rounded-2xl border bg-card/80 p-6 text-center shadow-soft sm:p-8">
+              <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                 <Library className="h-6 w-6 text-ink/80" />
                 <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
                   As seis obras fundamentais
@@ -342,7 +345,7 @@ export function Index() {
                 essenciais:
               </p>
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-6 space-y-3 text-center">
                 <div className="rounded-xl border bg-cream/60 p-4">
                   <p className="text-sm leading-relaxed text-ink/90">
                     <strong>O Livro dos Espíritos (1857):</strong> apresenta os fundamentos da
@@ -412,7 +415,7 @@ export function Index() {
 
             {/* Os princípios fundamentais */}
             <div>
-              <div className="text-center sm:text-left">
+              <div className="text-center">
                 <h2 className="font-display text-3xl font-bold text-ink sm:text-4xl">
                   Os princípios fundamentais
                 </h2>
@@ -423,8 +426,8 @@ export function Index() {
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 {/* Deus e a criação */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Sparkles className="h-5 w-5" />
                     </div>
@@ -438,8 +441,8 @@ export function Index() {
                 </div>
 
                 {/* A existência e a imortalidade do Espírito */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Scroll className="h-5 w-5" />
                     </div>
@@ -456,8 +459,8 @@ export function Index() {
                 </div>
 
                 {/* Encarnação e reencarnação */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Repeat className="h-5 w-5" />
                     </div>
@@ -474,8 +477,8 @@ export function Index() {
                 </div>
 
                 {/* Provas e expiações */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Scale className="h-5 w-5" />
                     </div>
@@ -492,8 +495,8 @@ export function Index() {
                 </div>
 
                 {/* Livre-arbítrio e responsabilidade */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Compass className="h-5 w-5" />
                     </div>
@@ -510,8 +513,8 @@ export function Index() {
                 </div>
 
                 {/* Mediunidade e comunicação espiritual */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Radio className="h-5 w-5" />
                     </div>
@@ -529,8 +532,8 @@ export function Index() {
                 </div>
 
                 {/* Pluralidade dos mundos habitados */}
-                <div className="rounded-2xl border bg-card/80 p-5 shadow-soft transition-all hover:border-ink/40 sm:col-span-2">
-                  <div className="flex items-center gap-3">
+                <div className="rounded-2xl border bg-card/80 p-5 text-center shadow-soft transition-all hover:border-ink/40 sm:col-span-2">
+                  <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                     <div className="rounded-xl bg-peach p-2.5 text-ink">
                       <Globe className="h-5 w-5" />
                     </div>
@@ -550,8 +553,8 @@ export function Index() {
             </div>
 
             {/* O verdadeiro propósito da existência */}
-            <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
-              <div className="flex items-center gap-3">
+            <div className="rounded-2xl border bg-card/80 p-6 text-center shadow-soft sm:p-8">
+              <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                 <HeartHandshake className="h-6 w-6 text-ink/80" />
                 <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
                   O verdadeiro propósito da existência
@@ -588,8 +591,8 @@ export function Index() {
             </div>
 
             {/* Um convite ao conhecimento */}
-            <div className="rounded-2xl border bg-card/80 p-6 shadow-soft sm:p-8">
-              <div className="flex items-center gap-3">
+            <div className="rounded-2xl border bg-card/80 p-6 text-center shadow-soft sm:p-8">
+              <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                 <HelpCircle className="h-6 w-6 text-ink/80" />
                 <h2 className="font-display text-2xl font-bold sm:text-3xl text-ink">
                   Um convite ao conhecimento
@@ -647,14 +650,14 @@ export function Index() {
         </div>
 
         {/* Rodapé Horizontal: Lista de Downloads dos Livros em PDF */}
-        <footer id="downloads-pdf" className="mt-14 w-full">
+        <footer id="downloads-pdf" className="mt-14 w-full text-center">
           <div className="rounded-2xl border-2 border-border bg-card p-5 sm:p-6 shadow-soft">
-            <div className="flex flex-col gap-3 border-b border-border/80 pb-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-col items-center justify-center gap-3 border-b border-border/80 pb-4 text-center">
+              <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
                 <div className="shrink-0 rounded-xl bg-peach p-2.5 text-ink shadow-xs">
                   <FileDown className="h-5 w-5" />
                 </div>
-                <div>
+                <div className="text-center">
                   <h2 className="font-display text-lg font-bold text-ink leading-tight sm:text-xl">
                     LIVROS EM PDF — DOWNLOAD DAS OBRAS
                   </h2>
@@ -673,7 +676,7 @@ export function Index() {
               {PDF_BOOKS.map((book) => (
                 <li
                   key={book.filename}
-                  className="flex flex-col justify-between rounded-xl border border-border/80 bg-card/60 p-3.5 transition-all hover:border-ink/30 hover:bg-peach/20"
+                  className="flex flex-col items-center justify-between rounded-xl border border-border/80 bg-card/60 p-3.5 text-center transition-all hover:border-ink/30 hover:bg-peach/20"
                 >
                   <div>
                     <p className="font-display text-xs sm:text-sm font-bold leading-snug text-ink">

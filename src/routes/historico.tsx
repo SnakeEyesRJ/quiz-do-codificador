@@ -108,7 +108,7 @@ function Historico() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8 sm:py-10">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/80 pb-4">
+      <div className="flex flex-col items-center justify-center gap-3 border-b border-border/80 pb-4 text-center">
         <div>
           <h1 className="text-3xl sm:text-4xl font-bold text-ink">Histórico</h1>
           <p className="mt-1 text-xs sm:text-sm text-muted-foreground">

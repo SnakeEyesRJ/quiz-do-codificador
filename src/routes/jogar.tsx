@@ -158,7 +158,7 @@ function Play() {
         <p className="mt-2 text-muted-foreground">Desafie o Codificador em rodadas de 10 pontos.</p>
 
         {/* Formato da disputa */}
-        <div className="mt-6 text-left">
+        <div className="mt-6 text-center">
           <label className="text-sm font-semibold">Formato da disputa:</label>
           <div className="mt-2 grid grid-cols-4 gap-2">
             {([3, 5, 7, 9] as const).map((r) => (
@@ -187,7 +187,7 @@ function Play() {
         </div>
 
         {/* Nível de dificuldade */}
-        <div className="mt-6 text-left">
+        <div className="mt-6 text-center">
           <label className="text-sm font-semibold">Nível de dificuldade:</label>
           <div className="mt-2 grid grid-cols-4 gap-2">
             {DIFFICULTY_OPTIONS.map((opt) => (
@@ -220,7 +220,7 @@ function Play() {
             <span className="font-semibold">{profile?.display_name ?? "Jogador"}</span>
           </div>
         ) : (
-          <div className="mt-6 text-left">
+          <div className="mt-6 text-center">
             <label className="text-sm font-medium" htmlFor="nome">
               Seu nome (opcional)
             </label>
@@ -229,7 +229,7 @@ function Play() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Jogador"
-              className="mt-1 bg-card"
+              className="mt-1 bg-card text-center"
               maxLength={60}
             />
             <p className="mt-2 text-xs text-muted-foreground">

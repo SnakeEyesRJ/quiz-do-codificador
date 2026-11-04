@@ -335,13 +335,13 @@ function MultiplayerPage() {
 
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Coluna: Criar Sala */}
-          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-4 shadow-soft sm:p-6">
+          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-4 text-center shadow-soft sm:p-6">
             <div>
-              <div className="flex items-center gap-2.5 border-b border-border/80 pb-3">
+              <div className="flex flex-col items-center justify-center gap-2 border-b border-border/80 pb-3 sm:flex-row sm:gap-2.5">
                 <div className="shrink-0 rounded-xl bg-peach p-2 text-ink">
                   <Swords className="h-5 w-5" />
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 text-center">
                   <h2 className="font-display text-base sm:text-lg font-bold text-ink leading-tight">
                     Criar Nova Sala
                   </h2>
@@ -350,7 +350,7 @@ function MultiplayerPage() {
               </div>
 
               {/* Formato de rodadas */}
-              <div className="mt-4">
+              <div className="mt-4 text-center">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-ink/80">
                   Formato da disputa:
                 </label>
@@ -377,7 +377,7 @@ function MultiplayerPage() {
               </div>
 
               {/* Dificuldade */}
-              <div className="mt-4">
+              <div className="mt-4 text-center">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-ink/80">
                   Nível de dificuldade:
                 </label>
@@ -388,7 +388,7 @@ function MultiplayerPage() {
                       type="button"
                       onClick={() => setDifficulty(opt.key)}
                       className={cn(
-                        "min-w-0 overflow-hidden rounded-xl border-2 px-2.5 py-2 text-left transition-all",
+                        "min-w-0 overflow-hidden rounded-xl border-2 px-2.5 py-2 text-center transition-all",
                         difficulty === opt.key
                           ? "border-ink bg-peach font-bold shadow-soft"
                           : "border-border bg-card/60 hover:bg-peach/30 text-muted-foreground",
@@ -421,13 +421,13 @@ function MultiplayerPage() {
           </div>
 
           {/* Coluna: Entrar em Sala */}
-          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-4 shadow-soft sm:p-6">
+          <div className="flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-4 text-center shadow-soft sm:p-6">
             <div>
-              <div className="flex items-center gap-2.5 border-b border-border/80 pb-3">
+              <div className="flex flex-col items-center justify-center gap-2 border-b border-border/80 pb-3 sm:flex-row sm:gap-2.5">
                 <div className="shrink-0 rounded-xl bg-peach p-2 text-ink">
                   <Users className="h-5 w-5" />
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 text-center">
                   <h2 className="font-display text-base sm:text-lg font-bold text-ink leading-tight">
                     Entrar em uma Sala
                   </h2>
@@ -437,7 +437,7 @@ function MultiplayerPage() {
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-6 text-center">
                 <label
                   htmlFor="roomCodeInput"
                   className="block text-[11px] font-bold uppercase tracking-wider text-ink/80"
