@@ -25,6 +25,7 @@ import {
   CodificadorPhoto,
   getStoredCustomAvatar,
 } from "@/components/PlayerAvatar";
+import { MultiplayerInstructionsDialog } from "@/components/MultiplayerInstructionsDialog";
 import { useAuth } from "@/hooks/use-auth";
 import {
   DIFFICULTY_DESCRIPTIONS,
@@ -250,6 +251,8 @@ export function Index() {
               <Users className="mr-2 h-4 w-4" /> Desafiar Amigo (Multiplayer Online 1×1)
             </Link>
           </Button>
+
+          <MultiplayerInstructionsDialog />
 
           {user && (
             <div className="mt-6 flex gap-3">

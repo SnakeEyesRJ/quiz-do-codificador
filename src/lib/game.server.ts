@@ -243,6 +243,42 @@ export async function ensureQuestionsSeeded() {
         );
       }
     }
+
+    const { data: oqeCheck } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("code", 801)
+      .limit(1);
+
+    if (!oqeCheck || oqeCheck.length === 0) {
+      const { O_QUE_E_ESPIRITISMO_QUESTIONS } = await import(
+        "@/data/o-que-e-espiritismo-questions"
+      );
+      const rows = O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => ({
+        code: q.code,
+        book: q.book as string,
+        statement: q.statement,
+        option_a: q.option_a,
+        option_b: q.option_b,
+        option_c: q.option_c,
+        option_d: q.option_d,
+        option_e: q.option_e,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: q.active,
+      }));
+      const { error: oqeErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rows, { onConflict: "statement" });
+      if (oqeErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rows.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
+    }
   } catch (e) {
     console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);
   }

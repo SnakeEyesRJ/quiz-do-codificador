@@ -12,6 +12,7 @@ import {
   CodificadorPhoto,
   getStoredCustomAvatar,
 } from "@/components/PlayerAvatar";
+import { MultiplayerInstructionsDialog } from "@/components/MultiplayerInstructionsDialog";
 import { useAuth } from "@/hooks/use-auth";
 import {
   DIFFICULTY_DESCRIPTIONS,
@@ -76,6 +77,7 @@ const BOOK_LABEL: Record<string, string> = {
   genese: "A Gênese",
   livro_mediuns: "O Livro dos Médiuns",
   obras_postumas: "Obras Póstumas",
+  o_que_e_espiritismo: "O Que é o Espiritismo",
   nosso_lar: "Nosso Lar",
   os_mensageiros: "Os Mensageiros",
 };
@@ -286,7 +288,7 @@ function Play() {
           {DIFFICULTY_LABELS[difficulty]})
         </Button>
 
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col items-center">
           <Button
             asChild
             variant="outline"
@@ -297,6 +299,7 @@ function Play() {
               <Users className="mr-1.5 h-3.5 w-3.5" /> Desafiar amigo no Modo Multiplayer 1×1
             </Link>
           </Button>
+          <MultiplayerInstructionsDialog />
         </div>
       </main>
     );
