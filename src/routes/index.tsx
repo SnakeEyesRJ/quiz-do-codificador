@@ -161,14 +161,17 @@ export function Index() {
                 <img
                   src="/logo-severino-rosa.png"
                   alt="Logo Grupo Espírita Severino Rosa"
-                  className="h-14 w-14 shrink-0 rounded-full object-contain sm:h-16 sm:w-16"
+                  className="h-16 w-16 shrink-0 rounded-full object-contain sm:h-20 sm:w-20"
                 />
                 <div className="min-w-0">
                   <p className="font-display text-sm font-bold leading-snug text-ink sm:text-base">
                     Grupo Espírita Severino Rosa, desde 1932
                   </p>
-                  <p className="mt-0.5 text-xs font-semibold leading-snug text-ink/80 sm:text-sm">
-                    Rua Marechal Floriano 173 | Centro | Campos dos Goytacazes
+                  <p className="mt-0.5 text-xs font-semibold leading-snug text-ink/85 sm:text-sm">
+                    Rua Marechal Floriano 173 | Centro
+                  </p>
+                  <p className="text-xs font-semibold leading-snug text-ink/85 sm:text-sm">
+                    Campos dos Goytacazes RJ
                   </p>
                 </div>
               </div>
