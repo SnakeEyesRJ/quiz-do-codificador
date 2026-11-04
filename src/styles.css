@@ -54,11 +54,12 @@
 }
 
 /*
- * QUIZ DO CODIFICADOR — Paleta oficial (4 faixas da imagem anexada):
- *   1. #FCF0DA Creme suave / Baunilha (faixa 1 - base)
- *   2. #AEAC78 Verde Sálvia / Oliva suave (faixa 2 - destaque e equilíbrio)
- *   3. #F2C46A Dourado / Âmbar solar (faixa 3 - secundário, seleção e badges)
- *   4. #4C4541 Carvão quente / Taupe profundo (faixa 4 - primário, ênfase e tinta)
+ * QUIZ DO CODIFICADOR — Paleta oficial (5 colunas da imagem anexada):
+ *   1. #1E3058 Azul Marinho Profundo (coluna 1 - tinta principal, botões hero e ênfase)
+ *   2. #496896 Azul Ardósia / Steel Blue (coluna 2 - primário, selos e destaques)
+ *   3. #A4B5D3 Azul Pervinca Suave (coluna 3 - secundário, bordas e elementos de apoio)
+ *   4. #B0CBE6 Azul Céu Pastel (coluna 4 - acentos suaves e superfícies)
+ *   5. #FED6CE Pêssego Blush Suave (coluna 5 - seleção, badges e calor visual)
  */
 
 @theme inline {
@@ -106,22 +107,20 @@
 :root {
   --radius: 0.9rem;
 
-  /* 4 faixas exatas extraídas da imagem anexada */
-  --cream: #fcf0da;
-  --aqua: #aeac78;
-  --amber: #f2c46a;
-  --terracotta: #4c4541;
+  /* 5 cores exatas extraídas da imagem anexada */
+  --ink: #1e3058;
+  --terracotta: #496896;
+  --amber: #a4b5d3;
+  --aqua: #b0cbe6;
+  --peach: #fed6ce;
 
-  /* Tinta de contraste profundo baseada na faixa 4 (#4C4541) */
-  --ink: #4c4541;
-
-  /* Variações tonais para contraste, relevo e elegância */
-  --card-bg: #fff9ee;
-  --peach: #f2c46a;
-  --salmon: #aeac78;
-  --rose: #f6e4be;
-  --forest: #5c6b3c;
-  --forest-soft: #e3e2c3;
+  /* Superfícies claras harmonizadas com as 5 colunas da paleta */
+  --cream: #eef4fa;
+  --card-bg: #ffffff;
+  --salmon: #a4b5d3;
+  --rose: #fed6ce;
+  --forest: #496896;
+  --forest-soft: #d9e6f4;
 
   --background: var(--cream);
   --foreground: var(--ink);
@@ -130,23 +129,30 @@
   --popover: var(--card-bg);
   --popover-foreground: var(--ink);
   --primary: var(--terracotta);
-  --primary-foreground: #fcf0da;
+  --primary-foreground: #ffffff;
   --secondary: var(--amber);
   --secondary-foreground: var(--ink);
-  --muted: #efe1c6;
-  --muted-foreground: #6b625c;
+  --muted: #dfe8f3;
+  --muted-foreground: #496896;
   --accent: var(--aqua);
   --accent-foreground: var(--ink);
-  --destructive: #b93829;
+  --destructive: #c93b3b;
   --destructive-foreground: #ffffff;
-  --border: #d8c8aa;
-  --input: #d8c8aa;
+  --border: #a4b5d3;
+  --input: #a4b5d3;
   --ring: var(--terracotta);
-  --correct: var(--forest);
-  --wrong: #b93829;
+  --correct: #2b7a58;
+  --wrong: #c93b3b;
 
-  --gradient-warm: linear-gradient(160deg, #fcf0da 0%, #aeac78 38%, #f2c46a 72%, #4c4541 100%);
-  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #4c4541 24%, transparent);
+  --gradient-warm: linear-gradient(
+    135deg,
+    #1e3058 0%,
+    #496896 25%,
+    #a4b5d3 50%,
+    #b0cbe6 75%,
+    #fed6ce 100%
+  );
+  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #1e3058 22%, transparent);
 }
 
 @utility bg-warm {
