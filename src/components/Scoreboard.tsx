@@ -71,16 +71,16 @@ export function Side(props: {
   const right = props.align === "right";
   return (
     <div
-      className={`flex items-center gap-2 sm:gap-3 ${right ? "flex-row-reverse text-right" : ""}`}
+      className={`flex min-w-0 items-center gap-1.5 sm:gap-3 ${right ? "flex-row-reverse text-right" : ""}`}
     >
       {props.image}
       <div className="min-w-0 flex-1">
-        <p className="text-[9px] sm:text-[10px] font-bold tracking-[0.15em] sm:tracking-[0.2em] text-ink/75">
+        <p className="truncate text-[8px] font-bold tracking-normal text-ink/75 sm:text-[10px] sm:tracking-[0.2em]">
           {props.label}
         </p>
 
         {/* Nome do jogador/codificador aumentado para o dobro e em negrito */}
-        <p className="truncate text-sm sm:text-xl font-extrabold tracking-tight text-ink leading-tight">
+        <p className="truncate text-[11px] min-[360px]:text-xs sm:text-xl font-extrabold tracking-tight text-ink leading-tight">
           {props.name}
         </p>
 

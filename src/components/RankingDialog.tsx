@@ -60,13 +60,13 @@ export function RankingDialog({ open, onOpenChange }: RankingDialogProps) {
                 key={e.rank}
                 className="flex items-center justify-between rounded-lg px-3 py-2 text-sm odd:bg-peach/50"
               >
-                <span className="flex items-center gap-3">
-                  <span className="w-6 text-right font-display font-bold text-terracotta">
+                <span className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+                  <span className="w-6 shrink-0 text-right font-display font-bold text-terracotta">
                     {e.rank}
                   </span>
-                  <span className="font-semibold">{e.name}</span>
+                  <span className="truncate font-semibold">{e.name}</span>
                 </span>
-                <span className="text-muted-foreground">
+                <span className="ml-2 shrink-0 text-muted-foreground">
                   {e.wins} {e.wins === 1 ? "vitória" : "vitórias"}
                 </span>
               </li>

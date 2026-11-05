@@ -542,8 +542,10 @@ function MultiplayerPage() {
             </p>
             <div className="mt-4 flex items-center justify-center gap-3">
               <PlayerAvatar url={profile?.avatar_url} size={40} />
-              <div className="text-left">
-                <p className="text-xs font-bold text-ink">{roomState.host.name} (Anfitrião)</p>
+              <div className="min-w-0 text-left">
+                <p className="truncate text-xs font-bold text-ink">
+                  {roomState.host.name} (Anfitrião)
+                </p>
                 <p className="text-[10px] text-forest font-semibold">● Conectado e pronto</p>
               </div>
             </div>
@@ -623,16 +625,16 @@ function MultiplayerPage() {
             <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Placar Final de Rodadas
             </p>
-            <div className="mt-3 flex items-center justify-center gap-6">
-              <div className="text-center">
+            <div className="mt-3 flex items-center justify-center gap-3 sm:gap-6">
+              <div className="min-w-0 flex-1 text-center">
                 <PlayerAvatar url={meSide.avatarUrl} size={50} className="mx-auto" />
-                <p className="mt-1 text-xs font-bold text-ink">{meSide.name}</p>
+                <p className="mt-1 truncate px-1 text-xs font-bold text-ink">{meSide.name}</p>
                 <p className="font-display text-3xl font-extrabold text-ink">{meSide.rounds}</p>
               </div>
-              <span className="font-display text-2xl font-bold text-muted-foreground">×</span>
-              <div className="text-center">
+              <span className="shrink-0 font-display text-2xl font-bold text-muted-foreground">×</span>
+              <div className="min-w-0 flex-1 text-center">
                 <PlayerAvatar url={oppSide.avatarUrl} size={50} className="mx-auto" />
-                <p className="mt-1 text-xs font-bold text-ink">{oppSide.name}</p>
+                <p className="mt-1 truncate px-1 text-xs font-bold text-ink">{oppSide.name}</p>
                 <p className="font-display text-3xl font-extrabold text-ink">{oppSide.rounds}</p>
               </div>
             </div>
@@ -681,7 +683,7 @@ function MultiplayerPage() {
   return (
     <main className="mx-auto max-w-3xl px-3 py-2 sm:px-4 sm:py-4">
       {/* Bloco integrado: Placar Multiplayer + Caixa de perguntas */}
-      <div className="sticky top-2 z-20 flex max-h-[calc(100vh-5rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg">
+      <div className="sticky top-2 z-20 flex max-h-[calc(100dvh-1rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:max-h-[calc(100dvh-5rem)]">
         {/* Placar no topo da caixa */}
         <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <VersusBoard
@@ -810,7 +812,7 @@ function MultiplayerPage() {
           {/* 6.2 Gabarito e Revelação da Pergunta Anterior */}
           {reveal && !question && (
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-border/80 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-1 border-b border-border/80 pb-2">
                 <span className="font-display text-sm font-bold text-ink">
                   Resultado da Pergunta nº {reveal.question.code}
                 </span>
@@ -850,7 +852,7 @@ function MultiplayerPage() {
                       : "border-destructive bg-destructive/15",
                   )}
                 >
-                  <p className="font-bold text-ink">{oppSide.name}</p>
+                  <p className="truncate font-bold text-ink">{oppSide.name}</p>
                   <p className="mt-0.5 text-xs font-semibold">
                     {(isHost ? reveal.guestCorrect : reveal.hostCorrect)
                       ? "Acertou! (+1 pt)"

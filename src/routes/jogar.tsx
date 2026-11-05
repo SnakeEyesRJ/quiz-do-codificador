@@ -293,7 +293,7 @@ function Play() {
             asChild
             variant="outline"
             size="sm"
-            className="rounded-xl border-border/80 text-xs font-semibold text-terracotta hover:bg-peach/40"
+            className="h-auto whitespace-normal rounded-xl border-border/80 px-3 py-2 text-center text-xs font-semibold text-terracotta hover:bg-peach/40"
           >
             <Link to="/multiplayer" search={{}}>
               <Users className="mr-1.5 h-3.5 w-3.5" /> Desafiar amigo no Modo Multiplayer 1×1
@@ -311,7 +311,7 @@ function Play() {
   return (
     <main className="mx-auto max-w-3xl px-3 py-2 sm:px-4 sm:py-3">
       {/* Bloco integrado: Placar + Caixa de perguntas fixos e imóveis na tela ao rolar */}
-      <div className="sticky top-2 z-20 flex max-h-[calc(100vh-5rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg">
+      <div className="sticky top-2 z-20 flex max-h-[calc(100dvh-1rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:max-h-[calc(100dvh-5rem)]">
         {/* Placar no topo da caixa */}
         <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <Scoreboard

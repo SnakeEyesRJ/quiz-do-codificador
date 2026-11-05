@@ -150,7 +150,7 @@ export function Index() {
               <p className="text-xl font-bold uppercase tracking-[0.3em] text-ink sm:text-2xl">
                 Allan Kardec
               </p>
-              <h1 className="mt-2 font-display text-5xl font-bold leading-none sm:text-7xl">
+              <h1 className="mt-2 font-display text-4xl font-bold leading-none min-[360px]:text-5xl sm:text-7xl">
                 QUIZ DO
                 <br />
                 CODIFICADOR
@@ -167,14 +167,14 @@ export function Index() {
     <label className="text-base font-bold tracking-wide text-ink sm:text-lg">
       Escolha o formato da partida:
     </label>
-    <div className="mt-2.5 flex flex-wrap justify-center gap-2">
+    <div className="mt-2.5 grid grid-cols-2 justify-center gap-2 min-[412px]:grid-cols-4 sm:flex sm:flex-wrap">
       {([3, 5, 7, 9] as const).map((r) => (
         <button
           key={r}
           type="button"
           onClick={() => setSelectedRounds(r)}
           className={cn(
-            "flex flex-col items-center justify-center rounded-xl border-2 px-4 py-2 transition-all min-w-[76px]",
+            "flex flex-col items-center justify-center justify-self-center rounded-xl border-2 px-4 py-2 transition-all min-w-[76px]",
             selectedRounds === r
               ? "border-ink bg-peach font-bold shadow-soft scale-105"
               : "border-border bg-card/70 hover:bg-peach/30 text-muted-foreground",
@@ -198,14 +198,14 @@ export function Index() {
     <label className="text-base font-bold tracking-wide text-ink sm:text-lg">
       Escolha o nível de dificuldade:
     </label>
-    <div className="mt-2.5 flex flex-wrap justify-center gap-2">
+    <div className="mt-2.5 grid grid-cols-2 justify-center gap-2 min-[412px]:grid-cols-4 sm:flex sm:flex-wrap">
       {DIFFICULTY_OPTIONS.map((opt) => (
         <button
           key={opt.key}
           type="button"
           onClick={() => setSelectedDifficulty(opt.key)}
           className={cn(
-            "flex flex-col items-center justify-center rounded-xl border-2 px-3.5 py-2 transition-all min-w-[85px] sm:min-w-[95px]",
+            "flex flex-col items-center justify-center justify-self-center rounded-xl border-2 px-3.5 py-2 transition-all min-w-[85px] sm:min-w-[95px]",
             selectedDifficulty === opt.key
               ? "border-ink bg-peach font-bold shadow-soft scale-105"
               : "border-border bg-card/70 hover:bg-peach/30 text-muted-foreground",
