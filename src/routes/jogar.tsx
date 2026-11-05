@@ -324,24 +324,24 @@ function Play() {
 
         {/* Caixa de perguntas: parada e imóvel ao rolar a tela, perfeitamente alinhada com o placar */}
         {question && (
-          <section className="min-h-0 w-full flex-1 overflow-y-auto bg-card p-3 sm:p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-forest text-white px-3 py-1 font-semibold">
+          <section className="min-h-0 w-full flex-1 overflow-y-auto overscroll-contain bg-card p-2.5 sm:p-3">
+            <div className="flex flex-wrap items-center justify-between gap-1.5 text-[11px] sm:text-xs">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="rounded-full bg-forest px-2.5 py-0.5 font-semibold text-white">
                   {BOOK_LABEL[question.book]}
                 </span>
                 {question.difficulty && (
-                  <span className="rounded-full border border-border bg-peach/40 px-2.5 py-0.5 font-semibold text-ink">
+                  <span className="rounded-full border border-border bg-peach/40 px-2 py-0.5 font-semibold text-ink">
                     {QUESTION_DIFFICULTY_LABELS[question.difficulty] ?? question.difficulty}
                   </span>
                 )}
               </div>
               <span className="font-medium text-muted-foreground">Pergunta nº {question.code}</span>
             </div>
-            <h2 className="mt-2 font-display text-base font-bold leading-snug text-ink sm:text-lg">
+            <h2 className="mt-1.5 font-display text-sm font-bold leading-snug text-ink sm:text-base">
               {question.statement}
             </h2>
-            <ul className="mt-3 space-y-1.5">
+            <ul className="mt-2 space-y-1">
               {question.options.map((o) => {
                 const isCorrect = result?.correctOption === o.letter;
                 const isPicked = result?.playerOption === o.letter;
@@ -351,102 +351,100 @@ function Play() {
                       disabled={!!result || busy}
                       onClick={() => choose(o.letter)}
                       className={cn(
-                        "flex w-full items-start gap-2.5 rounded-xl border-2 border-border bg-card px-3 py-2 text-left text-sm transition-colors",
+                        "flex w-full items-start gap-2 rounded-lg border-2 border-border bg-card px-2.5 py-1.5 text-left text-xs leading-snug transition-colors sm:px-3 sm:py-2 sm:text-sm",
                         !result && "hover:border-ink/40 hover:bg-peach",
                         result && isCorrect && "border-forest bg-forest/20 font-semibold text-ink",
                         result && isPicked && !isCorrect && "border-destructive bg-destructive/15",
                         result && !isCorrect && !isPicked && "opacity-60",
                       )}
                     >
-                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-amber text-xs text-ink font-bold shadow-xs">
+                      <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-amber text-[10px] font-bold text-ink shadow-xs sm:h-6 sm:w-6 sm:text-xs">
                         {o.letter}
                       </span>
                       <span className="flex-1">{o.text}</span>
                       {result && isCorrect && (
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                        <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest sm:h-4 sm:w-4" />
                       )}
                       {result && isPicked && !isCorrect && (
-                        <X className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                        <X className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive sm:h-4 sm:w-4" />
                       )}
                     </button>
                   </li>
                 );
               })}
             </ul>
+            {result && (
+              <div className="mt-2.5 border-t border-border/80 pt-2.5 sm:mt-3 sm:pt-3">
+                <p className="text-sm font-bold leading-snug sm:text-base">
+                  {result.playerCorrect
+                    ? "Você acertou! +1 ponto para você."
+                    : `Você errou. A resposta correta é a alternativa ${result.correctOption}. +1 ponto para o Codificador.`}
+                </p>
+                <div className="mt-2 rounded-lg bg-peach/60 p-2.5 sm:p-3">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground sm:text-xs">
+                    Explicação
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed sm:text-sm">{result.explanation}</p>
+                  <p className="mt-1.5 text-[11px] italic leading-snug text-muted-foreground sm:text-sm">
+                    {question && BOOK_LABEL[question.book]} — {result.reference}
+                  </p>
+                </div>
+
+                {result.roundWinner && (
+                  <div className="mt-2 rounded-lg border-2 border-forest bg-forest/15 p-2.5 text-center sm:mt-3 sm:p-3">
+                    <p className="font-display text-lg font-bold text-forest sm:text-xl">
+                      {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a rodada{" "}
+                      {result.finishedRound}!
+                    </p>
+                    {matchOver && (
+                      <>
+                        <p className="mt-1 font-display text-xl font-bold sm:text-2xl">
+                          {state.winner === "player"
+                            ? "Vitória! Você venceu a partida."
+                            : "O Codificador venceu a partida."}
+                        </p>
+                        <p className="mt-1 text-xs sm:text-sm">
+                          Rodadas: você {state.playerRounds} × {state.codificadorRounds} Codificador
+                          (Nível {DIFFICULTY_LABELS[state.difficulty ?? "normal"]})
+                        </p>
+                      </>
+                    )}
+                  </div>
+                )}
+
+                <div className="mt-3 flex flex-wrap justify-center gap-2 sm:gap-3">
+                  {matchOver ? (
+                    <>
+                      <Button
+                        variant="hero"
+                        size="lg"
+                        onClick={() => {
+                          setState(null);
+                          setQuestion(null);
+                          setResult(null);
+                          setMissed([]);
+                        }}
+                      >
+                        Nova partida
+                      </Button>
+                      {user && (
+                        <Button asChild variant="secondary" size="lg">
+                          <Link to="/historico">Ver histórico</Link>
+                        </Button>
+                      )}
+                    </>
+                  ) : (
+                    <Button variant="hero" size="lg" onClick={next} disabled={busy}>
+                      {busy && <Loader2 className="animate-spin" />}
+                      {result.roundWinner ? `Iniciar rodada ${state.currentRound}` : "Próxima pergunta"}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
           </section>
         )}
       </div>
-
-      {/* Resultado e explicação da resposta */}
-      {result && (
-        <section className="mt-4 rounded-2xl border-2 border-ink/15 bg-cream p-4 shadow-soft sm:p-6">
-          <p className="text-lg font-bold">
-            {result.playerCorrect
-              ? "Você acertou! +1 ponto para você."
-              : `Você errou. A resposta correta é a alternativa ${result.correctOption}. +1 ponto para o Codificador.`}
-          </p>
-          <div className="mt-4 rounded-xl bg-peach/60 p-4">
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Explicação
-            </p>
-            <p className="mt-1">{result.explanation}</p>
-            <p className="mt-2 text-sm italic text-muted-foreground">
-              {question && BOOK_LABEL[question.book]} — {result.reference}
-            </p>
-          </div>
-
-          {result.roundWinner && (
-            <div className="mt-4 rounded-xl border-2 border-forest bg-forest/15 p-4 text-center">
-              <p className="font-display text-2xl font-bold text-forest">
-                {result.roundWinner === "player" ? "Você venceu" : "O Codificador venceu"} a rodada{" "}
-                {result.finishedRound}!
-              </p>
-              {matchOver && (
-                <>
-                  <p className="mt-2 font-display text-3xl font-bold">
-                    {state.winner === "player"
-                      ? "Vitória! Você venceu a partida."
-                      : "O Codificador venceu a partida."}
-                  </p>
-                  <p className="mt-1">
-                    Rodadas: você {state.playerRounds} × {state.codificadorRounds} Codificador
-                    (Nível {DIFFICULTY_LABELS[state.difficulty ?? "normal"]})
-                  </p>
-                </>
-              )}
-            </div>
-          )}
-
-          <div className="mt-5 flex flex-wrap justify-center gap-3">
-            {matchOver ? (
-              <>
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => {
-                    setState(null);
-                    setQuestion(null);
-                    setResult(null);
-                    setMissed([]);
-                  }}
-                >
-                  Nova partida
-                </Button>
-                {user && (
-                  <Button asChild variant="secondary" size="lg">
-                    <Link to="/historico">Ver histórico</Link>
-                  </Button>
-                )}
-              </>
-            ) : (
-              <Button variant="hero" size="lg" onClick={next} disabled={busy}>
-                {busy && <Loader2 className="animate-spin" />}
-                {result.roundWinner ? `Iniciar rodada ${state.currentRound}` : "Próxima pergunta"}
-              </Button>
-            )}
-          </div>
-        </section>
-      )}
 
       {/* Recap de estudo opcional (somente após o fim da partida; sem IA durante o jogo) */}
       {matchOver && state && <StudyRecap matchId={state.matchId} answers={missed} />}
