@@ -155,16 +155,12 @@ export function Index() {
                 <br />
                 CODIFICADOR
               </h1>
-
-            </p>
+            </div>
           </div>
-        </div>
 
-        <p className="mx-auto mt-4 max-w-md font-semibold tracking-wide text-ink/80">
-          TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
-        </p>
-      </div>
-    </div>
+          <p className="mx-auto mt-4 max-w-md font-semibold tracking-wide text-ink/80">
+            TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
+          </p>
 
           {/* Seletor de Rodadas */ }
   <div className="mt-8 flex flex-col items-center text-center">
@@ -664,10 +660,10 @@ export function Index() {
       </Button>
     </div>
   </section>
-        </div >
+        </div>
 
     {/* Rodapé Horizontal: Lista de Downloads dos Livros em PDF */ }
-    < footer id = "downloads-pdf" className = "mt-14 w-full text-center" >
+    <footer id="downloads-pdf" className="mt-14 w-full text-center">
           <div className="rounded-2xl border-2 border-border bg-card p-5 sm:p-6 shadow-soft">
             <div className="flex flex-col items-center justify-center gap-3 border-b border-border/80 pb-4 text-center">
               <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-3">
@@ -737,8 +733,8 @@ export function Index() {
               Chave Pix (CNPJ): 28977643000109
             </p>
           </div>
-        </footer >
-      </div >
-    </main >
+        </footer>
+      </div>
+    </main>
   );
 }
