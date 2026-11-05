@@ -38,61 +38,34 @@ export interface QuestionCandidate {
 }
 
 /**
- * Conduz a escolha da pergunta de acordo com o nível de dificuldade selecionado:
- * - Fácil: prioriza perguntas 'facil' (90%) com suporte de 'medio' (10%).
- * - Normal: equilíbrio de perguntas 'medio' (70%) e 'facil' (30%).
- * - Difícil: prioriza perguntas 'dificil' (70%) e 'medio' (30%).
- * - Expert: 100% de perguntas 'dificil' enquanto houver; depois 'medio'.
+ * Dificuldade da pergunta exigida por cada nível de jogo.
+ * Não existe uma quarta classificação no banco, então "expert" usa "dificil".
+ */
+export const DIFFICULTY_QUESTION_MAP: Record<GameDifficulty, QuestionCandidate["difficulty"]> = {
+  facil: "facil",
+  normal: "medio",
+  dificil: "dificil",
+  expert: "dificil",
+};
+
+/**
+ * Escolhe aleatoriamente uma pergunta exclusivamente da dificuldade correspondente
+ * ao nível selecionado. Nunca utiliza perguntas de outra dificuldade como fallback:
+ * se não houver nenhuma disponível no nível exigido, lança um erro controlado.
  */
 export function pickQuestionCandidate<T extends QuestionCandidate>(
   candidates: T[],
   difficulty: GameDifficulty,
   random: () => number = Math.random,
 ): T {
-  if (candidates.length === 0) {
-    throw new Error("Nenhuma pergunta disponível.");
-  }
-  if (candidates.length === 1) {
-    return candidates[0]!;
+  const requiredDifficulty = DIFFICULTY_QUESTION_MAP[difficulty];
+  const pool = candidates.filter((q) => q.difficulty === requiredDifficulty);
+
+  if (pool.length === 0) {
+    throw new Error(`Nenhuma pergunta da dificuldade "${requiredDifficulty}" disponível.`);
   }
 
-  const faciles = candidates.filter((q) => q.difficulty === "facil");
-  const medios = candidates.filter((q) => q.difficulty === "medio");
-  const dificeis = candidates.filter((q) => q.difficulty === "dificil");
-
-  const pickFrom = (pool: T[]): T => pool[Math.floor(random() * pool.length)]!;
-
-  switch (difficulty) {
-    case "facil": {
-      if (faciles.length > 0 && medios.length > 0) {
-        return random() < 0.9 ? pickFrom(faciles) : pickFrom(medios);
-      }
-      if (faciles.length > 0) return pickFrom(faciles);
-      if (medios.length > 0) return pickFrom(medios);
-      return pickFrom(candidates);
-    }
-    case "normal": {
-      if (medios.length > 0 && faciles.length > 0) {
-        return random() < 0.7 ? pickFrom(medios) : pickFrom(faciles);
-      }
-      if (medios.length > 0) return pickFrom(medios);
-      if (faciles.length > 0) return pickFrom(faciles);
-      return pickFrom(candidates);
-    }
-    case "dificil": {
-      if (dificeis.length > 0 && medios.length > 0) {
-        return random() < 0.7 ? pickFrom(dificeis) : pickFrom(medios);
-      }
-      if (dificeis.length > 0) return pickFrom(dificeis);
-      if (medios.length > 0) return pickFrom(medios);
-      return pickFrom(candidates);
-    }
-    case "expert": {
-      if (dificeis.length > 0) return pickFrom(dificeis);
-      if (medios.length > 0) return pickFrom(medios);
-      return pickFrom(candidates);
-    }
-  }
+  return pool[Math.floor(random() * pool.length)]!;
 }
 
 export function cleanPlayerName(rawName: string): string {

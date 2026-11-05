@@ -79,7 +79,7 @@ describe("seleção de rodadas (3, 5, 7 e 9)", () => {
   });
 });
 
-describe("condução das perguntas por nível de dificuldade", () => {
+describe("seleção de perguntas por nível de dificuldade", () => {
   const pool: QuestionCandidate[] = [
     { id: "q_f1", difficulty: "facil" },
     { id: "q_f2", difficulty: "facil" },
@@ -89,46 +89,62 @@ describe("condução das perguntas por nível de dificuldade", () => {
     { id: "q_d2", difficulty: "dificil" },
   ];
 
-  it("nível Fácil: seleciona pergunta fácil prioritariamente", () => {
-    // com random < 0.9, deve retornar fácil
-    const picked = pickQuestionCandidate(pool, "facil", () => 0.5);
-    expect(picked.difficulty).toBe("facil");
+  const expectOnlyDifficulty = (
+    difficulty: Parameters<typeof pickQuestionCandidate>[1],
+    expected: QuestionCandidate["difficulty"],
+  ) => {
+    for (const value of [0, 0.25, 0.5, 0.75, 0.99]) {
+      expect(pickQuestionCandidate(pool, difficulty, () => value).difficulty).toBe(expected);
+    }
+  };
+
+  it("Fácil: seleciona exclusivamente perguntas fáceis", () => {
+    expectOnlyDifficulty("facil", "facil");
   });
 
-  it("nível Normal: equilibra médio e fácil", () => {
-    const pickedMedio = pickQuestionCandidate(pool, "normal", () => 0.2);
-    expect(pickedMedio.difficulty).toBe("medio");
-
-    const pickedFacil = pickQuestionCandidate(pool, "normal", () => 0.85);
-    expect(pickedFacil.difficulty).toBe("facil");
+  it("Normal: seleciona exclusivamente perguntas médias", () => {
+    expectOnlyDifficulty("normal", "medio");
   });
 
-  it("nível Difícil: prioriza perguntas difíceis", () => {
-    const picked = pickQuestionCandidate(pool, "dificil", () => 0.3);
-    expect(picked.difficulty).toBe("dificil");
-
-    const pickedMedio = pickQuestionCandidate(pool, "dificil", () => 0.85);
-    expect(pickedMedio.difficulty).toBe("medio");
+  it("Difícil: seleciona exclusivamente perguntas difíceis", () => {
+    expectOnlyDifficulty("dificil", "dificil");
   });
 
-  it("nível Expert: seleciona exclusivamente difíceis enquanto houver", () => {
-    const picked = pickQuestionCandidate(pool, "expert", () => 0.1);
-    expect(picked.difficulty).toBe("dificil");
+  it("Expert: seleciona exclusivamente perguntas difíceis (quarta classificação inexistente)", () => {
+    expectOnlyDifficulty("expert", "dificil");
   });
 
-  it("nível Expert: faz fallback para médio se todas as difíceis já foram usadas", () => {
+  it("mantém a seleção aleatória entre as perguntas disponíveis do nível escolhido", () => {
+    expect(pickQuestionCandidate(pool, "facil", () => 0)).toBe(pool[0]);
+    expect(pickQuestionCandidate(pool, "facil", () => 0.99)).toBe(pool[1]);
+    expect(pickQuestionCandidate(pool, "dificil", () => 0)).toBe(pool[4]);
+    expect(pickQuestionCandidate(pool, "dificil", () => 0.99)).toBe(pool[5]);
+  });
+
+  it("nunca usa outra dificuldade como fallback", () => {
+    const poolSemFacil: QuestionCandidate[] = [
+      { id: "q_m1", difficulty: "medio" },
+      { id: "q_d1", difficulty: "dificil" },
+    ];
+    const poolSemMedio: QuestionCandidate[] = [
+      { id: "q_f1", difficulty: "facil" },
+      { id: "q_d1", difficulty: "dificil" },
+    ];
     const poolSemDificil: QuestionCandidate[] = [
       { id: "q_f1", difficulty: "facil" },
       { id: "q_m1", difficulty: "medio" },
     ];
-    const picked = pickQuestionCandidate(poolSemDificil, "expert", () => 0.1);
-    expect(picked.difficulty).toBe("medio");
+
+    expect(() => pickQuestionCandidate(poolSemFacil, "facil")).toThrow();
+    expect(() => pickQuestionCandidate(poolSemMedio, "normal")).toThrow();
+    expect(() => pickQuestionCandidate(poolSemDificil, "dificil")).toThrow();
+    expect(() => pickQuestionCandidate(poolSemDificil, "expert")).toThrow();
   });
 
-  it("faz fallback gracioso caso só reste uma categoria no pool", () => {
-    const poolSoFacil: QuestionCandidate[] = [{ id: "q_f1", difficulty: "facil" }];
-    expect(pickQuestionCandidate(poolSoFacil, "expert").difficulty).toBe("facil");
-    expect(pickQuestionCandidate(poolSoFacil, "dificil").difficulty).toBe("facil");
+  it("retorna erro controlado quando o pool está vazio", () => {
+    expect(() => pickQuestionCandidate([], "normal")).toThrow(
+      'Nenhuma pergunta da dificuldade "medio" disponível.',
+    );
   });
 
   it("extrai nível de dificuldade da partida e limpa nome do jogador", () => {
