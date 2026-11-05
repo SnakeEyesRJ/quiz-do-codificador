@@ -158,7 +158,7 @@ export function Index() {
             </div>
           </div>
 
-          <p className="mx-auto mt-4 max-w-md font-semibold tracking-wide text-ink/80">
+          <p className="mx-auto mt-4 whitespace-nowrap text-[clamp(0.55rem,2.6vw,1rem)] font-semibold tracking-wide text-ink/80">
             TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
           </p>
 
