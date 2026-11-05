@@ -20,6 +20,14 @@ export function SiteHeader() {
           QUIZ DO CODIFICADOR
         </Link>
         <nav className="flex shrink-0 items-center gap-1 text-sm font-semibold sm:gap-2.5 sm:text-base md:text-lg">
+          <button
+            type="button"
+            onClick={() => setRankingOpen(true)}
+            className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-peach sm:px-3"
+          >
+            <Trophy className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span>Ranking</span>
+          </button>
           <Link
             to="/jogar"
             search={{ rodadas: 3, dificuldade: "normal" }}
@@ -28,6 +36,7 @@ export function SiteHeader() {
           >
             Jogar
           </Link>
+          <RankingDialog open={rankingOpen} onOpenChange={setRankingOpen} />
           <Link
             to="/multiplayer"
             search={{}}
