@@ -3,14 +3,14 @@ import { OBRAS_POSTUMAS_QUESTIONS } from "@/data/obras-postumas-questions";
 
 describe("Obras Póstumas - 50 Perguntas", () => {
   it("contém exatamente 50 perguntas estruturadas", () => {
-    expect(OBRAS_POSTUMAS_QUESTIONS).toHaveLength(50);
+    expect(OBRAS_POSTUMAS_QUESTIONS).toHaveLength(100);
   });
 
-  it("possui códigos sequenciais de 251 a 300 sem repetição", () => {
+  it("possui códigos sequenciais de 251 a 350 sem repetição", () => {
     const codes = OBRAS_POSTUMAS_QUESTIONS.map((q) => q.code);
-    expect(new Set(codes).size).toBe(50);
+    expect(new Set(codes).size).toBe(100);
     expect(Math.min(...codes)).toBe(251);
-    expect(Math.max(...codes)).toBe(300);
+    expect(Math.max(...codes)).toBe(350);
   });
 
   it("todas as perguntas pertencem ao livro obras_postumas", () => {
@@ -47,11 +47,11 @@ describe("Obras Póstumas - 50 Perguntas", () => {
     for (const q of OBRAS_POSTUMAS_QUESTIONS) {
       counts[q.correct_option]++;
     }
-    expect(counts.A).toBe(10);
-    expect(counts.B).toBe(10);
-    expect(counts.C).toBe(10);
-    expect(counts.D).toBe(10);
-    expect(counts.E).toBe(10);
+    expect(counts.A).toBe(20);
+    expect(counts.B).toBe(20);
+    expect(counts.C).toBe(20);
+    expect(counts.D).toBe(20);
+    expect(counts.E).toBe(20);
   });
 
   it("cobre a 1ª Parte (Filosofia, Doutrina e Teoria) e a 2ª Parte (História, Previsões e Constituição)", () => {

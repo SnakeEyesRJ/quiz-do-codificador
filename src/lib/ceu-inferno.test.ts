@@ -3,14 +3,14 @@ import { CEU_INFERNO_QUESTIONS } from "@/data/ceu-inferno-questions";
 
 describe("O Céu e o Inferno - 50 Perguntas", () => {
   it("contém exatamente 50 perguntas estruturadas", () => {
-    expect(CEU_INFERNO_QUESTIONS).toHaveLength(50);
+    expect(CEU_INFERNO_QUESTIONS).toHaveLength(100);
   });
 
-  it("possui códigos sequenciais de 101 a 150 sem repetição", () => {
+  it("possui códigos sequenciais de 101 a 200 sem repetição", () => {
     const codes = CEU_INFERNO_QUESTIONS.map((q) => q.code);
-    expect(new Set(codes).size).toBe(50);
+    expect(new Set(codes).size).toBe(100);
     expect(Math.min(...codes)).toBe(101);
-    expect(Math.max(...codes)).toBe(150);
+    expect(Math.max(...codes)).toBe(200);
   });
 
   it("todas as perguntas pertencem ao livro ceu_inferno", () => {
