@@ -161,11 +161,11 @@ function Play() {
       setShown(
         r.roundWinner
           ? {
-              ...r.state,
-              currentRound: r.finishedRound,
-              playerScore: r.roundScore.player,
-              codificadorScore: r.roundScore.codificador,
-            }
+            ...r.state,
+            currentRound: r.finishedRound,
+            playerScore: r.roundScore.player,
+            codificadorScore: r.roundScore.codificador,
+          }
           : r.state,
       );
       setState(r.state);
