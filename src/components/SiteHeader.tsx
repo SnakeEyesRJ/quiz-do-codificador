@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Users } from "lucide-react";
+import { Trophy, Users } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { PlayerAvatar } from "./PlayerAvatar";
+import { RankingDialog } from "./RankingDialog";
 
 export function SiteHeader() {
   const { user, profile, signInWithGoogle, signOut } = useAuth();
+  const [rankingOpen, setRankingOpen] = useState(false);
   return (
     <header className="border-b border-border/70 bg-cream/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4 sm:py-3.5">
