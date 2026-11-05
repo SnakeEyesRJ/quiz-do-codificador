@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { OS_MENSAGEIROS_QUESTIONS } from "@/data/os-mensageiros-questions";
 
 describe("OS_MENSAGEIROS_QUESTIONS", () => {
-  it("contains exactly 100 questions from Os Mensageiros", () => {
-    expect(OS_MENSAGEIROS_QUESTIONS).toHaveLength(100);
+  it("contains exactly 50 questions from Os Mensageiros", () => {
+    expect(OS_MENSAGEIROS_QUESTIONS).toHaveLength(50);
   });
 
-  it("assigns sequential codes from 351 to 450", () => {
+  it("assigns sequential codes from 351 to 400", () => {
     const codes = OS_MENSAGEIROS_QUESTIONS.map((q) => q.code);
-    const expected = Array.from({ length: 100 }, (_, i) => 351 + i);
+    const expected = Array.from({ length: 50 }, (_, i) => 351 + i);
     expect(codes).toEqual(expected);
   });
 
@@ -28,9 +28,9 @@ describe("OS_MENSAGEIROS_QUESTIONS", () => {
     }
   });
 
-  it("has unique statements across all 100 questions", () => {
+  it("has unique statements across all 50 questions", () => {
     const statements = new Set(OS_MENSAGEIROS_QUESTIONS.map((q) => q.statement));
-    expect(statements.size).toBe(100);
+    expect(statements.size).toBe(50);
   });
 
   it("distributes correct_option evenly across A, B, C, D, and E (10 each)", () => {
@@ -38,6 +38,6 @@ describe("OS_MENSAGEIROS_QUESTIONS", () => {
     for (const q of OS_MENSAGEIROS_QUESTIONS) {
       counts[q.correct_option]++;
     }
-    expect(counts).toEqual({ A: 20, B: 20, C: 20, D: 20, E: 20 });
+    expect(counts).toEqual({ A: 10, B: 10, C: 10, D: 10, E: 10 });
   });
 });

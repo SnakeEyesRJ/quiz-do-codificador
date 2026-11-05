@@ -3,14 +3,14 @@ import { GENESE_QUESTIONS } from "@/data/genese-questions";
 
 describe("A Gênese - 50 Perguntas", () => {
   it("contém exatamente 50 perguntas estruturadas", () => {
-    expect(GENESE_QUESTIONS).toHaveLength(100);
+    expect(GENESE_QUESTIONS).toHaveLength(50);
   });
 
-  it("possui códigos sequenciais de 151 a 250 sem repetição", () => {
+  it("possui códigos sequenciais de 151 a 200 sem repetição", () => {
     const codes = GENESE_QUESTIONS.map((q) => q.code);
-    expect(new Set(codes).size).toBe(100);
+    expect(new Set(codes).size).toBe(50);
     expect(Math.min(...codes)).toBe(151);
-    expect(Math.max(...codes)).toBe(250);
+    expect(Math.max(...codes)).toBe(200);
   });
 
   it("todas as perguntas pertencem ao livro genese", () => {

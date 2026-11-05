@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { NOSSO_LAR_QUESTIONS } from "@/data/nosso-lar-questions";
 
 describe("NOSSO_LAR_QUESTIONS", () => {
-  it("contains exactly 100 questions from Nosso Lar", () => {
-    expect(NOSSO_LAR_QUESTIONS).toHaveLength(100);
+  it("contains exactly 50 questions from Nosso Lar", () => {
+    expect(NOSSO_LAR_QUESTIONS).toHaveLength(50);
   });
 
-  it("assigns sequential codes from 301 to 400", () => {
+  it("assigns sequential codes from 301 to 350", () => {
     const codes = NOSSO_LAR_QUESTIONS.map((q) => q.code);
-    const expected = Array.from({ length: 100 }, (_, i) => 301 + i);
+    const expected = Array.from({ length: 50 }, (_, i) => 301 + i);
     expect(codes).toEqual(expected);
   });
 
@@ -28,9 +28,9 @@ describe("NOSSO_LAR_QUESTIONS", () => {
     }
   });
 
-  it("has unique statements across all 100 questions", () => {
+  it("has unique statements across all 50 questions", () => {
     const statements = new Set(NOSSO_LAR_QUESTIONS.map((q) => q.statement));
-    expect(statements.size).toBe(100);
+    expect(statements.size).toBe(50);
   });
 
   it("distributes correct_option evenly across A, B, C, D, and E (10 each)", () => {
@@ -38,6 +38,6 @@ describe("NOSSO_LAR_QUESTIONS", () => {
     for (const q of NOSSO_LAR_QUESTIONS) {
       counts[q.correct_option]++;
     }
-    expect(counts).toEqual({ A: 20, B: 20, C: 20, D: 20, E: 20 });
+    expect(counts).toEqual({ A: 10, B: 10, C: 10, D: 10, E: 10 });
   });
 });

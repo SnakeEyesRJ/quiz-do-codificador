@@ -62,93 +62,225 @@ export async function getCurrentRound(matchId: string, number: number) {
   return data;
 }
 
-
 export async function ensureQuestionsSeeded() {
-  const upsertStandard = async (rows: any[]) => {
-    const { error } = await supabaseAdmin.from("questions").upsert(rows, { onConflict: "statement" });
-    if (error) throw new Error(error.message);
-  };
+  try {
+    const { data: ceuQuestions, error: checkErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "ceu_inferno")
+      .limit(1);
 
-  {
-    const { CEU_INFERNO_QUESTIONS } = await import("@/data/ceu-inferno-questions");
-    await upsertStandard(CEU_INFERNO_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { GENESE_QUESTIONS } = await import("@/data/genese-questions");
-    await upsertStandard(GENESE_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { LIVRO_MEDIUNS_QUESTIONS } = await import("@/data/livro-mediuns-questions");
-    await upsertStandard(LIVRO_MEDIUNS_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { OBRAS_POSTUMAS_QUESTIONS } = await import("@/data/obras-postumas-questions");
-    await upsertStandard(OBRAS_POSTUMAS_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { NOSSO_LAR_QUESTIONS } = await import("@/data/nosso-lar-questions");
-    await upsertStandard(NOSSO_LAR_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.options.A, option_b: q.options.B, option_c: q.options.C, option_d: q.options.D, option_e: q.options.E,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { OS_MENSAGEIROS_QUESTIONS } = await import("@/data/os-mensageiros-questions");
-    await upsertStandard(OS_MENSAGEIROS_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.options.A, option_b: q.options.B, option_c: q.options.C, option_d: q.options.D, option_e: q.options.E,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { O_QUE_E_ESPIRITISMO_QUESTIONS } = await import("@/data/o-que-e-espiritismo-questions");
-    await upsertStandard(O_QUE_E_ESPIRITISMO_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { LIVRO_ESPIRITOS_QUESTIONS } = await import("@/data/livro-espiritos-questions");
-    await upsertStandard(LIVRO_ESPIRITOS_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
-  }
-  {
-    const { EVANGELHO_QUESTIONS } = await import("@/data/evangelho-questions");
-    await upsertStandard(EVANGELHO_QUESTIONS.map((q: any) => ({
-      code: q.code, book: q.book, statement: q.statement,
-      option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, option_e: q.option_e,
-      correct_option: q.correct_option, explanation: q.explanation, reference: q.reference,
-      difficulty: q.difficulty, active: q.active,
-    })));
+    if (!checkErr && (!ceuQuestions || ceuQuestions.length === 0)) {
+      const { CEU_INFERNO_QUESTIONS } = await import("@/data/ceu-inferno-questions");
+      await supabaseAdmin.from("questions").upsert(
+        CEU_INFERNO_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
+
+    const { data: geneseQuestions, error: geneseCheckErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "genese")
+      .limit(1);
+
+    if (!geneseCheckErr && (!geneseQuestions || geneseQuestions.length === 0)) {
+      const { GENESE_QUESTIONS } = await import("@/data/genese-questions");
+      await supabaseAdmin.from("questions").upsert(
+        GENESE_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
+
+    const { data: mediunsQuestions, error: mediunsCheckErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "livro_mediuns")
+      .limit(1);
+
+    if (!mediunsCheckErr && (!mediunsQuestions || mediunsQuestions.length === 0)) {
+      const { LIVRO_MEDIUNS_QUESTIONS } = await import("@/data/livro-mediuns-questions");
+      await supabaseAdmin.from("questions").upsert(
+        LIVRO_MEDIUNS_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
+
+    const { data: obrasQuestions, error: obrasCheckErr } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("book", "obras_postumas")
+      .limit(1);
+
+    if (!obrasCheckErr && (!obrasQuestions || obrasQuestions.length === 0)) {
+      const { OBRAS_POSTUMAS_QUESTIONS } = await import("@/data/obras-postumas-questions");
+      await supabaseAdmin.from("questions").upsert(
+        OBRAS_POSTUMAS_QUESTIONS.map((q) => ({
+          code: q.code,
+          book: q.book,
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: q.active,
+        })),
+        { onConflict: "statement" },
+      );
+    }
+
+    const { data: nlCheck } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("code", 301)
+      .limit(1);
+
+    if (!nlCheck || nlCheck.length === 0) {
+      const { NOSSO_LAR_QUESTIONS } = await import("@/data/nosso-lar-questions");
+      const rows = NOSSO_LAR_QUESTIONS.map((q) => ({
+        code: q.code,
+        book: q.book as string,
+        statement: q.statement,
+        option_a: q.options.A,
+        option_b: q.options.B,
+        option_c: q.options.C,
+        option_d: q.options.D,
+        option_e: q.options.E,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: q.active,
+      }));
+      const { error: nlErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rows, { onConflict: "statement" });
+      if (nlErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rows.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
+    }
+
+    const { data: omCheck } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("code", 351)
+      .limit(1);
+
+    if (!omCheck || omCheck.length === 0) {
+      const { OS_MENSAGEIROS_QUESTIONS } = await import("@/data/os-mensageiros-questions");
+      const rows = OS_MENSAGEIROS_QUESTIONS.map((q) => ({
+        code: q.code,
+        book: q.book as string,
+        statement: q.statement,
+        option_a: q.options.A,
+        option_b: q.options.B,
+        option_c: q.options.C,
+        option_d: q.options.D,
+        option_e: q.options.E,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: q.active,
+      }));
+      const { error: omErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rows, { onConflict: "statement" });
+      if (omErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rows.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
+    }
+
+    const { data: oqeCheck } = await supabaseAdmin
+      .from("questions")
+      .select("id")
+      .eq("code", 801)
+      .limit(1);
+
+    if (!oqeCheck || oqeCheck.length === 0) {
+      const { O_QUE_E_ESPIRITISMO_QUESTIONS } = await import(
+        "@/data/o-que-e-espiritismo-questions"
+      );
+      const rows = O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => ({
+        code: q.code,
+        book: q.book as string,
+        statement: q.statement,
+        option_a: q.option_a,
+        option_b: q.option_b,
+        option_c: q.option_c,
+        option_d: q.option_d,
+        option_e: q.option_e,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: q.active,
+      }));
+      const { error: oqeErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rows, { onConflict: "statement" });
+      if (oqeErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rows.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
+    }
+  } catch (e) {
+    console.warn("[Seed] Aviso ao verificar/sincronizar perguntas complementares:", e);
   }
 }
 

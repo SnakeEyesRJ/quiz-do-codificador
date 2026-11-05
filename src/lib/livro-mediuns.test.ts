@@ -3,14 +3,14 @@ import { LIVRO_MEDIUNS_QUESTIONS } from "@/data/livro-mediuns-questions";
 
 describe("O Livro dos Médiuns - 50 Perguntas", () => {
   it("contém exatamente 50 perguntas estruturadas", () => {
-    expect(LIVRO_MEDIUNS_QUESTIONS).toHaveLength(100);
+    expect(LIVRO_MEDIUNS_QUESTIONS).toHaveLength(50);
   });
 
-  it("possui códigos sequenciais de 201 a 300 sem repetição", () => {
+  it("possui códigos sequenciais de 201 a 250 sem repetição", () => {
     const codes = LIVRO_MEDIUNS_QUESTIONS.map((q) => q.code);
-    expect(new Set(codes).size).toBe(100);
+    expect(new Set(codes).size).toBe(50);
     expect(Math.min(...codes)).toBe(201);
-    expect(Math.max(...codes)).toBe(300);
+    expect(Math.max(...codes)).toBe(250);
   });
 
   it("todas as perguntas pertencem ao livro livro_mediuns", () => {
