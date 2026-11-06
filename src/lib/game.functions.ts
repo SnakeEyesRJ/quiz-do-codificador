@@ -4,10 +4,9 @@ import {
   applyAnswer,
   applyRoundWin,
   cleanPlayerName,
-  CODIFICADOR_ACCURACY,
   DIFFICULTY_LEVELS,
   extractMatchDifficulty,
-  pickQuestionCandidate,
+  pickUnusedQuestionCandidate,
   type GameDifficulty,
   type Side,
 } from "./game-rules";
@@ -39,6 +38,7 @@ export interface PublicQuestion {
     | "genese"
     | "livro_mediuns"
     | "obras_postumas"
+    | "o_que_e_espiritismo"
     | "nosso_lar"
     | "os_mensageiros";
   statement: string;
@@ -86,9 +86,8 @@ export const startMatch = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }): Promise<MatchState> => {
-    const { supabaseAdmin, getOptionalUserId, ensureQuestionsSeeded } =
+    const { supabaseAdmin, getOptionalUserId } =
       await import("./game.server");
-    await ensureQuestionsSeeded();
     const userId = await getOptionalUserId();
     let name = data.playerName || "Jogador";
     if (userId) {
@@ -190,11 +189,8 @@ export const nextQuestion = createServerFn({ method: "POST" })
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
 
-      const fresh = all.filter((q) => !usedIds.has(q.id));
-      const pool = fresh.length ? fresh : all;
-
       // Conduz as perguntas de acordo com o nível de dificuldade selecionado para o jogador
-      const candidate = pickQuestionCandidate(pool, matchDifficulty);
+      const candidate = pickUnusedQuestionCandidate(all, usedIds, matchDifficulty);
       questionId = candidate.id;
 
       const { data: ins, error: insErr } = await supabaseAdmin

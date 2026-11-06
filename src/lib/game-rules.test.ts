@@ -6,6 +6,7 @@ import {
   extractMatchDifficulty,
   getRoundsToWin,
   pickQuestionCandidate,
+  pickUnusedQuestionCandidate,
   type QuestionCandidate,
 } from "./game-rules";
 
@@ -146,6 +147,17 @@ describe("seleção de perguntas por nível de dificuldade", () => {
       'Nenhuma pergunta da dificuldade "medio" disponível.',
     );
   });
+
+  it.each(["facil", "normal", "dificil", "expert"] as const)(
+    "%s: ao esgotar o nível, repete somente perguntas da dificuldade escolhida",
+    (difficulty) => {
+      const expected = difficulty === "facil" ? "facil" : difficulty === "normal" ? "medio" : "dificil";
+      const used = new Set(pool.filter((q) => q.difficulty === expected).map((q) => q.id));
+      for (const random of [0, 0.4, 0.99]) {
+        expect(pickUnusedQuestionCandidate(pool, used, difficulty, () => random).difficulty).toBe(expected);
+      }
+    },
+  );
 
   it("extrai nível de dificuldade da partida e limpa nome do jogador", () => {
     expect(extractMatchDifficulty({ difficulty: "expert" })).toBe("expert");

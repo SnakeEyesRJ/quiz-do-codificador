@@ -65,7 +65,21 @@ export function pickQuestionCandidate<T extends QuestionCandidate>(
     throw new Error(`Nenhuma pergunta da dificuldade "${requiredDifficulty}" disponível.`);
   }
 
-  return pool[Math.floor(random() * pool.length)]!;
+  const candidate = pool[Math.floor(random() * pool.length)];
+  if (!candidate) throw new Error("Não foi possível selecionar uma pergunta.");
+  return candidate;
+}
+
+/** Exhaustion repeats only the chosen level, never switches to another level. */
+export function pickUnusedQuestionCandidate<T extends QuestionCandidate>(
+  candidates: T[],
+  usedIds: ReadonlySet<string>,
+  difficulty: GameDifficulty,
+  random: () => number = Math.random,
+): T {
+  const eligible = candidates.filter((q) => q.difficulty === DIFFICULTY_QUESTION_MAP[difficulty]);
+  const fresh = eligible.filter((q) => !usedIds.has(q.id));
+  return pickQuestionCandidate(fresh.length ? fresh : eligible, difficulty, random);
 }
 
 export function cleanPlayerName(rawName: string): string {

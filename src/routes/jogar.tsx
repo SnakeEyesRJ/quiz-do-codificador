@@ -18,7 +18,6 @@ import {
   DIFFICULTY_DESCRIPTIONS,
   DIFFICULTY_LABELS,
   DIFFICULTY_LEVELS,
-  QUESTION_DIFFICULTY_LABELS,
   type GameDifficulty,
 } from "@/lib/game-rules";
 import {
@@ -332,7 +331,7 @@ function Play() {
                 </span>
                 {question.difficulty && (
                   <span className="rounded-full border border-border bg-peach/40 px-2 py-0.5 font-semibold text-ink">
-                    {QUESTION_DIFFICULTY_LABELS[question.difficulty] ?? question.difficulty}
+                    {DIFFICULTY_LABELS[state.difficulty]}
                   </span>
                 )}
               </div>
