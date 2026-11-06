@@ -4,7 +4,7 @@ import {
   applyRoundWin,
   DIFFICULTY_LEVELS,
   extractMatchDifficulty,
-  pickQuestionCandidate,
+  pickUnusedQuestionCandidate,
   type GameDifficulty,
   type Side,
 } from "./game-rules";
@@ -307,9 +307,7 @@ async function createQuestion(
   if (error) fail(error.message);
   if (!all?.length) fail("Não há perguntas ativas no banco.");
 
-  const fresh = all.filter((q) => !usedIds.has(q.id));
-  const pool = fresh.length ? fresh : all;
-  const candidate = pickQuestionCandidate(pool, extractMatchDifficulty(match), random);
+  const candidate = pickUnusedQuestionCandidate(all, usedIds, extractMatchDifficulty(match), random);
 
   const { data: ins, error: insErr } = await admin
     .from("answers")

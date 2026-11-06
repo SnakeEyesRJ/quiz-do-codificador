@@ -15,9 +15,8 @@ export const mpCreateRoom = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }): Promise<{ code: string }> => {
-    const { supabaseAdmin, requireUser, ensureQuestionsSeeded } = await import("./game.server");
+    const { supabaseAdmin, requireUser } = await import("./game.server");
     const { createRoom } = await import("./multiplayer.server");
-    await ensureQuestionsSeeded();
     const user = await requireUser();
     return createRoom(supabaseAdmin, user, data);
   });

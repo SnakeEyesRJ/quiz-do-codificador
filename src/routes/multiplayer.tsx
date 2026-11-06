@@ -23,7 +23,6 @@ import {
   DIFFICULTY_DESCRIPTIONS,
   DIFFICULTY_LABELS,
   DIFFICULTY_LEVELS,
-  QUESTION_DIFFICULTY_LABELS,
   type GameDifficulty,
 } from "@/lib/game-rules";
 import {
@@ -736,7 +735,7 @@ function MultiplayerPage() {
                   </span>
                   {question.difficulty && (
                     <span className="rounded-full border border-border bg-peach/40 px-2 py-0.5 text-xs font-semibold text-ink">
-                      {QUESTION_DIFFICULTY_LABELS[question.difficulty] ?? question.difficulty}
+                      {DIFFICULTY_LABELS[roomState.difficulty]}
                     </span>
                   )}
                 </div>
