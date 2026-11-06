@@ -735,7 +735,7 @@ function MultiplayerPage() {
                   </span>
                   {question.difficulty && (
                     <span className="rounded-full border border-border bg-peach/40 px-2 py-0.5 text-xs font-semibold text-ink">
-                      {DIFFICULTY_LABELS[state.difficulty]}
+                      {DIFFICULTY_LABELS[roomState.difficulty]}
                     </span>
                   )}
                 </div>
