@@ -191,10 +191,11 @@ export const nextQuestion = createServerFn({ method: "POST" })
       answerId = pending.id;
       questionId = pending.question_id;
     } else {
-      const { data: used } = await supabaseAdmin
+      const { data: used, error: usedError } = await supabaseAdmin
         .from("answers")
         .select("question_id")
         .eq("match_id", match.id);
+      if (usedError) throw new Error(usedError.message);
       const usedIds = new Set((used ?? []).map((u) => u.question_id));
       const { data: all, error } = await supabaseAdmin
         .from("questions")
