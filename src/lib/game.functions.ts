@@ -41,7 +41,6 @@ export interface PublicQuestion {
     | "genese"
     | "livro_mediuns"
     | "obras_postumas"
-    | "o_que_e_espiritismo"
     | "nosso_lar"
     | "os_mensageiros";
   statement: string;
@@ -85,7 +84,7 @@ export const startMatch = createServerFn({ method: "POST" })
           .optional()
           .default(3),
         difficulty: z.enum(DIFFICULTY_LEVELS).optional().default("normal"),
-        book: z.enum(["todos", "livro_espiritos", "livro_mediuns", "evangelho", "ceu_inferno", "genese", "obras_postumas", "o_que_e_espiritismo", "nosso_lar", "os_mensageiros"]).optional().default("todos"),
+        book: z.enum(["todos", "livro_espiritos", "livro_mediuns", "evangelho", "ceu_inferno", "genese", "obras_postumas", "nosso_lar", "os_mensageiros"]).optional().default("todos"),
       })
       .parse(d),
   )
@@ -111,7 +110,7 @@ export const startMatch = createServerFn({ method: "POST" })
     const chosenDifficulty = data.difficulty ?? "normal";
     const chosenBook = data.book ?? "todos";
     const availableForBook = chosenBook === "todos"
-      ? (availableQuestions ?? [])
+      ? (availableQuestions ?? []).filter((question) => question.book !== "o_que_e_espiritismo")
       : (availableQuestions ?? []).filter(
           (question) => question.book === chosenBook || resolveQuestionBook(question) === chosenBook,
         );
@@ -206,7 +205,7 @@ export const nextQuestion = createServerFn({ method: "POST" })
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
       const bookCandidates = matchBook === "todos"
-        ? all
+        ? all.filter((item) => item.book !== "o_que_e_espiritismo")
         : all.filter(
             (item) => item.book === matchBook || resolveQuestionBook(item) === matchBook,
           );

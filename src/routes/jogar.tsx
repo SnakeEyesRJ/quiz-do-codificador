@@ -85,7 +85,6 @@ const BOOK_LABEL: Record<string, string> = {
   genese: "A Gênese",
   livro_mediuns: "O Livro dos Médiuns",
   obras_postumas: "Obras Póstumas",
-  o_que_e_espiritismo: "O Que é o Espiritismo",
   nosso_lar: "Nosso Lar",
   os_mensageiros: "Os Mensageiros",
 };
