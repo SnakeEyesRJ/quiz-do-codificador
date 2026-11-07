@@ -101,13 +101,6 @@ const PDF_BOOKS = [
     url: "/livros/Obras-Postumas.pdf",
     size: "3.0 MB",
   },
-  {
-    title: "O Que é o Espiritismo",
-    year: "1859",
-    filename: "O-Que-E-O-Espiritismo.pdf",
-    url: "/livros/O-Que-E-O-Espiritismo.pdf",
-    size: "1.5 MB",
-  },
 ];
 
 export const Route = createFileRoute("/")({
@@ -702,13 +695,13 @@ export function Index() {
                     LIVROS EM PDF — DOWNLOAD DAS OBRAS
                   </h2>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    Faça o download gratuito dos PDFs das 9 obras espíritas utilizadas neste
+                    Faça o download gratuito dos PDFs das 8 obras espíritas utilizadas neste
                     projeto:
                   </p>
                 </div>
               </div>
               <span className="w-fit rounded-full bg-peach/80 px-3 py-1 text-xs font-bold text-ink border border-border">
-                9 Livros Disponíveis
+                8 Livros Disponíveis
               </span>
             </div>
 
