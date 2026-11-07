@@ -5,6 +5,7 @@ import {
   DIFFICULTY_LEVELS,
   extractMatchDifficulty,
   pickUnusedQuestionCandidate,
+  resolveQuestionBook,
   type GameDifficulty,
   type Side,
 } from "./game-rules";
@@ -99,12 +100,7 @@ async function loadQuestionPublic(
     .single();
   if (error) fail(error.message);
   const q = data as Row;
-  const resolvedBook: string =
-    (q["code"] >= 351 && q["code"] <= 400) || (q["code"] >= 751 && q["code"] <= 800)
-      ? "os_mensageiros"
-      : (q["code"] >= 301 && q["code"] <= 350) || (q["code"] >= 701 && q["code"] <= 750)
-        ? "nosso_lar"
-        : q["book"];
+  const resolvedBook = resolveQuestionBook({ book: q["book"], code: q["code"] }) ?? q["book"];
   return {
     answerId,
     code: q["code"],
@@ -193,22 +189,12 @@ export async function createRoom(
     created_at: now.toISOString(),
   };
 
-  let inserted = await admin
+  const { data: match, error: insertError } = await admin
     .from("matches")
     .insert(payload as any)
     .select()
     .single();
-  if (inserted.error) {
-    // Colunas opcionais ainda não aplicadas no banco remoto: a tag no nome garante os dados.
-    delete payload["difficulty"];
-    inserted = await admin
-      .from("matches")
-      .insert(payload as any)
-      .select()
-      .single();
-    if (inserted.error) fail(inserted.error.message);
-  }
-  const match = inserted.data as Row;
+  if (insertError || !match) fail(insertError?.message ?? "Não foi possível criar a sala.");
 
   const { error: rErr } = await admin.from("rounds").insert({ match_id: match["id"], number: 1 });
   if (rErr) fail(rErr.message);
@@ -309,24 +295,17 @@ async function createQuestion(
 
   const candidate = pickUnusedQuestionCandidate(all, usedIds, extractMatchDifficulty(match), random);
 
-  const { data: ins, error: insErr } = await admin
+  const { error: insErr } = await admin
     .from("answers")
     .insert({
       match_id: match["id"],
       round_id: round["id"],
       question_id: candidate.id,
       served_at: now.toISOString(),
-    })
-    .select("id")
-    .single();
-  if (insErr) fail(insErr.message);
-
-  // Se dois jogadores dispararam a criação ao mesmo tempo, só a pergunta mais antiga permanece.
-  const rows = await loadAnswers(admin, match["id"]);
-  const keep = oldestPending(rows);
-  if (keep && keep["id"] !== ins.id) {
-    await admin.from("answers").delete().eq("id", ins.id);
-  }
+    });
+  // The partial unique index guarantees only one unanswered question per match.
+  // A concurrent request may win the insert; the existing pending row is reused.
+  if (insErr && insErr.code !== "23505") fail(insErr.message);
 }
 
 /** Corrige o placar da rodada/partida após uma pergunta ser resolvida. Chamada uma única vez por pergunta. */
