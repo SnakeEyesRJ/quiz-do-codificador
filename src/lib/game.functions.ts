@@ -95,7 +95,7 @@ export const startMatch = createServerFn({ method: "POST" })
     const { supabaseAdmin, getOptionalUserId } =
       await import("./game.server");
     const userId = await getOptionalUserId();
-    let name = data.playerName || "Jogador";
+    let name = cleanPlayerName(data.playerName || "Jogador") || "Jogador";
     if (userId) {
       const { data: p } = await supabaseAdmin
         .from("profiles")
