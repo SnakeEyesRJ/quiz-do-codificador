@@ -185,7 +185,7 @@ describe("classificação da obra da pergunta", () => {
   });
 
   it("usa a faixa do código somente como fallback para registros legados", () => {
-    expect(resolveQuestionBook({ code: 801 })).toBe("o_que_e_espiritismo");
+    expect(resolveQuestionBook({ code: 801 })).toBeNull();
     expect(resolveQuestionBook({ code: 351 })).toBe("os_mensageiros");
     expect(resolveQuestionBook({ code: 301 })).toBe("nosso_lar");
     expect(resolveQuestionBook({ book: "livro_desconhecido", code: 1 })).toBeNull();
