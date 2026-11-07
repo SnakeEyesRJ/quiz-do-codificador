@@ -114,7 +114,7 @@ class Query {
     return this;
   }
 
-  private exec(): { data: any; error: { message: string } | null } {
+  private exec(): { data: any; error: { message: string; code?: string } | null } {
     const rows = this.db.tables[this.table]!;
     let affected: Row[] = [];
 
@@ -123,6 +123,20 @@ class Query {
     } else if (this.op === "insert") {
       const items: Row[] = Array.isArray(this.payload) ? this.payload : [this.payload];
       for (const item of items) {
+        // Mirror the production partial unique index: one unanswered row per match.
+        if (
+          this.table === "answers" &&
+          !item["answered_at"] &&
+          rows.some((r) => r["match_id"] === item["match_id"] && !r["answered_at"])
+        ) {
+          return {
+            data: null,
+            error: {
+              code: "23505",
+              message: "duplicate key value violates unique constraint answers_one_pending_per_match_idx",
+            },
+          };
+        }
         for (const col of this.db.missingColumns[this.table] ?? []) {
           if (col in item) {
             return { data: null, error: { message: `column ${this.table}.${col} does not exist` } };
