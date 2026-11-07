@@ -26,16 +26,16 @@ export type BookSelection = "todos" | BookId;
 
 export const BOOK_OPTIONS: { value: BookSelection; label: string }[] = [
   { value: "todos", label: "Todos os livros" },
-  { value: "genese", label: "A Gênese" },
-  { value: "nosso_lar", label: "Nosso Lar" },
-  { value: "ceu_inferno", label: "O Céu e o Inferno" },
-  { value: "evangelho", label: "O Evangelho Segundo o Espiritismo" },
-  { value: "livro_espiritos", label: "O Livro dos Espíritos" },
-  { value: "livro_mediuns", label: "O Livro dos Médiuns" },
-  { value: "o_que_e_espiritismo", label: "O Que é o Espiritismo" },
-  { value: "obras_postumas", label: "Obras Póstumas" },
-  { value: "os_mensageiros", label: "Os Mensageiros" },
-];
+  { value: "genese", label: "01 - A Gênese" },
+  { value: "ceu_inferno", label: "02 - O Céu e o Inferno" },
+  { value: "evangelho", label: "03 - O Evangelho Segundo o Espiritismo" },
+  { value: "livro_espiritos", label: "04 - O Livro dos Espíritos" },
+  { value: "livro_mediuns", label: "05 - O Livro dos Médiuns" },
+  { value: "os_mensageiros", label: "06 - Os Mensageiros" },
+  { value: "nosso_lar", label: "07 - Nosso Lar" },
+  { value: "obras_postumas", label: "08 - Obras Póstumas" },
+  { value: "o_que_e_espiritismo", label: "09 - O Que é o Espiritismo" },
+];;
 
 export function extractMatchBook(match: any): BookSelection {
   const tag = match?.player_name?.match(/\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|o_que_e_espiritismo|nosso_lar|os_mensageiros)\]/i);
