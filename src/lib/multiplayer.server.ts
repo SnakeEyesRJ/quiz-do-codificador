@@ -3,6 +3,7 @@ import type { Database } from "@/integrations/supabase/types";
 import {
   applyRoundWin,
   DIFFICULTY_LEVELS,
+  DIFFICULTY_QUESTION_MAP,
   extractMatchDifficulty,
   pickUnusedQuestionCandidate,
   resolveQuestionBook,
@@ -147,6 +148,20 @@ export async function createRoom(
   now: Date = new Date(),
   random: () => number = Math.random,
 ): Promise<{ code: string }> {
+  // Validate the question pool before creating a room; otherwise the players
+  // could join successfully and then be stranded without a first question.
+  const { data: pool, error: poolError } = await admin
+    .from("questions")
+    .select("id, difficulty")
+    .eq("active", true);
+  if (poolError) fail(poolError.message);
+  const availableCount = (pool ?? []).filter(
+    (question) => question.difficulty === DIFFICULTY_QUESTION_MAP[opts.difficulty],
+  ).length;
+  if (availableCount < 10) {
+    fail("Não há pelo menos 10 perguntas ativas neste nível para iniciar uma rodada sem repetição.");
+  }
+
   // Remove salas anteriores do mesmo anfitrião que ainda aguardam adversário.
   const { data: mine } = await admin
     .from("matches")
