@@ -740,7 +740,8 @@ export function Index() {
             </ul>
           </div>
 
-          <div className="mt-8 border-t border-white/30 pt-6 pb-2 text-center font-bold text-white">
+          <div className="relative mt-8 overflow-hidden border-t border-white/30 pt-6 pb-2 text-center font-bold text-white">
+            <img src="/sao-miguel-bg.png" alt="" aria-hidden="true" className="pointer-events-none mx-auto mb-3 h-44 w-auto object-contain select-none sm:h-56" style={{ opacity: 0.24 }} />
             <p className="font-display text-sm font-bold tracking-wider text-white sm:text-base">
               SNAKEEYES DEV CORP.
             </p>
