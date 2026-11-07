@@ -7,6 +7,7 @@ import {
   getRoundsToWin,
   pickQuestionCandidate,
   pickUnusedQuestionCandidate,
+  resolveQuestionBook,
   type QuestionCandidate,
 } from "./game-rules";
 
@@ -166,5 +167,19 @@ describe("seleção de perguntas por nível de dificuldade", () => {
 
     expect(cleanPlayerName("Allan [5R] [D:expert]")).toBe("Allan");
     expect(cleanPlayerName("Player 1")).toBe("Player 1");
+  });
+});
+
+describe("classificação da obra da pergunta", () => {
+  it("prioriza o livro explícito do banco sobre faixas antigas de códigos", () => {
+    expect(resolveQuestionBook({ book: "livro_espiritos", code: 351 })).toBe("livro_espiritos");
+    expect(resolveQuestionBook({ book: "genese", code: 801 })).toBe("genese");
+  });
+
+  it("usa a faixa do código somente como fallback para registros legados", () => {
+    expect(resolveQuestionBook({ code: 801 })).toBe("o_que_e_espiritismo");
+    expect(resolveQuestionBook({ code: 351 })).toBe("os_mensageiros");
+    expect(resolveQuestionBook({ code: 301 })).toBe("nosso_lar");
+    expect(resolveQuestionBook({ book: "livro_desconhecido", code: 1 })).toBeNull();
   });
 });
