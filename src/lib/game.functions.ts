@@ -81,7 +81,7 @@ export const startMatch = createServerFn({ method: "POST" })
   .inputValidator((d) =>
     z
       .object({
-        playerName: z.string().trim().max(60).optional(),
+        playerName: z.string().trim().min(1).max(60).optional(),
         totalRounds: z
           .union([z.literal(3), z.literal(5), z.literal(7), z.literal(9)])
           .optional()
@@ -106,51 +106,45 @@ export const startMatch = createServerFn({ method: "POST" })
     }
     const { data: availableQuestions, error: availableError } = await supabaseAdmin
       .from("questions")
-      .select("id, book, code")
+      .select("id, book, code, difficulty")
       .eq("active", true);
     if (availableError) throw new Error(availableError.message);
-    const availableForBook = data.book === "todos"
-      ? (availableQuestions ?? [])
-      : (availableQuestions ?? []).filter((question) => resolveQuestionBook(question) === data.book);
-    if (!availableForBook.length)
-      throw new Error(data.book === "todos"
-        ? "O banco de perguntas está vazio. Não é possível iniciar a partida."
-        : "Não há perguntas ativas para este livro. Escolha outra obra ou Todos os livros.");
-
     const chosenRounds = data.totalRounds ?? 3;
     const chosenDifficulty = data.difficulty ?? "normal";
     const chosenBook = data.book ?? "todos";
+    const availableForBook = chosenBook === "todos"
+      ? (availableQuestions ?? [])
+      : (availableQuestions ?? []).filter((question) => resolveQuestionBook(question) === chosenBook);
+    if (!availableForBook.length) {
+      throw new Error(chosenBook === "todos"
+        ? "O banco de perguntas está vazio. Não é possível iniciar a partida."
+        : "Não há perguntas ativas para este livro. Escolha outra obra ou Todos os livros.");
+    }
+    const requiredDifficulty = DIFFICULTY_QUESTION_MAP[chosenDifficulty];
+    if (!availableForBook.some((question) => question.difficulty === requiredDifficulty)) {
+      throw new Error("Não há perguntas deste livro no nível de dificuldade escolhido. Selecione outra dificuldade ou outro livro.");
+    }
     const taggedName = `${name} [${chosenRounds}R] [D:${chosenDifficulty}] [B:${chosenBook}]`;
 
-    let insertPayload: any = {
-      user_id: userId,
-      player_name: taggedName,
-      total_rounds: chosenRounds,
-      difficulty: chosenDifficulty,
-    };
-
-    let match: any;
-    const { data: mData, error: mError } = await supabaseAdmin
+    const { data: match, error: mError } = await supabaseAdmin
       .from("matches")
-      .insert(insertPayload)
+      .insert({
+        user_id: userId,
+        player_name: taggedName,
+        total_rounds: chosenRounds,
+        difficulty: chosenDifficulty,
+      })
       .select()
       .single();
-
-    if (mError) {
-      // Se a coluna 'difficulty' ainda não estiver aplicada na tabela remota do Supabase,
-      // insere sem ela (a tag [D:difficulty] no player_name garante a persistência).
-      delete insertPayload.difficulty;
-      const retry = await supabaseAdmin.from("matches").insert(insertPayload).select().single();
-      if (retry.error) throw new Error(retry.error.message);
-      match = retry.data;
-    } else {
-      match = mData;
-    }
+    if (mError || !match) throw new Error(mError?.message ?? "Não foi possível criar a partida.");
 
     const { error: rErr } = await supabaseAdmin
       .from("rounds")
       .insert({ match_id: match.id, number: 1 });
-    if (rErr) throw new Error(rErr.message);
+    if (rErr) {
+      await supabaseAdmin.from("matches").delete().eq("id", match.id);
+      throw new Error(rErr.message);
+    }
 
     return {
       matchId: match.id,
@@ -260,115 +254,52 @@ export const submitAnswer = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }): Promise<AnswerResult> => {
-    const { supabaseAdmin, loadOwnedMatch, getCurrentRound } = await import("./game.server");
-    const match = await loadOwnedMatch(data.matchId);
-    if (match.status !== "in_progress") throw new Error("A partida já terminou.");
+    const { supabaseAdmin, loadOwnedMatch } = await import("./game.server");
+    await loadOwnedMatch(data.matchId);
 
-    // Lock the answer: only the first submission is scored.
-    const { data: locked, error: lockErr } = await supabaseAdmin
-      .from("answers")
-      .update({ answered_at: new Date().toISOString(), player_option: data.option })
-      .eq("id", data.answerId)
-      .eq("match_id", match.id)
-      .is("answered_at", null)
-      .select("id, question_id")
-      .maybeSingle();
-    if (lockErr) throw new Error(lockErr.message);
-    if (!locked) throw new Error("Esta pergunta já foi respondida.");
+    // The database function locks the match, answer and round and commits the
+    // answer + score + round transition in one transaction.
+    const { data: result, error } = await (supabaseAdmin as any).rpc(
+      "submit_single_player_answer",
+      {
+        p_match_id: data.matchId,
+        p_answer_id: data.answerId,
+        p_option: data.option,
+      },
+    );
+    if (error) throw new Error(error.message);
+    if (!result?.match) throw new Error("Não foi possível registrar a resposta.");
 
-    const { data: q, error: qErr } = await supabaseAdmin
-      .from("questions")
-      .select("correct_option, explanation, reference, difficulty")
-      .eq("id", locked.question_id)
-      .single();
-    if (qErr) throw new Error(qErr.message);
-    const correct = q.correct_option as Letter;
-    const playerCorrect = data.option === correct;
-
-    // O Codificador não responde: apenas registra se o jogador acertou ou errou.
-    await supabaseAdmin
-      .from("answers")
-      .update({
-        player_correct: playerCorrect,
-        codificador_option: null,
-        codificador_correct: null,
-      })
-      .eq("id", locked.id);
-
-    const round = await getCurrentRound(match.id, match.current_round);
-    const score = applyAnswer(round.player_score, round.codificador_score, playerCorrect);
-    await supabaseAdmin
-      .from("rounds")
-      .update({
-        player_score: score.player,
-        codificador_score: score.codificador,
-        winner: score.roundWinner,
-      })
-      .eq("id", round.id);
-
-    const matchDifficulty = extractMatchDifficulty(match);
-    let state: MatchState = {
+    const match = result.match;
+    const roundScore = result.roundScore;
+    const roundWinner = result.roundWinner as Side | null;
+    const state: MatchState = {
       matchId: match.id,
       playerName: cleanPlayerName(match.player_name),
       totalRounds: extractMatchTotalRounds(match),
-      difficulty: matchDifficulty,
+      difficulty: extractMatchDifficulty(match),
       book: extractMatchBook(match),
-      status: "in_progress",
+      status: match.status,
       currentRound: match.current_round,
       playerRounds: match.player_rounds,
       codificadorRounds: match.codificador_rounds,
-      playerScore: score.player,
-      codificadorScore: score.codificador,
-      winner: null,
+      playerScore: roundWinner && match.status !== "finished" ? 0 : roundScore.player,
+      codificadorScore: roundWinner && match.status !== "finished" ? 0 : roundScore.codificador,
+      winner: match.winner,
     };
 
-    if (score.roundWinner) {
-      const r = applyRoundWin(
-        match.player_rounds,
-        match.codificador_rounds,
-        score.roundWinner,
-        extractMatchTotalRounds(match),
-      );
-      const finished = r.matchWinner !== null;
-      const nextRound = finished ? match.current_round : match.current_round + 1;
-      await supabaseAdmin
-        .from("matches")
-        .update({
-          player_rounds: r.playerRounds,
-          codificador_rounds: r.codRounds,
-          current_round: nextRound,
-          status: finished ? "finished" : "in_progress",
-          winner: r.matchWinner,
-          finished_at: finished ? new Date().toISOString() : null,
-        })
-        .eq("id", match.id);
-      if (!finished) {
-        await supabaseAdmin.from("rounds").insert({ match_id: match.id, number: nextRound });
-      }
-      state = {
-        ...state,
-        status: finished ? "finished" : "in_progress",
-        playerRounds: r.playerRounds,
-        codificadorRounds: r.codRounds,
-        currentRound: nextRound,
-        winner: r.matchWinner,
-        playerScore: finished ? score.player : 0,
-        codificadorScore: finished ? score.codificador : 0,
-      };
-    }
-
     return {
-      correctOption: correct,
-      playerOption: data.option,
-      playerCorrect,
+      correctOption: result.correctOption as Letter,
+      playerOption: result.playerOption as Letter,
+      playerCorrect: Boolean(result.playerCorrect),
       codificadorOption: null,
       codificadorCorrect: null,
       codificadorCounted: false,
-      explanation: q.explanation,
-      reference: q.reference,
-      roundWinner: score.roundWinner,
-      finishedRound: match.current_round,
-      roundScore: { player: score.player, codificador: score.codificador },
+      explanation: result.explanation,
+      reference: result.reference,
+      roundWinner,
+      finishedRound: result.finishedRound,
+      roundScore,
       state,
     };
   });
