@@ -10,6 +10,15 @@ import { RankingDialog } from "./RankingDialog";
 export function SiteHeader() {
   const { user, profile, signInWithGoogle, signOut } = useAuth();
   const [rankingOpen, setRankingOpen] = useState(false);
+  const meta = (user?.user_metadata ?? {}) as Record<string, any>;
+  const googleAccountName =
+    profile?.display_name ||
+    meta["full_name"] ||
+    meta["name"] ||
+    meta["display_name"] ||
+    user?.email?.split("@")[0] ||
+    "Perfil";
+
   return (
     <header className="border-b border-border/70 bg-cream/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-1.5 px-3 py-2.5 sm:gap-2 sm:px-4 sm:py-3 lg:flex-row lg:justify-between lg:gap-4 lg:py-3.5">
@@ -57,11 +66,12 @@ export function SiteHeader() {
               </Link>
               <Link
                 to="/perfil"
-                className="flex items-center gap-1 rounded-lg px-1.5 py-1 hover:bg-peach sm:gap-1.5 sm:px-2.5 lg:px-2 lg:py-1.5 xl:px-3"
+                className="flex max-w-[180px] items-center gap-1 rounded-lg px-1.5 py-1 hover:bg-peach sm:max-w-[220px] sm:gap-1.5 sm:px-2.5 lg:px-2 lg:py-1.5 xl:max-w-[260px] xl:px-3"
                 activeProps={{ className: "bg-peach font-bold" }}
+                title={googleAccountName}
               >
-                <PlayerAvatar url={profile?.avatar_url} size={26} className="sm:w-7 sm:h-7" />
-                <span className="hidden md:inline">Perfil</span>
+                <PlayerAvatar url={profile?.avatar_url} size={26} className="shrink-0 sm:w-7 sm:h-7" />
+                <span className="truncate">{googleAccountName}</span>
               </Link>
               <Button
                 variant="ghost"

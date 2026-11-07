@@ -67,6 +67,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.warn("Não foi possível carregar tabela profiles:", e);
     }
 
+    const identityData =
+      ((u.identities?.find((i) => i.provider === "google")?.identity_data ??
+        u.identities?.[0]?.identity_data ??
+        {}) as Record<string, any>);
+
+    const googleAvatar =
+      identityData["picture"] ||
+      identityData["avatar_url"] ||
+      meta["picture"] ||
+      meta["avatar_url"] ||
+      null;
+
     // Prioridade de dados: banco > local storage > auth user_metadata > dados padrão da conta Google
     const displayName =
       dbRow?.display_name ||
@@ -74,11 +86,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       meta["display_name"] ||
       meta["name"] ||
       meta["full_name"] ||
+      identityData["full_name"] ||
+      identityData["name"] ||
       u.email?.split("@")[0] ||
       "Jogador";
 
-    const avatarUrl =
-      dbRow?.avatar_url || local?.avatar_url || meta["avatar_url"] || meta["picture"] || null;
+    // Sempre prioriza a foto da conta Google utilizada para entrar no site
+    const avatarUrl = googleAvatar || dbRow?.avatar_url || local?.avatar_url || null;
 
     const bio = (meta["bio"] as string | undefined) ?? local?.bio ?? null;
 
@@ -92,8 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfile(resolved);
     setLocalProfile(u.id, resolved);
 
-    // Se ainda não existir registro no banco, insere o registro inicial
-    if (!dbRow) {
+    // Sincroniza registro no banco para garantir que a foto da conta Google esteja salva no perfil
+    if (!dbRow || (googleAvatar && dbRow.avatar_url !== googleAvatar)) {
       try {
         await supabase.from("profiles").upsert({
           id: u.id,

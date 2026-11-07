@@ -282,7 +282,7 @@ function Play() {
         {loading ? null : (
           <div className="mt-6 flex flex-col items-center gap-4 text-center">
             <AvatarPicker1x1
-              avatarUrl={customAvatar ?? profile?.avatar_url}
+              avatarUrl={(user ? profile?.avatar_url : null) ?? customAvatar ?? profile?.avatar_url}
               onChange={setCustomAvatar}
               size={104}
             />
@@ -348,7 +348,7 @@ function Play() {
         <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <Scoreboard
             state={board}
-            avatarUrl={customAvatar ?? profile?.avatar_url}
+            avatarUrl={(user ? profile?.avatar_url : null) ?? customAvatar ?? profile?.avatar_url}
             playerName={profile?.display_name || state?.playerName}
             className="w-full border-0 rounded-none shadow-none"
           />

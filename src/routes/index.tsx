@@ -252,7 +252,7 @@ export function Index() {
 
   {/* Campo 1:1 para foto de perfil / avatar antes de começar a partida */ }
           <AvatarPicker1x1
-            avatarUrl={customAvatar ?? profile?.avatar_url}
+            avatarUrl={(user ? profile?.avatar_url : null) ?? customAvatar ?? profile?.avatar_url}
             onChange={setCustomAvatar}
             size={104}
             className="mt-6"
