@@ -89,6 +89,8 @@ describe("seleção de perguntas por nível de dificuldade", () => {
     { id: "q_m2", difficulty: "medio" },
     { id: "q_d1", difficulty: "dificil" },
     { id: "q_d2", difficulty: "dificil" },
+    { id: "q_e1", difficulty: "expert" },
+    { id: "q_e2", difficulty: "expert" },
   ];
 
   const expectOnlyDifficulty = (
@@ -112,8 +114,8 @@ describe("seleção de perguntas por nível de dificuldade", () => {
     expectOnlyDifficulty("dificil", "dificil");
   });
 
-  it("Expert: seleciona exclusivamente perguntas difíceis (quarta classificação inexistente)", () => {
-    expectOnlyDifficulty("expert", "dificil");
+  it("Expert: seleciona exclusivamente perguntas classificadas como expert", () => {
+    expectOnlyDifficulty("expert", "expert");
   });
 
   it("mantém a seleção aleatória entre as perguntas disponíveis do nível escolhido", () => {
@@ -136,11 +138,16 @@ describe("seleção de perguntas por nível de dificuldade", () => {
       { id: "q_f1", difficulty: "facil" },
       { id: "q_m1", difficulty: "medio" },
     ];
+    const poolSemExpert: QuestionCandidate[] = [
+      { id: "q_f1", difficulty: "facil" },
+      { id: "q_d1", difficulty: "dificil" },
+    ];
 
     expect(() => pickQuestionCandidate(poolSemFacil, "facil")).toThrow();
     expect(() => pickQuestionCandidate(poolSemMedio, "normal")).toThrow();
     expect(() => pickQuestionCandidate(poolSemDificil, "dificil")).toThrow();
     expect(() => pickQuestionCandidate(poolSemDificil, "expert")).toThrow();
+    expect(() => pickQuestionCandidate(poolSemExpert, "expert")).toThrow();
   });
 
   it("retorna erro controlado quando o pool está vazio", () => {
@@ -152,7 +159,7 @@ describe("seleção de perguntas por nível de dificuldade", () => {
   it.each(["facil", "normal", "dificil", "expert"] as const)(
     "%s: ao esgotar o nível, repete somente perguntas da dificuldade escolhida",
     (difficulty) => {
-      const expected = difficulty === "facil" ? "facil" : difficulty === "normal" ? "medio" : "dificil";
+      const expected = difficulty === "facil" ? "facil" : difficulty === "normal" ? "medio" : difficulty === "dificil" ? "dificil" : "expert";
       const used = new Set(pool.filter((q) => q.difficulty === expected).map((q) => q.id));
       for (const random of [0, 0.4, 0.99]) {
         expect(pickUnusedQuestionCandidate(pool, used, difficulty, () => random).difficulty).toBe(expected);
