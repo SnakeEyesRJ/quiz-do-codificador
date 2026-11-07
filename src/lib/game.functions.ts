@@ -110,7 +110,7 @@ export const startMatch = createServerFn({ method: "POST" })
     const chosenDifficulty = data.difficulty ?? "normal";
     const chosenBook = data.book ?? "todos";
     const availableForBook = chosenBook === "todos"
-      ? (availableQuestions ?? [])
+      ? (availableQuestions ?? []).filter((question) => question.book !== "o_que_e_espiritismo")
       : (availableQuestions ?? []).filter(
           (question) => question.book === chosenBook || resolveQuestionBook(question) === chosenBook,
         );
@@ -205,7 +205,7 @@ export const nextQuestion = createServerFn({ method: "POST" })
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
       const bookCandidates = matchBook === "todos"
-        ? all
+        ? all.filter((item) => item.book !== "o_que_e_espiritismo")
         : all.filter(
             (item) => item.book === matchBook || resolveQuestionBook(item) === matchBook,
           );
