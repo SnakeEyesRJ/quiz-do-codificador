@@ -24,12 +24,12 @@ export type BookId =
   | "os_mensageiros";
 export type BookSelection = "todos" | BookId;
 
-export const BOOK_OPTIONS: { value: BookSelection; label: string }[] = [
+export const BOOK_OPTIONS: { value: BookSelection; label: string; disabled?: boolean }[] = [
   { value: "todos", label: "Todos os livros" },
   { value: "genese", label: "01 - A Gênese" },
   { value: "ceu_inferno", label: "02 - O Céu e o Inferno" },
-  { value: "evangelho", label: "03 - O Evangelho Segundo o Espiritismo" },
-  { value: "livro_espiritos", label: "04 - O Livro dos Espíritos" },
+  { value: "evangelho", label: "03 - O Evangelho Segundo o Espiritismo (em breve)", disabled: true },
+  { value: "livro_espiritos", label: "04 - O Livro dos Espíritos (em breve)", disabled: true },
   { value: "livro_mediuns", label: "05 - O Livro dos Médiuns" },
   { value: "os_mensageiros", label: "06 - Os Mensageiros" },
   { value: "nosso_lar", label: "07 - Nosso Lar" },
