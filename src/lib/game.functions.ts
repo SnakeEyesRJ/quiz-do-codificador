@@ -112,7 +112,9 @@ export const startMatch = createServerFn({ method: "POST" })
     const chosenBook = data.book ?? "todos";
     const availableForBook = chosenBook === "todos"
       ? (availableQuestions ?? [])
-      : (availableQuestions ?? []).filter((question) => resolveQuestionBook(question) === chosenBook);
+      : (availableQuestions ?? []).filter(
+          (question) => question.book === chosenBook || resolveQuestionBook(question) === chosenBook,
+        );
     if (!availableForBook.length) {
       throw new Error(chosenBook === "todos"
         ? "O banco de perguntas está vazio. Não é possível iniciar a partida."
@@ -205,7 +207,9 @@ export const nextQuestion = createServerFn({ method: "POST" })
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
       const bookCandidates = matchBook === "todos"
         ? all
-        : all.filter((item) => resolveQuestionBook(item) === matchBook);
+        : all.filter(
+            (item) => item.book === matchBook || resolveQuestionBook(item) === matchBook,
+          );
       if (!bookCandidates.length)
         throw new Error("Não há perguntas ativas para o livro selecionado.");
       const difficultyCandidates = bookCandidates.filter(
