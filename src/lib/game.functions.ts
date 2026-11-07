@@ -47,7 +47,7 @@ export interface PublicQuestion {
     | "nosso_lar"
     | "os_mensageiros";
   statement: string;
-  difficulty: "facil" | "medio" | "dificil";
+  difficulty: "facil" | "medio" | "dificil" | "expert";
   options: { letter: Letter; text: string }[];
 }
 
