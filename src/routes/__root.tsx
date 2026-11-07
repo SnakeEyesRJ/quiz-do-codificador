@@ -42,20 +42,35 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
+  const errorMessage = error instanceof Error ? error.message : String(error || "");
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold text-foreground">Esta página não carregou</h1>
         <p className="mt-2 text-sm text-muted-foreground">Algo deu errado. Tente novamente.</p>
-        <button
-          onClick={() => {
-            router.invalidate();
-            reset();
-          }}
-          className="mt-6 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-        >
-          Tentar novamente
-        </button>
+        {errorMessage && errorMessage !== "Error" && (
+          <p className="mt-2 text-xs text-muted-foreground/80 font-mono bg-card/80 p-2 rounded border border-border/60 max-w-sm mx-auto overflow-auto break-words">
+            {errorMessage}
+          </p>
+        )}
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+          >
+            Tentar novamente
+          </button>
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-md border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-peach"
+          >
+            Voltar ao início
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -66,7 +66,7 @@ export async function getCurrentRound(matchId: string, number: number) {
 
 const OQE_BY_CODE = new Map(O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => [q.code, q]));
 
-export function overlayCleanQuestion<T extends { code?: number; book?: string | null } & Record<string, any>>(
+export function overlayCleanQuestion<T extends { code?: number; book?: string | null; statement?: string; explanation?: string } & Record<string, any>>(
   q: T,
 ): T {
   const seed = q.code !== undefined ? OQE_BY_CODE.get(Number(q.code)) : undefined;
@@ -152,10 +152,10 @@ export async function ensureOQueEEspiritismoQuestions() {
       !hasMojibake &&
       activeTargetRows.length === 50 &&
       extraActiveIds.length === 0 &&
-      diffCounts.facil >= 10 &&
-      diffCounts.medio >= 10 &&
-      diffCounts.dificil >= 10 &&
-      diffCounts.expert >= 10
+      (diffCounts["facil"] ?? 0) >= 10 &&
+      (diffCounts["medio"] ?? 0) >= 10 &&
+      (diffCounts["dificil"] ?? 0) >= 10 &&
+      (diffCounts["expert"] ?? 0) >= 10
     ) {
       oqeSynced = true;
       return;

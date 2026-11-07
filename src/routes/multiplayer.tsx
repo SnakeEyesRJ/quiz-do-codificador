@@ -682,7 +682,7 @@ function MultiplayerPage() {
   return (
     <main className="mx-auto max-w-3xl px-3 py-2 sm:px-4 sm:py-4">
       {/* Bloco integrado: Placar Multiplayer + Caixa de perguntas */}
-      <div className="sticky top-2 z-20 flex max-h-[calc(100dvh-1rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:max-h-[calc(100dvh-5rem)]">
+      <div className="sticky top-2 z-20 flex max-h-[calc(100dvh-6.5rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:max-h-[calc(100dvh-5rem)]">
         {/* Placar no topo da caixa */}
         <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <VersusBoard
@@ -696,7 +696,7 @@ function MultiplayerPage() {
         </div>
 
         {/* Caixa de Perguntas e Respostas */}
-        <div className="min-h-0 w-full flex-1 overflow-y-auto bg-card p-3 sm:p-5">
+        <div className="min-h-0 w-full flex-1 overflow-y-auto bg-card p-3 pb-6 sm:p-5 sm:pb-5 scroll-smooth">
           {/* Barra de Tempo da Pergunta */}
           {question && (
             <div className="mb-3">

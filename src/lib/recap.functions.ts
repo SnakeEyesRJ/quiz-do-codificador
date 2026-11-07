@@ -75,7 +75,7 @@ export const generateStudyRecap = createServerFn({ method: "POST" })
           { letter: "D", text: question.option_d },
           { letter: "E", text: question.option_e },
         ],
-        playerOption: answer.player_option,
+        playerOption: answer.player_option ?? "",
         correctOption: question.correct_option,
         explanation: question.explanation,
         reference: question.reference,

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, Loader2, Users, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -110,6 +110,34 @@ function Play() {
   const [shown, setShown] = useState<MatchState | null>(null);
   // Answers the player missed in this match, collected locally for the optional post-game recap
   const [missed, setMissed] = useState<StudyRecapItem[]>([]);
+  const questionBoxRef = useRef<HTMLElement | null>(null);
+  const nextActionRef = useRef<HTMLDivElement | null>(null);
+
+  // Rolagem suave e automatica na caixa de perguntas:
+  // Ao responder, rola ate o botao "Proxima pergunta" (ou acao final)
+  // Ao carregar uma nova pergunta, volta a rolagem para o topo
+  useEffect(() => {
+    if (result) {
+      const timer = setTimeout(() => {
+        if (nextActionRef.current) {
+          nextActionRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        if (questionBoxRef.current) {
+          questionBoxRef.current.scrollTo({
+            top: questionBoxRef.current.scrollHeight,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+    if (questionBoxRef.current) {
+      questionBoxRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    return undefined;
+  }, [result, question?.answerId]);
 
   useEffect(() => {
     setCustomAvatar(getStoredCustomAvatar());
@@ -343,7 +371,7 @@ function Play() {
   return (
     <main className="mx-auto max-w-3xl px-3 py-2 sm:px-4 sm:py-3">
       {/* Bloco integrado: Placar + Caixa de perguntas fixos e imóveis na tela ao rolar */}
-      <div className="sticky top-2 z-20 flex max-h-[calc(100dvh-1rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:max-h-[calc(100dvh-5rem)]">
+      <div className="sticky top-2 z-20 flex max-h-[calc(100dvh-6.5rem)] w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card shadow-lg sm:max-h-[calc(100dvh-5rem)]">
         {/* Placar no topo da caixa */}
         <div className="shrink-0 border-b-2 border-border bg-card/95 backdrop-blur-md">
           <Scoreboard
@@ -356,7 +384,7 @@ function Play() {
 
         {/* Caixa de perguntas: parada e imóvel ao rolar a tela, perfeitamente alinhada com o placar */}
         {question && (
-          <section className="min-h-0 w-full flex-1 overflow-y-auto overscroll-contain bg-card p-2.5 sm:p-3">
+          <section ref={questionBoxRef} className="min-h-0 w-full flex-1 overflow-y-auto overscroll-contain bg-card p-2.5 pb-6 sm:p-3 sm:pb-4 scroll-smooth">
             <div className="flex flex-wrap items-center justify-between gap-1.5 text-[11px] sm:text-xs">
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="rounded-full bg-forest px-2.5 py-0.5 font-semibold text-white">
@@ -444,7 +472,7 @@ function Play() {
                   </div>
                 )}
 
-                <div className="mt-3 flex flex-wrap justify-center gap-2 sm:gap-3">
+                <div ref={nextActionRef} className="mt-3 flex flex-wrap justify-center gap-2 pb-2 sm:gap-3">
                   {matchOver ? (
                     <>
                       <Button
