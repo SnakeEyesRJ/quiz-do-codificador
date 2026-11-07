@@ -58,7 +58,9 @@ async function compressImage(file: File, maxDim = 320): Promise<string> {
         try {
           const webp = canvas.toDataURL("image/webp", 0.85);
           if (webp.startsWith("data:image/webp")) return resolve(webp);
-        } catch {}
+        } catch {
+          // Browsers that cannot encode WebP fall back to JPEG below.
+        }
         resolve(canvas.toDataURL("image/jpeg", 0.85));
       };
       img.onerror = () => reject(new Error("Falha ao processar imagem"));
@@ -77,6 +79,12 @@ function Perfil() {
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState<{ total: number; wins: number; rounds: number } | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (preview?.startsWith("blob:")) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   // Sincroniza estado inicial com o perfil carregado
   useEffect(() => {
