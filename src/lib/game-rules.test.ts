@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   applyAnswer,
   applyRoundWin,
+  BOOK_OPTIONS,
   cleanPlayerName,
   extractMatchDifficulty,
   getRoundsToWin,
@@ -188,5 +189,18 @@ describe("classificação da obra da pergunta", () => {
     expect(resolveQuestionBook({ code: 351 })).toBe("os_mensageiros");
     expect(resolveQuestionBook({ code: 301 })).toBe("nosso_lar");
     expect(resolveQuestionBook({ book: "livro_desconhecido", code: 1 })).toBeNull();
+  });
+});
+
+
+describe("disponibilidade das obras no seletor", () => {
+  it("mantém O Livro dos Espíritos e O Evangelho Segundo o Espiritismo habilitados", () => {
+    const spirits = BOOK_OPTIONS.find((book) => book.value === "livro_espiritos");
+    const gospel = BOOK_OPTIONS.find((book) => book.value === "evangelho");
+
+    expect(spirits).toBeDefined();
+    expect(gospel).toBeDefined();
+    expect(spirits?.disabled).not.toBe(true);
+    expect(gospel?.disabled).not.toBe(true);
   });
 });
