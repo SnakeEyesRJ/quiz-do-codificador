@@ -5,11 +5,12 @@ import {
   applyRoundWin,
   cleanPlayerName,
   DIFFICULTY_LEVELS,
-  DIFFICULTY_QUESTION_MAP,
   extractMatchDifficulty,
   extractMatchBook,
   resolveQuestionBook,
   pickUnusedQuestionCandidate,
+  filterQuestionPool,
+  assertPoolCanStartMatch,
   type GameDifficulty,
   type BookSelection,
   type Side,
@@ -92,9 +93,7 @@ export const startMatch = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }): Promise<MatchState> => {
-    const { supabaseAdmin, getOptionalUserId, ensureOQueEEspiritismoQuestions } =
-      await import("./game.server");
-    await ensureOQueEEspiritismoQuestions();
+    const { supabaseAdmin, getOptionalUserId } = await import("./game.server");
     const userId = await getOptionalUserId();
     let name = cleanPlayerName(data.playerName || "Jogador") || "Jogador";
     if (userId) {
@@ -123,15 +122,14 @@ export const startMatch = createServerFn({ method: "POST" })
         ? "O banco de perguntas está vazio. Não é possível iniciar a partida."
         : "Não há perguntas ativas para este livro. Escolha outra obra ou Todos os livros.");
     }
-    const requiredDifficulty = DIFFICULTY_QUESTION_MAP[chosenDifficulty];
-    const difficultyCount = availableForBook.filter(
-      (question) => question.difficulty === requiredDifficulty,
-    ).length;
-    if (difficultyCount < 10) {
-      throw new Error(
-        `Este livro tem apenas ${difficultyCount} perguntas no nível escolhido. São necessárias pelo menos 10 para completar uma rodada sem repetição.`,
-      );
-    }
+    // A disponibilidade considera o estoque real do livro e da dificuldade escolhidos,
+    // sem exigir um mínimo fixo e sem trocar de nível.
+    assertPoolCanStartMatch(
+      filterQuestionPool(availableForBook, chosenBook, chosenDifficulty).length,
+      chosenRounds,
+      chosenBook,
+      chosenDifficulty,
+    );
     const taggedName = `${name} [${chosenRounds}R] [D:${chosenDifficulty}] [B:${chosenBook}]`;
 
     const { data: match, error: mError } = await supabaseAdmin
@@ -173,8 +171,7 @@ export const startMatch = createServerFn({ method: "POST" })
 export const nextQuestion = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ matchId: z.string().uuid() }).parse(d))
   .handler(async ({ data }): Promise<PublicQuestion> => {
-    const { supabaseAdmin, loadOwnedMatch, getCurrentRound, ensureOQueEEspiritismoQuestions, overlayCleanQuestion } = await import("./game.server");
-    await ensureOQueEEspiritismoQuestions();
+    const { supabaseAdmin, loadOwnedMatch, getCurrentRound, overlayCleanQuestion } = await import("./game.server");
     const match = await loadOwnedMatch(data.matchId);
     if (match.status !== "in_progress") throw new Error("A partida já terminou.");
     const round = await getCurrentRound(match.id, match.current_round);
@@ -197,58 +194,65 @@ export const nextQuestion = createServerFn({ method: "POST" })
       answerId = pending.id;
       questionId = pending.question_id;
     } else {
-      const { data: used, error: usedError } = await supabaseAdmin
-        .from("answers")
-        .select("question_id")
-        .eq("match_id", match.id);
-      if (usedError) throw new Error(usedError.message);
-      const usedIds = new Set((used ?? []).map((u) => u.question_id));
       const { data: all, error } = await supabaseAdmin
         .from("questions")
         .select("id, difficulty, book, code")
         .eq("active", true);
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
-      const bookCandidates = matchBook === "todos"
-        ? all
-        : all.filter(
-            (item) => resolveQuestionBook(item) === matchBook,
-          );
-      if (!bookCandidates.length)
-        throw new Error("Não há perguntas ativas para o livro selecionado.");
-      const difficultyCandidates = bookCandidates.filter(
-        (item) => item.difficulty === DIFFICULTY_QUESTION_MAP[matchDifficulty],
-      );
-      if (!difficultyCandidates.length)
-        throw new Error("Não há perguntas deste livro no nível de dificuldade escolhido. Selecione outra dificuldade ou outro livro.");
 
       // Filtra primeiro pela obra escolhida e depois pela dificuldade fixa da partida.
-      const candidate = pickUnusedQuestionCandidate(difficultyCandidates, usedIds, matchDifficulty);
-      questionId = candidate.id;
+      const pool = filterQuestionPool(all, matchBook, matchDifficulty);
+      assertPoolCanStartMatch(pool.length, 1, matchBook, matchDifficulty);
 
-      const { data: ins, error: insErr } = await supabaseAdmin
-        .from("answers")
-        .insert({ match_id: match.id, round_id: round.id, question_id: questionId })
-        .select("id")
-        .single();
-      if (insErr?.code === "23505") {
-        // Another request created the pending question first; reuse that row.
+      let created: { answerId: string; questionId: string } | null = null;
+      for (let attempt = 0; attempt < 3 && !created; attempt++) {
+        // Histórico da partida inteira (todas as rodadas), gravado em `answers` e
+        // identificado pelo ID único da pergunta; sobrevive a recarregamentos.
+        const { data: used, error: usedError } = await supabaseAdmin
+          .from("answers")
+          .select("question_id")
+          .eq("match_id", match.id);
+        if (usedError) throw new Error(usedError.message);
+        const usedIds = new Set((used ?? []).map((u) => u.question_id));
+        const candidate = pickUnusedQuestionCandidate(
+          pool,
+          usedIds,
+          matchDifficulty,
+          Math.random,
+          matchBook,
+        );
+
+        const { data: ins, error: insErr } = await supabaseAdmin
+          .from("answers")
+          .insert({ match_id: match.id, round_id: round.id, question_id: candidate.id })
+          .select("id")
+          .single();
+        if (!insErr && ins) {
+          created = { answerId: ins.id, questionId: candidate.id };
+          break;
+        }
+        if (insErr?.code !== "23505") {
+          throw new Error(insErr?.message ?? "Não foi possível criar a pergunta.");
+        }
+        // 23505: outra requisição criou a pergunta pendente primeiro (reaproveita a linha)
+        // ou a pergunta sorteada já constava no histórico (sorteia novamente).
         const { data: raced, error: racedError } = await supabaseAdmin
           .from("answers")
           .select("id, question_id")
           .eq("match_id", match.id)
           .eq("round_id", round.id)
           .is("answered_at", null)
-          .single();
-        if (racedError || !raced) throw new Error(racedError?.message ?? "Não foi possível recuperar a pergunta.");
-        answerId = raced.id;
-        questionId = raced.question_id;
-      } else {
-        if (insErr || !ins) throw new Error(insErr?.message ?? "Não foi possível criar a pergunta.");
-        answerId = ins.id;
+          .maybeSingle();
+        if (racedError) throw new Error(racedError.message);
+        if (raced) created = { answerId: raced.id, questionId: raced.question_id };
       }
+      if (!created) {
+        throw new Error("Não foi possível sortear uma pergunta inédita. Tente novamente.");
+      }
+      answerId = created.answerId;
+      questionId = created.questionId;
     }
-
     const { data: q, error: qErr } = await supabaseAdmin
       .from("questions")
       .select("code, book, statement, option_a, option_b, option_c, option_d, option_e, difficulty")
@@ -395,6 +399,32 @@ export const submitAnswer = createServerFn({ method: "POST" })
     };
   });
 
+/**
+ * Retoma uma partida em andamento (por exemplo, após recarregar a página). O histórico de
+ * perguntas usadas continua o mesmo, pois pertence à partida e está gravado no banco.
+ */
+export const resumeMatch = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ matchId: z.string().uuid() }).parse(d))
+  .handler(async ({ data }): Promise<MatchState> => {
+    const { loadOwnedMatch, getCurrentRound } = await import("./game.server");
+    const match = await loadOwnedMatch(data.matchId);
+    if (match.status !== "in_progress") throw new Error("A partida já terminou.");
+    const round = await getCurrentRound(match.id, match.current_round);
+    return {
+      matchId: match.id,
+      playerName: cleanPlayerName(match.player_name),
+      totalRounds: extractMatchTotalRounds(match),
+      difficulty: extractMatchDifficulty(match),
+      book: extractMatchBook(match),
+      status: "in_progress",
+      currentRound: match.current_round,
+      playerRounds: match.player_rounds,
+      codificadorRounds: match.codificador_rounds,
+      playerScore: round.player_score,
+      codificadorScore: round.codificador_score,
+      winner: null,
+    };
+  });
 /** Exclui todo o histórico de partidas do jogador logado (rounds e answers caem em cascata). */
 export const clearMatchHistory = createServerFn({ method: "POST" }).handler(
   async (): Promise<{ deleted: number }> => {

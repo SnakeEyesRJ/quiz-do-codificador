@@ -102,16 +102,95 @@ export const QUESTION_DIFFICULTY_LABELS: Record<string, string> = {
   expert: "Expert",
 };
 
+/**
+ * Dificuldades armazenadas em cada pergunta (coluna `questions.difficulty`).
+ * São quatro níveis e `expert` nunca é convertido em `dificil`.
+ */
+export const QUESTION_DIFFICULTIES = ["facil", "medio", "dificil", "expert"] as const;
+export type QuestionDifficulty = (typeof QUESTION_DIFFICULTIES)[number];
+
+export function isQuestionDifficulty(value: unknown): value is QuestionDifficulty {
+  return (QUESTION_DIFFICULTIES as readonly unknown[]).includes(value);
+}
+
+/** Prefixo comum das mensagens de erro relacionadas ao estoque de perguntas. */
+export const QUESTION_POOL_MESSAGE_PREFIX = "Perguntas insuficientes";
+
+/** Erro controlado: o estoque de perguntas do livro/nível não permite continuar sem repetir. */
+export class QuestionPoolError extends Error {
+  readonly reason: "empty" | "insufficient" | "exhausted";
+
+  constructor(reason: "empty" | "insufficient" | "exhausted", message: string) {
+    super(message);
+    this.name = "QuestionPoolError";
+    this.reason = reason;
+  }
+}
+
+/** As mensagens chegam ao navegador sem a classe do erro; o prefixo permite reconhecê-las. */
+export function isQuestionPoolMessage(message: string | null | undefined): boolean {
+  return !!message && message.startsWith(QUESTION_POOL_MESSAGE_PREFIX);
+}
+
+/** Nome da obra sem o número de ordem usado no seletor. */
+export function bookDisplayName(book: BookSelection): string {
+  const label = BOOK_OPTIONS.find((option) => option.value === book)?.label ?? book;
+  return label.replace(/^\d+\s*-\s*/, "");
+}
+
+function poolScopeLabel(book: BookSelection, difficulty: GameDifficulty): string {
+  const scope = book === "todos" ? "todos os livros" : `"${bookDisplayName(book)}"`;
+  return `${scope} no nível ${DIFFICULTY_LABELS[difficulty]}`;
+}
+
+/**
+ * Número mínimo de perguntas distintas para iniciar uma partida: uma por rodada
+ * escolhida (3, 5, 7 ou 9). Partidas menores exigem menos perguntas. Se o estoque
+ * acabar durante a partida, o jogo informa o jogador em vez de repetir perguntas.
+ */
+export function minQuestionsForMatch(totalRounds: number): number {
+  return Math.max(1, totalRounds);
+}
+
+/** Perguntas elegíveis para o livro e para a dificuldade fixa da partida. */
+export function filterQuestionPool<
+  T extends QuestionCandidate & { book?: string | null; code?: number },
+>(questions: readonly T[], book: BookSelection, difficulty: GameDifficulty): T[] {
+  const required = DIFFICULTY_QUESTION_MAP[difficulty];
+  return questions.filter(
+    (q) => q.difficulty === required && (book === "todos" || resolveQuestionBook(q) === book),
+  );
+}
+
+/** Valida se o estoque real comporta o início de uma partida; nunca troca de nível. */
+export function assertPoolCanStartMatch(
+  poolSize: number,
+  totalRounds: number,
+  book: BookSelection,
+  difficulty: GameDifficulty,
+): void {
+  const needed = minQuestionsForMatch(totalRounds);
+  if (poolSize < needed) {
+    throw new QuestionPoolError(
+      poolSize === 0 ? "empty" : "insufficient",
+      `${QUESTION_POOL_MESSAGE_PREFIX}: ${poolScopeLabel(book, difficulty)} possui ${poolSize} ${
+        poolSize === 1 ? "pergunta" : "perguntas"
+      }, e uma partida de ${totalRounds} rodadas precisa de pelo menos ${needed}. Escolha outro livro, outro nível ou uma partida menor.`,
+    );
+  }
+}
+
 export interface QuestionCandidate {
   id: string;
-  difficulty: "facil" | "medio" | "dificil" | string;
+  /** Linhas vindas do banco trazem `string`; os valores válidos são `QuestionDifficulty`. */
+  difficulty: QuestionDifficulty | string;
 }
 
 /**
  * Dificuldade da pergunta exigida por cada nível de jogo.
  * O nível Expert possui classificação própria no banco de perguntas.
  */
-export const DIFFICULTY_QUESTION_MAP: Record<GameDifficulty, QuestionCandidate["difficulty"]> = {
+export const DIFFICULTY_QUESTION_MAP: Record<GameDifficulty, QuestionDifficulty> = {
   facil: "facil",
   normal: "medio",
   dificil: "dificil",
@@ -140,16 +219,29 @@ export function pickQuestionCandidate<T extends QuestionCandidate>(
   return candidate;
 }
 
-/** Exhaustion repeats only the chosen level, never switches to another level. */
+/**
+ * Escolhe uma pergunta ainda não usada na partida (comparando pelo ID único), sempre da
+ * dificuldade fixa da partida. Quando todas as elegíveis já foram usadas, lança
+ * `QuestionPoolError`: nunca repete pergunta e nunca troca de nível.
+ */
 export function pickUnusedQuestionCandidate<T extends QuestionCandidate>(
   candidates: T[],
   usedIds: ReadonlySet<string>,
   difficulty: GameDifficulty,
   random: () => number = Math.random,
+  book: BookSelection = "todos",
 ): T {
   const eligible = candidates.filter((q) => q.difficulty === DIFFICULTY_QUESTION_MAP[difficulty]);
   const fresh = eligible.filter((q) => !usedIds.has(q.id));
-  return pickQuestionCandidate(fresh.length ? fresh : eligible, difficulty, random);
+  if (eligible.length > 0 && fresh.length === 0) {
+    throw new QuestionPoolError(
+      "exhausted",
+      `${QUESTION_POOL_MESSAGE_PREFIX}: as ${eligible.length} ${
+        eligible.length === 1 ? "pergunta disponível" : "perguntas disponíveis"
+      } de ${poolScopeLabel(book, difficulty)} já foram usadas nesta partida. Para não repetir perguntas, a partida não pode continuar neste livro e nível. Inicie outra partida com outro livro ou nível.`,
+    );
+  }
+  return pickQuestionCandidate(fresh, difficulty, random);
 }
 
 export function cleanPlayerName(rawName: string): string {

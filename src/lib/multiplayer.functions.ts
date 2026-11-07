@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { DIFFICULTY_LEVELS } from "./game-rules";
+import { BOOK_OPTIONS, DIFFICULTY_LEVELS, type BookSelection } from "./game-rules";
 import { ROOM_CODE_LENGTH, type MpPlayers, type MpState } from "./multiplayer";
 
 const LETTERS = ["A", "B", "C", "D", "E"] as const;
@@ -11,6 +11,13 @@ export const mpCreateRoom = createServerFn({ method: "POST" })
       .object({
         totalRounds: z.union([z.literal(3), z.literal(5), z.literal(7), z.literal(9)]).default(3),
         difficulty: z.enum(DIFFICULTY_LEVELS).default("normal"),
+        book: z
+          .string()
+          .default("todos")
+          .refine((value) => BOOK_OPTIONS.some((option) => option.value === value && !option.disabled), {
+            message: "Livro inválido.",
+          })
+          .transform((value) => value as BookSelection),
       })
       .parse(d),
   )

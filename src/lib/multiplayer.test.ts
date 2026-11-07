@@ -103,7 +103,7 @@ describe("fluxo da sala multiplayer", () => {
     admin = db as unknown as Admin;
     clock = Date.parse("2026-01-01T12:00:00Z");
     const diffs = ["facil", "medio", "dificil", "expert"];
-    for (let i = 1; i <= 60; i++) {
+    for (let i = 1; i <= 120; i++) {
       db.tables["questions"]!.push({
         id: `q-${i}`,
         code: i,
