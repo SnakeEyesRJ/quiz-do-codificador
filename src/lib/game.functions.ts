@@ -5,6 +5,7 @@ import {
   applyRoundWin,
   cleanPlayerName,
   DIFFICULTY_LEVELS,
+  DIFFICULTY_QUESTION_MAP,
   extractMatchDifficulty,
   extractMatchBook,
   resolveQuestionBook,
@@ -103,13 +104,15 @@ export const startMatch = createServerFn({ method: "POST" })
         .maybeSingle();
       if (p?.display_name) name = p.display_name;
     }
-    let questionCountQuery = supabaseAdmin
+    const { data: availableQuestions, error: availableError } = await supabaseAdmin
       .from("questions")
-      .select("id", { count: "exact", head: true })
+      .select("id, book, code")
       .eq("active", true);
-    if (data.book !== "todos") questionCountQuery = questionCountQuery.eq("book", data.book);
-    const { count } = await questionCountQuery;
-    if (!count)
+    if (availableError) throw new Error(availableError.message);
+    const availableForBook = data.book === "todos"
+      ? (availableQuestions ?? [])
+      : (availableQuestions ?? []).filter((question) => resolveQuestionBook(question) === data.book);
+    if (!availableForBook.length)
       throw new Error(data.book === "todos"
         ? "O banco de perguntas está vazio. Não é possível iniciar a partida."
         : "Não há perguntas ativas para este livro. Escolha outra obra ou Todos os livros.");
@@ -205,9 +208,14 @@ export const nextQuestion = createServerFn({ method: "POST" })
         : all.filter((item) => resolveQuestionBook(item) === matchBook);
       if (!bookCandidates.length)
         throw new Error("Não há perguntas ativas para o livro selecionado.");
+      const difficultyCandidates = bookCandidates.filter(
+        (item) => item.difficulty === DIFFICULTY_QUESTION_MAP[matchDifficulty],
+      );
+      if (!difficultyCandidates.length)
+        throw new Error("Não há perguntas deste livro no nível de dificuldade escolhido. Selecione outra dificuldade ou outro livro.");
 
       // Filtra primeiro pela obra escolhida e depois pela dificuldade fixa da partida.
-      const candidate = pickUnusedQuestionCandidate(bookCandidates, usedIds, matchDifficulty);
+      const candidate = pickUnusedQuestionCandidate(difficultyCandidates, usedIds, matchDifficulty);
       questionId = candidate.id;
 
       const { data: ins, error: insErr } = await supabaseAdmin
