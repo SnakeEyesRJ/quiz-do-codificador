@@ -156,13 +156,11 @@ export async function createRoom(
     .like("player_name", "%[MP:%");
   const stale = ((mine ?? []) as Row[]).filter((m) => !parseRoomName(m["player_name"]).guestId);
   if (stale.length) {
-    await admin
+    const { error: cleanupError } = await admin
       .from("matches")
       .delete()
-      .in(
-        "id",
-        stale.map((m) => m["id"]),
-      );
+      .in("id", stale.map((m) => m["id"]));
+    if (cleanupError) fail(cleanupError.message);
   }
 
   let code = "";
@@ -212,7 +210,10 @@ export async function createRoom(
   const match = inserted.data as Row;
 
   const { error: rErr } = await admin.from("rounds").insert({ match_id: match["id"], number: 1 });
-  if (rErr) fail(rErr.message);
+  if (rErr) {
+    await admin.from("matches").delete().eq("id", match["id"]);
+    fail(rErr.message);
+  }
   return { code };
 }
 
@@ -281,10 +282,11 @@ export async function leaveRoom(
   }
   // Sair no meio da partida significa desistir: o adversário vence.
   const winnerSide: Side = role === "host" ? "codificador" : "player";
-  await admin
+  const { error: leaveError } = await admin
     .from("matches")
     .update({ status: "finished", winner: winnerSide, finished_at: now.toISOString() })
     .eq("id", match["id"]);
+  if (leaveError) fail(leaveError.message);
 }
 
 // ---------------------------------------------------------------------------
@@ -335,7 +337,7 @@ async function resolveQuestion(admin: Admin, match: Row, row: Row, now: Date): P
   const hostCorrect = row["player_option"] === correct;
   const guestCorrect = row["codificador_option"] === correct;
 
-  // Trava: apenas quem conseguir gravar answered_at aplica a pontuação.
+  // Lock first: only one caller may resolve and score this question.
   const { data: locked, error: lockErr } = await admin
     .from("answers")
     .update({
@@ -350,6 +352,19 @@ async function resolveQuestion(admin: Admin, match: Row, row: Row, now: Date): P
   if (lockErr) fail(lockErr.message);
   if (!locked) return;
 
+  const rollbackAnswer = async () => {
+    const { error } = await admin
+      .from("answers")
+      .update({
+        answered_at: null,
+        player_correct: null,
+        codificador_correct: null,
+      })
+      .eq("id", row["id"])
+      .eq("answered_at", now.toISOString());
+    if (error) fail(`Falha ao restaurar a resposta após erro: ${error.message}`);
+  };
+
   const round = await loadRoundById(admin, row["round_id"]);
   const score = applyMultiplayerAnswers(
     round["player_score"],
@@ -357,7 +372,7 @@ async function resolveQuestion(admin: Admin, match: Row, row: Row, now: Date): P
     hostCorrect,
     guestCorrect,
   );
-  await admin
+  const { error: scoreError } = await admin
     .from("rounds")
     .update({
       player_score: score.host,
@@ -365,6 +380,10 @@ async function resolveQuestion(admin: Admin, match: Row, row: Row, now: Date): P
       winner: score.roundWinner,
     })
     .eq("id", round["id"]);
+  if (scoreError) {
+    await rollbackAnswer();
+    fail(scoreError.message);
+  }
 
   if (!score.roundWinner) return;
 
@@ -377,7 +396,7 @@ async function resolveQuestion(admin: Admin, match: Row, row: Row, now: Date): P
   );
   const finished = r.matchWinner !== null;
   const nextRound = finished ? match["current_round"] : match["current_round"] + 1;
-  await admin
+  const { error: matchError } = await admin
     .from("matches")
     .update({
       player_rounds: r.playerRounds,
@@ -388,8 +407,37 @@ async function resolveQuestion(admin: Admin, match: Row, row: Row, now: Date): P
       finished_at: finished ? now.toISOString() : null,
     })
     .eq("id", match["id"]);
+  if (matchError) {
+    await admin.from("rounds").update({
+      player_score: round["player_score"],
+      codificador_score: round["codificador_score"],
+      winner: round["winner"],
+    }).eq("id", round["id"]);
+    await rollbackAnswer();
+    fail(matchError.message);
+  }
+
   if (!finished) {
-    await admin.from("rounds").insert({ match_id: match["id"], number: nextRound });
+    const { error: nextRoundError } = await admin
+      .from("rounds")
+      .insert({ match_id: match["id"], number: nextRound });
+    if (nextRoundError) {
+      await admin.from("matches").update({
+        player_rounds: match["player_rounds"],
+        codificador_rounds: match["codificador_rounds"],
+        current_round: match["current_round"],
+        status: match["status"],
+        winner: match["winner"],
+        finished_at: match["finished_at"],
+      }).eq("id", match["id"]);
+      await admin.from("rounds").update({
+        player_score: round["player_score"],
+        codificador_score: round["codificador_score"],
+        winner: round["winner"],
+      }).eq("id", round["id"]);
+      await rollbackAnswer();
+      fail(nextRoundError.message);
+    }
   }
 }
 
