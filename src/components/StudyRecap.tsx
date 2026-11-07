@@ -67,7 +67,8 @@ export function StudyRecap({
         <div className="min-w-0 flex-1">
           <h2 className="font-display text-lg font-bold text-ink">Recap de estudo</h2>
           <p className="text-xs text-muted-foreground">
-            Revisão opcional das respostas que você errou. A geração usa IA do Lovable somente após a partida e pode consumir créditos; nada é enviado à IA durante o jogo.
+            Revisão opcional das respostas que você errou. A geração usa IA do Lovable
+            somente após a partida e pode consumir créditos; nada é enviado à IA durante o jogo.
           </p>
         </div>
       </div>
