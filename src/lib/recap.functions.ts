@@ -11,6 +11,9 @@ export const generateStudyRecap = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin, getOptionalUserId } = await import("./game.server");
     const userId = await getOptionalUserId();
+    if (!userId) {
+      throw new Error("Entre com sua conta Google para gerar o resumo de estudo.");
+    }
 
     const { data: match, error: matchError } = await supabaseAdmin
       .from("matches")
@@ -22,7 +25,7 @@ export const generateStudyRecap = createServerFn({ method: "POST" })
     if (match.status !== "finished") {
       throw new Error("O recap de estudo fica disponível somente no fim da partida.");
     }
-    if (match.user_id && match.user_id !== userId) {
+    if (!match.user_id || match.user_id !== userId) {
       throw new Error("Partida não pertence a este jogador.");
     }
 
