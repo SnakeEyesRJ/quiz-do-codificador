@@ -62,4 +62,106 @@ export async function getCurrentRound(matchId: string, number: number) {
   return data;
 }
 
+let oqeSynced = false;
+
+export async function ensureOQueEEspiritismoQuestions() {
+  if (oqeSynced) return;
+  try {
+    const { O_QUE_E_ESPIRITISMO_QUESTIONS } = await import(
+      "@/data/o-que-e-espiritismo-questions"
+    );
+    const { data: allRows, error: fetchErr } = await supabaseAdmin
+      .from("questions")
+      .select("id, code, statement, book, difficulty, active");
+    if (fetchErr || !allRows) return;
+
+    const targetStatements = new Set(O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => q.statement));
+    const existingByStatement = new Map<string, (typeof allRows)[number]>();
+    const usedCodes = new Set<number>();
+    let maxCode = 900;
+
+    for (const row of allRows) {
+      existingByStatement.set(row.statement, row);
+      const numCode = Number(row.code) || 0;
+      usedCodes.add(numCode);
+      if (numCode > maxCode) maxCode = numCode;
+    }
+
+    const activeTargetRows = allRows.filter(
+      (r) => r.active && targetStatements.has(r.statement),
+    );
+    const diffCounts: Record<string, number> = { facil: 0, medio: 0, dificil: 0, expert: 0 };
+    for (const r of activeTargetRows) {
+      diffCounts[r.difficulty] = (diffCounts[r.difficulty] || 0) + 1;
+    }
+
+    const extraActiveIds = allRows
+      .filter(
+        (r) =>
+          r.active &&
+          !targetStatements.has(r.statement) &&
+          (r.book === "o_que_e_espiritismo" ||
+            (r.book === "obras_postumas" && r.code >= 801 && r.code <= 900)),
+      )
+      .map((r) => r.id);
+
+    if (
+      activeTargetRows.length === 50 &&
+      extraActiveIds.length === 0 &&
+      diffCounts.facil >= 10 &&
+      diffCounts.medio >= 10 &&
+      diffCounts.dificil >= 10 &&
+      diffCounts.expert >= 10
+    ) {
+      oqeSynced = true;
+      return;
+    }
+
+    if (extraActiveIds.length > 0) {
+      await supabaseAdmin
+        .from("questions")
+        .update({ active: false })
+        .in("id", extraActiveIds);
+    }
+
+    const rowsToUpsert = O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => {
+      const existing = existingByStatement.get(q.statement);
+      let safeCode = existing ? Number(existing.code) : q.code;
+      if (!existing && usedCodes.has(safeCode)) {
+        safeCode = ++maxCode;
+      }
+      usedCodes.add(safeCode);
+      return {
+        code: safeCode,
+        book: "o_que_e_espiritismo",
+        statement: q.statement,
+        option_a: q.option_a,
+        option_b: q.option_b,
+        option_c: q.option_c,
+        option_d: q.option_d,
+        option_e: q.option_e,
+        correct_option: q.correct_option,
+        explanation: q.explanation,
+        reference: q.reference,
+        difficulty: q.difficulty,
+        active: true,
+      };
+    });
+
+    const { error: upsertErr } = await supabaseAdmin
+      .from("questions")
+      .upsert(rowsToUpsert, { onConflict: "statement" });
+
+    if (upsertErr) {
+      await supabaseAdmin.from("questions").upsert(
+        rowsToUpsert.map((r) => ({ ...r, book: "obras_postumas" })),
+        { onConflict: "statement" },
+      );
+    }
+    oqeSynced = true;
+  } catch (err) {
+    console.warn("[OQueEEspiritismoSync]", err);
+  }
+}
+
 export { supabaseAdmin };

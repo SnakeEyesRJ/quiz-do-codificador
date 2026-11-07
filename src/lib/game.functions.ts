@@ -90,8 +90,9 @@ export const startMatch = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }): Promise<MatchState> => {
-    const { supabaseAdmin, getOptionalUserId } =
+    const { supabaseAdmin, getOptionalUserId, ensureOQueEEspiritismoQuestions } =
       await import("./game.server");
+    await ensureOQueEEspiritismoQuestions();
     const userId = await getOptionalUserId();
     let name = cleanPlayerName(data.playerName || "Jogador") || "Jogador";
     if (userId) {
@@ -113,7 +114,7 @@ export const startMatch = createServerFn({ method: "POST" })
     const availableForBook = chosenBook === "todos"
       ? (availableQuestions ?? [])
       : (availableQuestions ?? []).filter(
-          (question) => question.book === chosenBook || resolveQuestionBook(question) === chosenBook,
+          (question) => resolveQuestionBook(question) === chosenBook,
         );
     if (!availableForBook.length) {
       throw new Error(chosenBook === "todos"
@@ -170,7 +171,8 @@ export const startMatch = createServerFn({ method: "POST" })
 export const nextQuestion = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ matchId: z.string().uuid() }).parse(d))
   .handler(async ({ data }): Promise<PublicQuestion> => {
-    const { supabaseAdmin, loadOwnedMatch, getCurrentRound } = await import("./game.server");
+    const { supabaseAdmin, loadOwnedMatch, getCurrentRound, ensureOQueEEspiritismoQuestions } = await import("./game.server");
+    await ensureOQueEEspiritismoQuestions();
     const match = await loadOwnedMatch(data.matchId);
     if (match.status !== "in_progress") throw new Error("A partida já terminou.");
     const round = await getCurrentRound(match.id, match.current_round);
@@ -208,7 +210,7 @@ export const nextQuestion = createServerFn({ method: "POST" })
       const bookCandidates = matchBook === "todos"
         ? all
         : all.filter(
-            (item) => item.book === matchBook || resolveQuestionBook(item) === matchBook,
+            (item) => resolveQuestionBook(item) === matchBook,
           );
       if (!bookCandidates.length)
         throw new Error("Não há perguntas ativas para o livro selecionado.");

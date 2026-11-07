@@ -62,6 +62,13 @@ export function resolveQuestionBook(question: { book?: string | null; code?: num
   ];
   // The explicit database classification is authoritative. Numeric ranges are
   // retained only as a fallback for legacy rows without a recognized book.
+  if (
+    question.code !== undefined &&
+    question.code >= 801 &&
+    (!question.book || question.book === "o_que_e_espiritismo" || question.book === "obras_postumas")
+  ) {
+    return "o_que_e_espiritismo";
+  }
   if (question.book && validBooks.includes(question.book)) {
     return question.book as BookId;
   }
