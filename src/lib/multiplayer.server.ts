@@ -10,6 +10,7 @@ import {
   type GameDifficulty,
   type Side,
 } from "./game-rules";
+import { overlayCleanQuestion } from "./game.server";
 import {
   applyMultiplayerAnswers,
   buildRoomName,
@@ -100,7 +101,7 @@ async function loadQuestionPublic(
     .eq("id", questionId)
     .single();
   if (error) fail(error.message);
-  const q = data as Row;
+  const q = overlayCleanQuestion(data as Row);
   const resolvedBook = resolveQuestionBook({ book: q["book"], code: q["code"] }) ?? q["book"];
   return {
     answerId,
@@ -489,11 +490,11 @@ async function buildReveal(
 ): Promise<MpReveal> {
   const { data, error } = await admin
     .from("questions")
-    .select("correct_option, explanation, reference")
+    .select("code, correct_option, explanation, reference")
     .eq("id", row["question_id"])
     .single();
   if (error) fail(error.message);
-  const q = data as Row;
+  const q = overlayCleanQuestion(data as Row);
   const round = await loadRoundById(admin, row["round_id"]);
   const question = await loadQuestionPublic(admin, row["question_id"], row["id"]);
   const elapsed = (now.getTime() - new Date(row["answered_at"]).getTime()) / 1000;

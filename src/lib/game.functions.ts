@@ -173,7 +173,7 @@ export const startMatch = createServerFn({ method: "POST" })
 export const nextQuestion = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ matchId: z.string().uuid() }).parse(d))
   .handler(async ({ data }): Promise<PublicQuestion> => {
-    const { supabaseAdmin, loadOwnedMatch, getCurrentRound, ensureOQueEEspiritismoQuestions } = await import("./game.server");
+    const { supabaseAdmin, loadOwnedMatch, getCurrentRound, ensureOQueEEspiritismoQuestions, overlayCleanQuestion } = await import("./game.server");
     await ensureOQueEEspiritismoQuestions();
     const match = await loadOwnedMatch(data.matchId);
     if (match.status !== "in_progress") throw new Error("A partida já terminou.");
@@ -257,20 +257,21 @@ export const nextQuestion = createServerFn({ method: "POST" })
     if (qErr) throw new Error(qErr.message);
 
     const resolvedBook = resolveQuestionBook(q) as PublicQuestion["book"] | null;
+    const cleanQ = overlayCleanQuestion(q);
     if (!resolvedBook) throw new Error("Não foi possível identificar a obra desta pergunta.");
 
     return {
       answerId,
       code: q.code,
       book: resolvedBook,
-      statement: q.statement,
+      statement: cleanQ.statement,
       difficulty: q.difficulty as PublicQuestion["difficulty"],
       options: [
-        { letter: "A", text: q.option_a },
-        { letter: "B", text: q.option_b },
-        { letter: "C", text: q.option_c },
-        { letter: "D", text: q.option_d },
-        { letter: "E", text: q.option_e },
+        { letter: "A", text: cleanQ.option_a },
+        { letter: "B", text: cleanQ.option_b },
+        { letter: "C", text: cleanQ.option_c },
+        { letter: "D", text: cleanQ.option_d },
+        { letter: "E", text: cleanQ.option_e },
       ],
     };
   });
@@ -282,7 +283,7 @@ export const submitAnswer = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }): Promise<AnswerResult> => {
-    const { supabaseAdmin, loadOwnedMatch, getCurrentRound } = await import("./game.server");
+    const { supabaseAdmin, loadOwnedMatch, getCurrentRound, overlayCleanQuestion } = await import("./game.server");
     const ownedMatch = await loadOwnedMatch(data.matchId);
     if (ownedMatch.status !== "in_progress") throw new Error("A partida já terminou.");
 
@@ -299,11 +300,12 @@ export const submitAnswer = createServerFn({ method: "POST" })
 
     const { data: q, error: qErr } = await supabaseAdmin
       .from("questions")
-      .select("correct_option, explanation, reference, difficulty")
+      .select("code, book, correct_option, explanation, reference, difficulty")
       .eq("id", locked.question_id)
       .single();
     if (qErr) throw new Error(qErr.message);
-    const correct = q.correct_option as Letter;
+    const cleanAnsweredQ = overlayCleanQuestion(q);
+    const correct = cleanAnsweredQ.correct_option as Letter;
     const playerCorrect = data.option === correct;
 
     await supabaseAdmin
@@ -384,8 +386,8 @@ export const submitAnswer = createServerFn({ method: "POST" })
       codificadorOption: null,
       codificadorCorrect: null,
       codificadorCounted: false,
-      explanation: q.explanation,
-      reference: q.reference,
+      explanation: cleanAnsweredQ.explanation,
+      reference: cleanAnsweredQ.reference,
       roundWinner: score.roundWinner,
       finishedRound: ownedMatch.current_round,
       roundScore: { player: score.player, codificador: score.codificador },

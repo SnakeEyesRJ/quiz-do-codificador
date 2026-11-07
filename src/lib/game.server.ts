@@ -1,5 +1,6 @@
 import { getRequest } from "@tanstack/react-start/server";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { O_QUE_E_ESPIRITISMO_QUESTIONS } from "@/data/o-que-e-espiritismo-questions";
 
 /** Returns the signed-in user id when a valid bearer token is present, otherwise null (guest). */
 export async function getOptionalUserId(): Promise<string | null> {
@@ -37,6 +38,7 @@ export async function requireUser(): Promise<{ id: string; name: string }> {
     "Jogador";
   return { id: u.id, name };
 }
+
 export async function loadOwnedMatch(matchId: string) {
   const userId = await getOptionalUserId();
   const { data: match, error } = await supabaseAdmin
@@ -62,14 +64,41 @@ export async function getCurrentRound(matchId: string, number: number) {
   return data;
 }
 
+const OQE_BY_CODE = new Map(O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => [q.code, q]));
+
+export function overlayCleanQuestion<T extends { code?: number; book?: string | null } & Record<string, any>>(
+  q: T,
+): T {
+  const seed = q.code !== undefined ? OQE_BY_CODE.get(Number(q.code)) : undefined;
+  if (
+    seed &&
+    (q.book === "o_que_e_espiritismo" ||
+      (q.book === "obras_postumas" && Number(q.code) >= 801) ||
+      String(q.statement ?? "").includes("├") ||
+      String(q.explanation ?? "").includes("├"))
+  ) {
+    return {
+      ...q,
+      statement: seed.statement,
+      option_a: seed.option_a,
+      option_b: seed.option_b,
+      option_c: seed.option_c,
+      option_d: seed.option_d,
+      option_e: seed.option_e,
+      correct_option: seed.correct_option,
+      explanation: seed.explanation,
+      reference: seed.reference,
+      difficulty: seed.difficulty,
+    };
+  }
+  return q;
+}
+
 let oqeSynced = false;
 
 export async function ensureOQueEEspiritismoQuestions() {
   if (oqeSynced) return;
   try {
-    const { O_QUE_E_ESPIRITISMO_QUESTIONS } = await import(
-      "@/data/o-que-e-espiritismo-questions"
-    );
     const { data: allRows, error: fetchErr } = await supabaseAdmin
       .from("questions")
       .select("id, code, statement, book, difficulty, active");
@@ -77,14 +106,27 @@ export async function ensureOQueEEspiritismoQuestions() {
 
     const targetStatements = new Set(O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => q.statement));
     const existingByStatement = new Map<string, (typeof allRows)[number]>();
+    const existingOqeByCode = new Map<number, (typeof allRows)[number]>();
     const usedCodes = new Set<number>();
     let maxCode = 900;
+    let hasMojibake = false;
 
     for (const row of allRows) {
       existingByStatement.set(row.statement, row);
       const numCode = Number(row.code) || 0;
       usedCodes.add(numCode);
       if (numCode > maxCode) maxCode = numCode;
+      if (String(row.statement ?? "").includes("├")) {
+        hasMojibake = true;
+      }
+      if (
+        numCode >= 801 &&
+        (row.book === "o_que_e_espiritismo" ||
+          row.book === "obras_postumas" ||
+          String(row.statement ?? "").includes("├"))
+      ) {
+        existingOqeByCode.set(numCode, row);
+      }
     }
 
     const activeTargetRows = allRows.filter(
@@ -101,11 +143,13 @@ export async function ensureOQueEEspiritismoQuestions() {
           r.active &&
           !targetStatements.has(r.statement) &&
           (r.book === "o_que_e_espiritismo" ||
-            (r.book === "obras_postumas" && r.code >= 801 && r.code <= 900)),
+            (r.book === "obras_postumas" && Number(r.code) >= 801 && Number(r.code) <= 900) ||
+            String(r.statement ?? "").includes("├")),
       )
       .map((r) => r.id);
 
     if (
+      !hasMojibake &&
       activeTargetRows.length === 50 &&
       extraActiveIds.length === 0 &&
       diffCounts.facil >= 10 &&
@@ -117,47 +161,98 @@ export async function ensureOQueEEspiritismoQuestions() {
       return;
     }
 
-    if (extraActiveIds.length > 0) {
+    const keptIds = new Set<string>();
+    const rowsToUpsert: any[] = [];
+
+    for (const q of O_QUE_E_ESPIRITISMO_QUESTIONS) {
+      const byStmt = existingByStatement.get(q.statement);
+      const byCode = existingOqeByCode.get(q.code);
+      const targetRow = byStmt ?? byCode;
+
+      if (targetRow && (!byStmt || targetRow.id === byStmt.id)) {
+        keptIds.add(targetRow.id);
+        const { error: updErr } = await supabaseAdmin
+          .from("questions")
+          .update({
+            book: "o_que_e_espiritismo",
+            statement: q.statement,
+            option_a: q.option_a,
+            option_b: q.option_b,
+            option_c: q.option_c,
+            option_d: q.option_d,
+            option_e: q.option_e,
+            correct_option: q.correct_option,
+            explanation: q.explanation,
+            reference: q.reference,
+            difficulty: q.difficulty,
+            active: true,
+          })
+          .eq("id", targetRow.id);
+
+        if (updErr) {
+          await supabaseAdmin
+            .from("questions")
+            .update({
+              book: "obras_postumas",
+              statement: q.statement,
+              option_a: q.option_a,
+              option_b: q.option_b,
+              option_c: q.option_c,
+              option_d: q.option_d,
+              option_e: q.option_e,
+              correct_option: q.correct_option,
+              explanation: q.explanation,
+              reference: q.reference,
+              difficulty: q.difficulty,
+              active: true,
+            })
+            .eq("id", targetRow.id);
+        }
+      } else {
+        let safeCode = q.code;
+        if (usedCodes.has(safeCode)) {
+          safeCode = ++maxCode;
+        }
+        usedCodes.add(safeCode);
+        rowsToUpsert.push({
+          code: safeCode,
+          book: "o_que_e_espiritismo",
+          statement: q.statement,
+          option_a: q.option_a,
+          option_b: q.option_b,
+          option_c: q.option_c,
+          option_d: q.option_d,
+          option_e: q.option_e,
+          correct_option: q.correct_option,
+          explanation: q.explanation,
+          reference: q.reference,
+          difficulty: q.difficulty,
+          active: true,
+        });
+      }
+    }
+
+    if (rowsToUpsert.length > 0) {
+      const { error: upsertErr } = await supabaseAdmin
+        .from("questions")
+        .upsert(rowsToUpsert, { onConflict: "statement" });
+
+      if (upsertErr) {
+        await supabaseAdmin.from("questions").upsert(
+          rowsToUpsert.map((r) => ({ ...r, book: "obras_postumas" })),
+          { onConflict: "statement" },
+        );
+      }
+    }
+
+    const toDeactivate = extraActiveIds.filter((id) => !keptIds.has(id));
+    if (toDeactivate.length > 0) {
       await supabaseAdmin
         .from("questions")
         .update({ active: false })
-        .in("id", extraActiveIds);
+        .in("id", toDeactivate);
     }
 
-    const rowsToUpsert = O_QUE_E_ESPIRITISMO_QUESTIONS.map((q) => {
-      const existing = existingByStatement.get(q.statement);
-      let safeCode = existing ? Number(existing.code) : q.code;
-      if (!existing && usedCodes.has(safeCode)) {
-        safeCode = ++maxCode;
-      }
-      usedCodes.add(safeCode);
-      return {
-        code: safeCode,
-        book: "o_que_e_espiritismo",
-        statement: q.statement,
-        option_a: q.option_a,
-        option_b: q.option_b,
-        option_c: q.option_c,
-        option_d: q.option_d,
-        option_e: q.option_e,
-        correct_option: q.correct_option,
-        explanation: q.explanation,
-        reference: q.reference,
-        difficulty: q.difficulty,
-        active: true,
-      };
-    });
-
-    const { error: upsertErr } = await supabaseAdmin
-      .from("questions")
-      .upsert(rowsToUpsert, { onConflict: "statement" });
-
-    if (upsertErr) {
-      await supabaseAdmin.from("questions").upsert(
-        rowsToUpsert.map((r) => ({ ...r, book: "obras_postumas" })),
-        { onConflict: "statement" },
-      );
-    }
     oqeSynced = true;
   } catch (err) {
     console.warn("[OQueEEspiritismoSync]", err);
