@@ -6,8 +6,11 @@ import {
   cleanPlayerName,
   DIFFICULTY_LEVELS,
   extractMatchDifficulty,
+  extractMatchBook,
+  resolveQuestionBook,
   pickUnusedQuestionCandidate,
   type GameDifficulty,
+  type BookSelection,
   type Side,
 } from "./game-rules";
 
@@ -19,6 +22,7 @@ export interface MatchState {
   playerName: string;
   totalRounds: number;
   difficulty: GameDifficulty;
+  book: BookSelection;
   status: "in_progress" | "finished";
   currentRound: number;
   playerRounds: number;
@@ -82,6 +86,7 @@ export const startMatch = createServerFn({ method: "POST" })
           .optional()
           .default(3),
         difficulty: z.enum(DIFFICULTY_LEVELS).optional().default("normal"),
+        book: z.enum(["todos", "livro_espiritos", "livro_mediuns", "evangelho", "ceu_inferno", "genese", "obras_postumas", "o_que_e_espiritismo", "nosso_lar", "os_mensageiros"]).optional().default("todos"),
       })
       .parse(d),
   )
@@ -98,16 +103,21 @@ export const startMatch = createServerFn({ method: "POST" })
         .maybeSingle();
       if (p?.display_name) name = p.display_name;
     }
-    const { count } = await supabaseAdmin
+    let questionCountQuery = supabaseAdmin
       .from("questions")
       .select("id", { count: "exact", head: true })
       .eq("active", true);
+    if (data.book !== "todos") questionCountQuery = questionCountQuery.eq("book", data.book);
+    const { count } = await questionCountQuery;
     if (!count)
-      throw new Error("O banco de perguntas está vazio. Não é possível iniciar a partida.");
+      throw new Error(data.book === "todos"
+        ? "O banco de perguntas está vazio. Não é possível iniciar a partida."
+        : "Não há perguntas ativas para este livro. Escolha outra obra ou Todos os livros.");
 
     const chosenRounds = data.totalRounds ?? 3;
     const chosenDifficulty = data.difficulty ?? "normal";
-    const taggedName = `${name} [${chosenRounds}R] [D:${chosenDifficulty}]`;
+    const chosenBook = data.book ?? "todos";
+    const taggedName = `${name} [${chosenRounds}R] [D:${chosenDifficulty}] [B:${chosenBook}]`;
 
     let insertPayload: any = {
       user_id: userId,
@@ -144,6 +154,7 @@ export const startMatch = createServerFn({ method: "POST" })
       playerName: cleanPlayerName(name),
       totalRounds: chosenRounds,
       difficulty: chosenDifficulty,
+      book: chosenBook,
       status: "in_progress",
       currentRound: 1,
       playerRounds: 0,
@@ -162,6 +173,7 @@ export const nextQuestion = createServerFn({ method: "POST" })
     if (match.status !== "in_progress") throw new Error("A partida já terminou.");
     const round = await getCurrentRound(match.id, match.current_round);
     const matchDifficulty = extractMatchDifficulty(match);
+    const matchBook = extractMatchBook(match);
 
     // Re-serve a pending (unanswered) question instead of creating another.
     const { data: pending } = await supabaseAdmin
@@ -184,13 +196,18 @@ export const nextQuestion = createServerFn({ method: "POST" })
       const usedIds = new Set((used ?? []).map((u) => u.question_id));
       const { data: all, error } = await supabaseAdmin
         .from("questions")
-        .select("id, difficulty")
+        .select("id, difficulty, book, code")
         .eq("active", true);
       if (error) throw new Error(error.message);
       if (!all?.length) throw new Error("Não há perguntas ativas no banco.");
+      const bookCandidates = matchBook === "todos"
+        ? all
+        : all.filter((item) => resolveQuestionBook(item) === matchBook);
+      if (!bookCandidates.length)
+        throw new Error("Não há perguntas ativas para o livro selecionado.");
 
-      // Conduz as perguntas de acordo com o nível de dificuldade selecionado para o jogador
-      const candidate = pickUnusedQuestionCandidate(all, usedIds, matchDifficulty);
+      // Filtra primeiro pela obra escolhida e depois pela dificuldade fixa da partida.
+      const candidate = pickUnusedQuestionCandidate(bookCandidates, usedIds, matchDifficulty);
       questionId = candidate.id;
 
       const { data: ins, error: insErr } = await supabaseAdmin
@@ -209,12 +226,8 @@ export const nextQuestion = createServerFn({ method: "POST" })
       .single();
     if (qErr) throw new Error(qErr.message);
 
-    const resolvedBook: PublicQuestion["book"] =
-      (q.code >= 351 && q.code <= 400) || (q.code >= 751 && q.code <= 800)
-        ? "os_mensageiros"
-        : (q.code >= 301 && q.code <= 350) || (q.code >= 701 && q.code <= 750)
-          ? "nosso_lar"
-          : (q.book as PublicQuestion["book"]);
+    const resolvedBook = resolveQuestionBook(q) as PublicQuestion["book"] | null;
+    if (!resolvedBook) throw new Error("Não foi possível identificar a obra desta pergunta.");
 
     return {
       answerId,
