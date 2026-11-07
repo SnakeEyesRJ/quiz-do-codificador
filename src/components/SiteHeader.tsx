@@ -75,7 +75,7 @@ export function SiteHeader() {
           ) : (
             <Button
               size="default"
-              className="h-8 px-2.5 text-xs font-semibold sm:h-9 sm:px-3.5 sm:text-sm lg:h-10 lg:px-4 lg:text-base"
+              className="h-8 border border-sky-300 bg-sky-200 px-2.5 text-xs font-semibold text-black hover:bg-sky-300 hover:text-black sm:h-9 sm:px-3.5 sm:text-sm lg:h-10 lg:px-4 lg:text-base"
               onClick={() =>
                 signInWithGoogle().catch(() => toast.error("Não foi possível entrar com o Google."))
               }
