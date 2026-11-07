@@ -221,26 +221,28 @@ function Perfil() {
         console.warn("Aviso ao atualizar metadados de autenticação:", authErr);
       }
 
-      // 3. Upsert no banco public.profiles para manter sincronizado
-      try {
-        const { error: pErr } = await supabase.from("profiles").upsert({
+      // 3. Persist the profile in the database. Only fall back when the
+      // optional bio column is unavailable; never report success on a failed write.
+      const profilePayload = {
+        id: user.id,
+        display_name: cleanName,
+        avatar_url: finalAvatarUrl,
+        bio: cleanBio,
+        updated_at: new Date().toISOString(),
+      };
+      const { error: profileError } = await supabase.from("profiles").upsert(profilePayload);
+      if (profileError) {
+        const missingBioColumn =
+          /column .*bio.* does not exist|bio.*column/i.test(profileError.message);
+        if (!missingBioColumn) throw profileError;
+
+        const { error: fallbackError } = await supabase.from("profiles").upsert({
           id: user.id,
           display_name: cleanName,
           avatar_url: finalAvatarUrl,
-          bio: cleanBio,
           updated_at: new Date().toISOString(),
         });
-        if (pErr) {
-          // Fallback caso a tabela no banco não tenha a coluna bio
-          await supabase.from("profiles").upsert({
-            id: user.id,
-            display_name: cleanName,
-            avatar_url: finalAvatarUrl,
-            updated_at: new Date().toISOString(),
-          });
-        }
-      } catch (dbErr) {
-        console.warn("Aviso ao sincronizar profiles:", dbErr);
+        if (fallbackError) throw fallbackError;
       }
 
       await refreshProfile();
