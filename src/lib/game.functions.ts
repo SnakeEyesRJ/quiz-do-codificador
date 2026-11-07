@@ -173,12 +173,14 @@ export const nextQuestion = createServerFn({ method: "POST" })
     const matchBook = extractMatchBook(match);
 
     // Re-serve a pending (unanswered) question instead of creating another.
-    const { data: pending } = await supabaseAdmin
+    const { data: pending, error: pendingError } = await supabaseAdmin
       .from("answers")
       .select("id, question_id")
       .eq("match_id", match.id)
+      .eq("round_id", round.id)
       .is("answered_at", null)
       .maybeSingle();
+    if (pendingError) throw new Error(pendingError.message);
 
     let answerId: string;
     let questionId: string;
@@ -217,8 +219,22 @@ export const nextQuestion = createServerFn({ method: "POST" })
         .insert({ match_id: match.id, round_id: round.id, question_id: questionId })
         .select("id")
         .single();
-      if (insErr) throw new Error(insErr.message);
-      answerId = ins.id;
+      if (insErr?.code === "23505") {
+        // Another request created the pending question first; reuse that row.
+        const { data: raced, error: racedError } = await supabaseAdmin
+          .from("answers")
+          .select("id, question_id")
+          .eq("match_id", match.id)
+          .eq("round_id", round.id)
+          .is("answered_at", null)
+          .single();
+        if (racedError || !raced) throw new Error(racedError?.message ?? "Não foi possível recuperar a pergunta.");
+        answerId = raced.id;
+        questionId = raced.question_id;
+      } else {
+        if (insErr || !ins) throw new Error(insErr?.message ?? "Não foi possível criar a pergunta.");
+        answerId = ins.id;
+      }
     }
 
     const { data: q, error: qErr } = await supabaseAdmin
