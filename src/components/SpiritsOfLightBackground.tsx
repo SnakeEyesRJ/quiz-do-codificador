@@ -1,8 +1,8 @@
 import React from "react";
 
 /**
- * Plano de fundo fixo com as imagens de Maria (à esquerda), Jesus (à direita)
- * e São Miguel (ao centro no rodapé), levemente esmaecidas atrás do conteúdo do site.
+ * Plano de fundo fixo com as imagens de Maria (à esquerda) e Jesus (à direita),
+ * levemente esmaecidas atrás do conteúdo do site.
  */
 export function SpiritsOfLightBackground() {
   return (
@@ -16,17 +16,6 @@ export function SpiritsOfLightBackground() {
         style={{
           backgroundImage: "url('/maria-bg.png?v=2')",
           backgroundPosition: "left bottom",
-          backgroundSize: "contain",
-          opacity: 0.24,
-        }}
-      />
-
-      {/* Imagem de São Miguel alinhada ao centro no rodapé e levemente esmaecida */}
-      <div
-        className="absolute inset-y-0 inset-x-0 w-full bg-no-repeat"
-        style={{
-          backgroundImage: "url('/sao-miguel-bg.png')",
-          backgroundPosition: "center bottom",
           backgroundSize: "contain",
           opacity: 0.24,
         }}

@@ -741,24 +741,68 @@ export function Index() {
           </div>
 
           <div className="relative mt-8 overflow-hidden border-t border-white/30 pt-6 pb-2 text-center font-bold text-white">
-            <img src="/sao-miguel-bg.png" alt="" aria-hidden="true" className="pointer-events-none mx-auto mb-3 h-44 w-auto object-contain select-none sm:h-56" style={{ opacity: 0.24 }} />
+            <img
+              src="/sao-miguel-bg.png"
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none mx-auto mb-3 h-48 w-auto object-contain select-none sm:h-60"
+              style={{ opacity: 0.24 }}
+            />
             <p className="font-display text-sm font-bold tracking-wider text-white sm:text-base">
               SNAKEEYES DEV CORP.
             </p>
-            <p className="mt-1 text-xs font-bold text-white sm:text-sm">
-              E-Mail:{" "}
-              <a
-                href="mailto:snakeeyesdfa@gmail.com"
-                className="font-bold text-white underline decoration-white/70 underline-offset-4 hover:text-white/80"
+            <p className="mt-1 flex items-center justify-center gap-1.5 text-xs font-bold text-white sm:text-sm">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4 shrink-0"
               >
-                snakeeyesdfa@gmail.com
-              </a>
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span>
+                E-Mail:{" "}
+                <a
+                  href="mailto:snakeeyesdfa@gmail.com"
+                  className="font-bold text-white underline decoration-white/70 underline-offset-4 hover:text-white/80"
+                >
+                  snakeeyesdfa@gmail.com
+                </a>
+              </span>
             </p>
-            <p className="mt-3 text-xs font-bold text-white sm:text-sm">
-              Doações: Grupo Espírita Severino Rosa
+            <p className="mt-3 flex items-center justify-center gap-1.5 text-xs font-bold text-white sm:text-sm">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4 shrink-0"
+              >
+                <path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16" />
+                <path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+                <path d="m2 15 6 6" />
+                <path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z" />
+              </svg>
+              <span>Doações: Grupo Espírita Severino Rosa</span>
             </p>
-            <p className="mt-0.5 text-xs font-bold text-white sm:text-sm">
-              Chave Pix (CNPJ): 28977643000109
+            <p className="mt-0.5 flex items-center justify-center gap-1.5 text-xs font-bold text-white sm:text-sm">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-4 w-4 shrink-0"
+              >
+                <path d="M15.45 16.52l-3.01-3.01a.63.63 0 0 0-.88 0l-3.01 3.01a2.62 2.62 0 0 1-1.85.77H5.53l3.8 3.8a3.78 3.78 0 0 0 5.34 0l3.81-3.8h-1.18c-.7 0-1.36-.27-1.85-.77zM8.55 7.48l3.01 3.01c.24.24.64.24.88 0l3.01-3.01c.49-.5 1.15-.77 1.85-.77h1.18l-3.81-3.8a3.78 3.78 0 0 0-5.34 0l-3.8 3.8H6.7c.7 0 1.36.27 1.85.77zM21.09 9.33l-2.16-2.16h-1.63c-.43 0-.85.17-1.15.48l-3.01 3.01a1.63 1.63 0 0 1-2.28 0L7.85 7.65a1.63 1.63 0 0 0-1.15-.48H5.07L2.91 9.33a3.78 3.78 0 0 0 0 5.34l2.16 2.16H6.7c.43 0 .85-.17 1.15-.48l3.01-3.01a1.63 1.63 0 0 1 2.28 0l3.01 3.01c.3.31.72.48 1.15.48h1.63l2.16-2.16a3.78 3.78 0 0 0 0-5.34z" />
+              </svg>
+              <span>Chave Pix (CNPJ): 28977643000109</span>
             </p>
             <p className="mt-1.5 flex items-center justify-center text-xs font-bold text-white sm:text-sm">
               <a
