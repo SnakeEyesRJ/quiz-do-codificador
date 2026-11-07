@@ -240,8 +240,8 @@ function Play() {
           >
             {BOOK_OPTIONS.map((option) => (
               <option key={option.value} value={option.value} disabled={option.disabled}>
-                  {option.label}
-                </option>
+                {option.label}
+              </option>
             ))}
           </select>
           <p className="mt-1 text-xs text-muted-foreground">
