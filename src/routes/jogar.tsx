@@ -324,7 +324,7 @@ function Play() {
             asChild
             variant="outline"
             size="sm"
-            className="h-auto whitespace-normal rounded-xl border-border/80 px-3 py-2 text-center text-xs font-semibold text-terracotta hover:bg-peach/40"
+            className="h-auto whitespace-normal rounded-xl border-border/80 px-3 py-2 text-center text-xs font-semibold text-black hover:bg-peach/40 hover:text-black"
           >
             <Link to="/multiplayer" search={{}}>
               <Users className="mr-1.5 h-3.5 w-3.5" /> Desafiar amigo no Modo Multiplayer 1×1

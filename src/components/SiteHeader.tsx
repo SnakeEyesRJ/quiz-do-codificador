@@ -40,7 +40,7 @@ export function SiteHeader() {
           <Link
             to="/multiplayer"
             search={{}}
-            className="flex items-center gap-1 rounded-lg px-1.5 py-1 font-semibold text-terracotta hover:bg-peach sm:gap-1.5 sm:px-2.5 lg:px-3 lg:py-1.5"
+            className="flex items-center gap-1 rounded-lg px-1.5 py-1 font-semibold text-black hover:bg-peach hover:text-black sm:gap-1.5 sm:px-2.5 lg:px-3 lg:py-1.5"
             activeProps={{ className: "bg-peach font-bold" }}
           >
             <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />

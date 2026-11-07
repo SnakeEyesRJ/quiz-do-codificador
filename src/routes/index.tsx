@@ -266,7 +266,7 @@ export function Index() {
             asChild
             variant="outline"
             size="lg"
-            className="mt-3.5 h-auto min-h-11 max-w-full whitespace-normal rounded-xl border-2 border-forest/40 px-5 py-2.5 text-center font-bold text-forest hover:bg-forest/10 hover:text-forest"
+            className="mt-3.5 h-auto min-h-11 max-w-full whitespace-normal rounded-xl border-2 border-black/40 px-5 py-2.5 text-center font-bold text-black hover:bg-black/10 hover:text-black"
           >
             <Link to="/multiplayer" search={{}}>
               <Users className="mr-2 h-4 w-4" /> Desafiar Amigo (Multiplayer Online 1×1)
