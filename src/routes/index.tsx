@@ -177,7 +177,7 @@ export function Index() {
               className="mt-2.5 h-12 w-full rounded-xl border-2 border-border bg-card px-3 text-sm font-semibold text-ink shadow-sm outline-none focus:border-ink"
             >
               {BOOK_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
+                <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
               ))}
             </select>
             <p className="mt-1 text-xs text-muted-foreground">
