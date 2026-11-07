@@ -146,7 +146,7 @@ export async function createRoom(
   user: MpUser,
   opts: { totalRounds: number; difficulty: GameDifficulty },
   now: Date = new Date(),
-  random: () => number = Math.random,
+  random?: () => number,
 ): Promise<{ code: string }> {
   // Validate the question pool before creating a room; otherwise the players
   // could join successfully and then be stranded without a first question.
