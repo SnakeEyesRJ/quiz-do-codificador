@@ -121,8 +121,13 @@ export const startMatch = createServerFn({ method: "POST" })
         : "Não há perguntas ativas para este livro. Escolha outra obra ou Todos os livros.");
     }
     const requiredDifficulty = DIFFICULTY_QUESTION_MAP[chosenDifficulty];
-    if (!availableForBook.some((question) => question.difficulty === requiredDifficulty)) {
-      throw new Error("Não há perguntas deste livro no nível de dificuldade escolhido. Selecione outra dificuldade ou outro livro.");
+    const difficultyCount = availableForBook.filter(
+      (question) => question.difficulty === requiredDifficulty,
+    ).length;
+    if (difficultyCount < 10) {
+      throw new Error(
+        `Este livro tem apenas ${difficultyCount} perguntas no nível escolhido. São necessárias pelo menos 10 para completar uma rodada sem repetição.`,
+      );
     }
     const taggedName = `${name} [${chosenRounds}R] [D:${chosenDifficulty}] [B:${chosenBook}]`;
 
