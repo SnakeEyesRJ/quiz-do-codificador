@@ -312,6 +312,7 @@ export const submitAnswer = createServerFn({ method: "POST" })
       playerName: cleanPlayerName(match.player_name),
       totalRounds: extractMatchTotalRounds(match),
       difficulty: matchDifficulty,
+      book: extractMatchBook(match),
       status: "in_progress",
       currentRound: match.current_round,
       playerRounds: match.player_rounds,
