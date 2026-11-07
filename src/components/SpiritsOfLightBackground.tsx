@@ -58,7 +58,7 @@ export function SpiritsOfLightBackground() {
       <div
         className="absolute inset-y-0 left-0 w-full bg-no-repeat"
         style={{
-          backgroundImage: "url('/maria-bg.png')",
+          backgroundImage: "url('/maria-bg.png?v=2')",
           backgroundPosition: "left bottom",
           backgroundSize: "contain",
           opacity: 0.24,
