@@ -86,7 +86,7 @@ export type Database = {
           player_name: string
           player_rounds: number
           status: string
-          total_rounds: number | null
+          total_rounds: number
           user_id: string | null
           winner: string | null
         }
@@ -100,7 +100,7 @@ export type Database = {
           player_name?: string
           player_rounds?: number
           status?: string
-          total_rounds?: number | null
+          total_rounds?: number
           user_id?: string | null
           winner?: string | null
         }
@@ -114,7 +114,7 @@ export type Database = {
           player_name?: string
           player_rounds?: number
           status?: string
-          total_rounds?: number | null
+          total_rounds?: number
           user_id?: string | null
           winner?: string | null
         }
