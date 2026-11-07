@@ -2,14 +2,11 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import {
   applyRoundWin,
-  assertPoolCanStartMatch,
   DIFFICULTY_LEVELS,
-  extractMatchBook,
+  DIFFICULTY_QUESTION_MAP,
   extractMatchDifficulty,
-  filterQuestionPool,
   pickUnusedQuestionCandidate,
   resolveQuestionBook,
-  type BookSelection,
   type GameDifficulty,
   type Side,
 } from "./game-rules";
@@ -148,7 +145,7 @@ export interface MpUser {
 export async function createRoom(
   admin: Admin,
   user: MpUser,
-  opts: { totalRounds: number; difficulty: GameDifficulty; book?: BookSelection },
+  opts: { totalRounds: number; difficulty: GameDifficulty },
   now: Date = new Date(),
   random?: () => number,
 ): Promise<{ code: string }> {
@@ -156,17 +153,15 @@ export async function createRoom(
   // could join successfully and then be stranded without a first question.
   const { data: pool, error: poolError } = await admin
     .from("questions")
-    .select("id, difficulty, book, code")
+    .select("id, difficulty")
     .eq("active", true);
   if (poolError) fail(poolError.message);
-  // Estoque real do livro e do nível escolhidos; sem mínimo fixo e sem trocar de nível.
-  const chosenBook: BookSelection = opts.book ?? "todos";
-  assertPoolCanStartMatch(
-    filterQuestionPool(pool ?? [], chosenBook, opts.difficulty).length,
-    opts.totalRounds,
-    chosenBook,
-    opts.difficulty,
-  );
+  const availableCount = (pool ?? []).filter(
+    (question) => question.difficulty === DIFFICULTY_QUESTION_MAP[opts.difficulty],
+  ).length;
+  if (availableCount < 10) {
+    fail("Não há pelo menos 10 perguntas ativas neste nível para iniciar uma rodada sem repetição.");
+  }
 
   // Remove salas anteriores do mesmo anfitrião que ainda aguardam adversário.
   const { data: mine } = await admin
@@ -202,7 +197,6 @@ export async function createRoom(
       code,
       totalRounds: opts.totalRounds,
       difficulty: opts.difficulty,
-      book: chosenBook,
     }),
     total_rounds: opts.totalRounds,
     difficulty: opts.difficulty,
@@ -267,7 +261,6 @@ export async function joinRoom(
     guestName: user.name,
     totalRounds: tags.totalRounds ?? 3,
     difficulty,
-    book: tags.book,
   });
   const { data: updated, error } = await admin
     .from("matches")
@@ -328,18 +321,12 @@ async function createQuestion(
 
   const { data: all, error } = await admin
     .from("questions")
-    .select("id, difficulty, book, code")
+    .select("id, difficulty")
     .eq("active", true);
   if (error) fail(error.message);
   if (!all?.length) fail("Não há perguntas ativas no banco.");
 
-  // Livro e dificuldade são fixos para a sala (iguais para os dois jogadores). O histórico
-  // `usedIds` vem de `answers` e cobre todas as rodadas; se acabar, lança erro claro.
-  const matchBook = extractMatchBook(match);
-  const matchDifficulty = extractMatchDifficulty(match);
-  const pool = filterQuestionPool(all, matchBook, matchDifficulty);
-  assertPoolCanStartMatch(pool.length, 1, matchBook, matchDifficulty);
-  const candidate = pickUnusedQuestionCandidate(pool, usedIds, matchDifficulty, random, matchBook);
+  const candidate = pickUnusedQuestionCandidate(all, usedIds, extractMatchDifficulty(match), random);
 
   const { error: insErr } = await admin
     .from("answers")
@@ -585,7 +572,6 @@ export async function getRoomState(
     phase,
     totalRounds: tags.totalRounds ?? match["total_rounds"] ?? 3,
     difficulty: safeDifficulty,
-    book: tags.book,
     currentRound: match["current_round"],
     host: { id: match["user_id"], name: tags.hostName },
     guest: tags.guestId ? { id: tags.guestId, name: tags.guestName ?? "Jogador" } : null,

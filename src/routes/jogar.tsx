@@ -20,12 +20,10 @@ import {
   DIFFICULTY_LEVELS,
   type GameDifficulty,
   BOOK_OPTIONS,
-  isQuestionPoolMessage,
   type BookSelection,
 } from "@/lib/game-rules";
 import {
   nextQuestion,
-  resumeMatch,
   startMatch,
   submitAnswer,
   type AnswerResult,
@@ -80,9 +78,6 @@ export const Route = createFileRoute("/jogar")({
   component: Play,
 });
 
-/** Guarda a partida solo em andamento para retomá-la após recarregar a página. */
-const ACTIVE_MATCH_KEY = "quiz-codificador:active-match";
-
 const BOOK_LABEL: Record<string, string> = {
   livro_espiritos: "O Livro dos Espíritos",
   evangelho: "O Evangelho Segundo o Espiritismo",
@@ -100,7 +95,6 @@ function Play() {
   const { user, profile, loading } = useAuth();
   const start = useServerFn(startMatch);
   const fetchNext = useServerFn(nextQuestion);
-  const resume = useServerFn(resumeMatch);
   const answer = useServerFn(submitAnswer);
 
   const [name, setName] = useState("");
@@ -120,52 +114,6 @@ function Play() {
   useEffect(() => {
     setCustomAvatar(getStoredCustomAvatar());
   }, []);
-
-  // Retoma a partida em andamento após recarregar a página. O histórico de perguntas
-  // usadas pertence à partida e está gravado no banco, então continua o mesmo.
-  useEffect(() => {
-    if (loading || state) return;
-    let stored: string | null = null;
-    try {
-      stored = window.localStorage.getItem(ACTIVE_MATCH_KEY);
-    } catch {
-      return;
-    }
-    if (!stored) return;
-    const matchId = stored;
-    let cancelled = false;
-    (async () => {
-      try {
-        const resumed = await resume({ data: { matchId } });
-        const pending = await fetchNext({ data: { matchId: resumed.matchId } });
-        if (cancelled) return;
-        setState(resumed);
-        setQuestion(pending);
-        setResult(null);
-        setShown(null);
-      } catch (e) {
-        if (e instanceof Error && isQuestionPoolMessage(e.message)) toast.error(e.message);
-        try {
-          window.localStorage.removeItem(ACTIVE_MATCH_KEY);
-        } catch {
-          /* armazenamento indisponível */
-        }
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [loading]);
-
-  // Partida encerrada: não há mais o que retomar.
-  useEffect(() => {
-    if (state?.status !== "finished") return;
-    try {
-      window.localStorage.removeItem(ACTIVE_MATCH_KEY);
-    } catch {
-      /* armazenamento indisponível */
-    }
-  }, [state?.status]);
 
   async function run<T>(fn: () => Promise<T>): Promise<T | undefined> {
     setBusy(true);
@@ -190,11 +138,6 @@ function Play() {
         },
       });
       setState(s);
-      try {
-        window.localStorage.setItem(ACTIVE_MATCH_KEY, s.matchId);
-      } catch {
-        /* armazenamento indisponível */
-      }
       setShown(null);
       setResult(null);
       setMissed([]);

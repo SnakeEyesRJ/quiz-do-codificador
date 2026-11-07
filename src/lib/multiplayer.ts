@@ -1,10 +1,4 @@
-import {
-  extractMatchBook,
-  ROUND_TARGET,
-  type BookSelection,
-  type GameDifficulty,
-  type Side,
-} from "./game-rules";
+import { ROUND_TARGET, type GameDifficulty, type Side } from "./game-rules";
 
 /**
  * Modo multiplayer online (1 contra 1).
@@ -68,8 +62,6 @@ export interface RoomName {
   guestName: string | null;
   totalRounds: number | null;
   difficulty: string | null;
-  /** Livro escolhido na criação da sala; vale para os dois jogadores. */
-  book: BookSelection;
 }
 
 export function buildRoomName(opts: {
@@ -79,15 +71,12 @@ export function buildRoomName(opts: {
   guestName?: string | null;
   totalRounds: number;
   difficulty: GameDifficulty;
-  book?: BookSelection;
 }): string {
   const parts = [`${sanitizeName(opts.hostName)} [MP:${opts.code}]`];
   if (opts.guestId) {
     parts.push(`[G:${opts.guestId}]`, `[GN:${sanitizeName(opts.guestName)}]`);
   }
   parts.push(`[${opts.totalRounds}R]`, `[D:${opts.difficulty}]`);
-  // "todos" é o padrão e não precisa de tag (compatível com salas antigas).
-  if (opts.book && opts.book !== "todos") parts.push(`[B:${opts.book}]`);
   return parts.join(" ");
 }
 
@@ -104,7 +93,6 @@ export function parseRoomName(raw: string | null | undefined): RoomName {
     .replace(/\s*\[GN:[^\]]*\]/g, "")
     .replace(/\s*\[[3579]R\]/g, "")
     .replace(/\s*\[D:[a-z]+\]/gi, "")
-    .replace(/\s*\[B:[a-z_]+\]/gi, "")
     .trim();
   return {
     hostName: hostName || "Jogador",
@@ -113,7 +101,6 @@ export function parseRoomName(raw: string | null | undefined): RoomName {
     guestName,
     totalRounds: rounds ? Number(rounds) : null,
     difficulty,
-    book: extractMatchBook({ player_name: name }),
   };
 }
 
@@ -185,8 +172,6 @@ export interface MpState {
   phase: "waiting" | "playing" | "finished";
   totalRounds: number;
   difficulty: GameDifficulty;
-  /** Livro compartilhado da sala ("todos" = qualquer obra). */
-  book: BookSelection;
   currentRound: number;
   host: { id: string; name: string };
   guest: { id: string; name: string } | null;

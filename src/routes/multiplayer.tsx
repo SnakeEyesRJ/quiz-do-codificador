@@ -24,10 +24,6 @@ import {
   DIFFICULTY_LABELS,
   DIFFICULTY_LEVELS,
   type GameDifficulty,
-  BOOK_OPTIONS,
-  bookDisplayName,
-  isQuestionPoolMessage,
-  type BookSelection,
 } from "@/lib/game-rules";
 import {
   mpAnswer,
@@ -104,7 +100,6 @@ function MultiplayerPage() {
   // Estados locais da tela de lobby
   const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(3);
   const [difficulty, setDifficulty] = useState<GameDifficulty>("normal");
-  const [book, setBook] = useState<BookSelection>("todos");
   const [inputCode, setInputCode] = useState(searchCode ?? "");
   const [activeCode, setActiveCode] = useState<string | null>(searchCode ?? null);
 
@@ -150,10 +145,7 @@ function MultiplayerPage() {
         setRoomState(s);
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
-        if (isQuestionPoolMessage(msg)) {
-          // Estoque de perguntas esgotado: avisa o jogador em vez de repetir perguntas.
-          toast.error(msg, { id: "mp-question-pool" });
-        } else if (msg.includes("não encontrada") || msg.includes("não faz parte")) {
+        if (msg.includes("não encontrada") || msg.includes("não faz parte")) {
           toast.error("Você saiu ou a sala não está mais disponível.");
           setActiveCode(null);
           setRoomState(null);
@@ -178,7 +170,7 @@ function MultiplayerPage() {
     }
     setBusy(true);
     try {
-      const res = await createRoomFn({ data: { totalRounds: rounds, difficulty, book } });
+      const res = await createRoomFn({ data: { totalRounds: rounds, difficulty } });
       setActiveCode(res.code);
       setInputCode(res.code);
       await navigate({ search: { code: res.code } });
@@ -384,28 +376,6 @@ function MultiplayerPage() {
                 </div>
               </div>
 
-              {/* Livro (compartilhado pelos dois jogadores da sala) */}
-              <div className="mt-4 text-center">
-                <label
-                  htmlFor="livro-sala"
-                  className="text-[11px] font-bold uppercase tracking-wider text-ink/80"
-                >
-                  Livro da partida:
-                </label>
-                <select
-                  id="livro-sala"
-                  value={book}
-                  onChange={(event) => setBook(event.target.value as BookSelection)}
-                  className="mt-2 h-10 w-full rounded-xl border-2 border-border bg-card px-3 text-xs font-semibold text-ink shadow-sm outline-none focus:border-ink"
-                >
-                  {BOOK_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value} disabled={option.disabled}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
               {/* Dificuldade */}
               <div className="mt-4 text-center">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-ink/80">
@@ -569,12 +539,6 @@ function MultiplayerPage() {
               Disputa em <strong>{roomState.totalRounds} rodadas</strong> · Dificuldade{" "}
               <strong>{DIFFICULTY_LABELS[roomState.difficulty]}</strong>
             </p>
-            <p className="mt-1">
-              Livro{" "}
-              <strong>
-                {roomState.book === "todos" ? "Todos os livros" : bookDisplayName(roomState.book)}
-              </strong>
-            </p>
             <div className="mt-4 flex items-center justify-center gap-3">
               <PlayerAvatar url={profile?.avatar_url} size={40} />
               <div className="min-w-0 text-left">
@@ -676,7 +640,6 @@ function MultiplayerPage() {
             <p className="mt-3 text-xs text-muted-foreground">
               Dificuldade {DIFFICULTY_LABELS[roomState.difficulty]} · Disputa de{" "}
               {roomState.totalRounds} rodadas
-              {roomState.book !== "todos" ? ` · ${bookDisplayName(roomState.book)}` : ""}
             </p>
           </div>
 

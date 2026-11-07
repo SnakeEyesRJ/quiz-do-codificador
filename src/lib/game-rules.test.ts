@@ -158,19 +158,13 @@ describe("seleção de perguntas por nível de dificuldade", () => {
   });
 
   it.each(["facil", "normal", "dificil", "expert"] as const)(
-    "%s: ao esgotar o nível, informa o jogador e nunca repete nem troca de dificuldade",
+    "%s: ao esgotar o nível, repete somente perguntas da dificuldade escolhida",
     (difficulty) => {
       const expected = difficulty === "facil" ? "facil" : difficulty === "normal" ? "medio" : difficulty === "dificil" ? "dificil" : "expert";
       const used = new Set(pool.filter((q) => q.difficulty === expected).map((q) => q.id));
       for (const random of [0, 0.4, 0.99]) {
-        expect(() => pickUnusedQuestionCandidate(pool, used, difficulty, () => random)).toThrow(
-          /Perguntas insuficientes/,
-        );
+        expect(pickUnusedQuestionCandidate(pool, used, difficulty, () => random).difficulty).toBe(expected);
       }
-      // Com uma pergunta ainda inédita, ela é a única possível.
-      const [first, ...rest] = [...used];
-      const almost = new Set(rest);
-      expect(pickUnusedQuestionCandidate(pool, almost, difficulty, () => 0.5).id).toBe(first);
     },
   );
 
