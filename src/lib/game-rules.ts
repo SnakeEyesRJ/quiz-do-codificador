@@ -38,7 +38,7 @@ export const BOOK_OPTIONS: { value: BookSelection; label: string }[] = [
 ];
 
 export function extractMatchBook(match: any): BookSelection {
-  const tag = match?.player_name?.match(/\\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|o_que_e_espiritismo|nosso_lar|os_mensageiros)\\]/i);
+  const tag = match?.player_name?.match(/\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|o_que_e_espiritismo|nosso_lar|os_mensageiros)\]/i);
   return (tag?.[1]?.toLowerCase() as BookSelection) || "todos";
 }
 
