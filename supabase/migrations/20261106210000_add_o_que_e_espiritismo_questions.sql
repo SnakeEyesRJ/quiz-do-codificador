@@ -1,5 +1,3 @@
-BEGIN;
-
 ALTER TABLE public.questions DROP CONSTRAINT IF EXISTS questions_book_check;
 ALTER TABLE public.questions ADD CONSTRAINT questions_book_check CHECK (book IN ('livro_espiritos', 'evangelho', 'ceu_inferno', 'genese', 'livro_mediuns', 'obras_postumas', 'nosso_lar', 'os_mensageiros', 'o_que_e_espiritismo'));
 
@@ -119,5 +117,3 @@ ON CONFLICT (statement) DO UPDATE SET
   active = EXCLUDED.active;
 
 SELECT setval('public.questions_code_seq', GREATEST((SELECT COALESCE(MAX(code), 1) FROM public.questions), 1), true);
-
-COMMIT;
