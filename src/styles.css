@@ -55,10 +55,10 @@
 
 /*
  * QUIZ DO CODIFICADOR — Paleta oficial (4 faixas da imagem anexada):
- *   1. #FFBE91 Coral / Pêssego suave (faixa 1 - topo / destaque primário)
- *   2. #FFDDB0 Damasco claro / Pêssego dourado (faixa 2 - secundário)
- *   3. #FFFCE1 Creme baunilha luminoso (faixa 3 - base e superfícies)
- *   4. #CFEBFF Azul celeste suave (faixa 4 - frescor e badges)
+ *   1. #C0E1D2 Verde menta / Sálvia suave (faixa 1 - topo / frescor e destaque)
+ *   2. #E5EEE4 Verde névoa claro (faixa 2 - secundário e badges)
+ *   3. #F6F4E8 Marfim / Creme suave (faixa 3 - base e superfícies)
+ *   4. #DC9B9B Rosé antigo / Coral suave (faixa 4 - primário e ênfase)
  *   Tinta de leitura: #2B1810 Café profundo / Alto contraste
  */
 
@@ -108,19 +108,19 @@
   --radius: 0.9rem;
 
   /* 4 faixas exatas extraídas da imagem anexada */
-  --terracotta: #ffbe91;
-  --amber: #ffddb0;
-  --cream: #fffce1;
-  --aqua: #cfebff;
+  --aqua: #c0e1d2;
+  --amber: #e5eee4;
+  --cream: #f6f4e8;
+  --terracotta: #dc9b9b;
 
   /* Tinta de contraste profundo para máxima legibilidade */
   --ink: #2b1810;
 
   /* Variações tonais para contraste, relevo e elegância */
-  --card-bg: #fffef4;
-  --peach: #cfebff;
-  --salmon: #ffddb0;
-  --rose: #fff5d6;
+  --card-bg: #faf9f2;
+  --peach: #c0e1d2;
+  --salmon: #dc9b9b;
+  --rose: #e5eee4;
   --forest: #237666;
   --forest-soft: #d3f0ed;
 
@@ -134,19 +134,19 @@
   --primary-foreground: var(--ink);
   --secondary: var(--amber);
   --secondary-foreground: var(--ink);
-  --muted: #f5eed0;
-  --muted-foreground: #6b4c3e;
+  --muted: #e5eee4;
+  --muted-foreground: #544740;
   --accent: var(--aqua);
   --accent-foreground: var(--ink);
   --destructive: #c9382b;
   --destructive-foreground: #ffffff;
-  --border: #e6d4b5;
-  --input: #e6d4b5;
+  --border: #d4ddd3;
+  --input: #d4ddd3;
   --ring: var(--terracotta);
   --correct: var(--forest);
   --wrong: #c9382b;
 
-  --gradient-warm: linear-gradient(180deg, #ffbe91 0%, #ffddb0 34%, #fffce1 68%, #cfebff 100%);
+  --gradient-warm: linear-gradient(180deg, #c0e1d2 0%, #e5eee4 34%, #f6f4e8 68%, #dc9b9b 100%);
   --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2b1810 18%, transparent);
 }
 
