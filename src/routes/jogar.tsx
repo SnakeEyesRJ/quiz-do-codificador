@@ -49,7 +49,11 @@ export const Route = createFileRoute("/jogar")({
       ? (d as GameDifficulty)
       : "normal";
     const b = String(search["livro"] || "todos");
-    const validBook = BOOK_OPTIONS.some((option) => option.value === b && !option.disabled) ? (b as BookSelection) : "todos";
+    const validBook = BOOK_OPTIONS.some(
+      (option) => option.value === b && !option.disabled,
+    )
+      ? (b as BookSelection)
+      : "todos";
     return {
       rodadas: [3, 5, 7, 9].includes(r) ? (r as 3 | 5 | 7 | 9) : 3,
       dificuldade: validD,
@@ -235,7 +239,9 @@ function Play() {
             className="mt-2 h-11 w-full rounded-xl border-2 border-border bg-card px-3 text-sm font-semibold text-ink shadow-sm outline-none focus:border-ink"
           >
             {BOOK_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
+              <option key={option.value} value={option.value} disabled={option.disabled}>
+                  {option.label}
+                </option>
             ))}
           </select>
           <p className="mt-1 text-xs text-muted-foreground">
