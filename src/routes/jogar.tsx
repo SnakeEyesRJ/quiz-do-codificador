@@ -473,7 +473,7 @@ function Play() {
       </div>
 
       {/* Recap de estudo opcional (somente após o fim da partida; sem IA durante o jogo) */}
-      {matchOver && state && <StudyRecap matchId={state.matchId} answers={missed} />}
+      {matchOver && state && user && <StudyRecap matchId={state.matchId} answers={missed} />}
     </main>
   );
 }
