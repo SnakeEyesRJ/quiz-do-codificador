@@ -35,7 +35,7 @@ export const BOOK_OPTIONS: { value: BookSelection; label: string }[] = [
   { value: "nosso_lar", label: "07 - Nosso Lar" },
   { value: "obras_postumas", label: "08 - Obras Póstumas" },
   { value: "o_que_e_espiritismo", label: "09 - O Que é o Espiritismo" },
- ];
+];
 
 export function extractMatchBook(match: any): BookSelection {
   const tag = match?.player_name?.match(/\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|o_que_e_espiritismo|nosso_lar|os_mensageiros)\]/i);
