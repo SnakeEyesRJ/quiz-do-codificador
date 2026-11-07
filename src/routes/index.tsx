@@ -182,9 +182,11 @@ export function Index() {
                 </option>
               ))}
             </select>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {selectedBook === "todos" ? "Sorteio entre todas as obras disponíveis." : "A partida terá perguntas somente desta obra."}
-            </p>
+            {selectedBook !== "todos" && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                A partida terá perguntas somente desta obra.
+              </p>
+            )}
           </div>
 
           {/* Seletor de Rodadas */ }
