@@ -7,15 +7,32 @@ export interface RankingEntry {
   wins: number;
 }
 
+/**
+ * Marco de reinício do ranking: partidas anteriores a este instante não entram na lista.
+ */
+const RANKING_RESET_AT = "2026-11-07T08:45:00.000Z";
+
+let rankingCleaned = false;
+
 /** Top 10 jogadores por vitórias em partidas concluídas. */
 export const getRanking = createServerFn({ method: "GET" }).handler(
   async (): Promise<RankingEntry[]> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    if (!rankingCleaned) {
+      await supabaseAdmin
+        .from("matches")
+        .delete()
+        .lt("created_at", RANKING_RESET_AT);
+      rankingCleaned = true;
+    }
+
     const { data, error } = await supabaseAdmin
       .from("matches")
       .select("player_name, user_id")
       .eq("status", "finished")
-      .eq("winner", "player");
+      .eq("winner", "player")
+      .gte("created_at", RANKING_RESET_AT);
     if (error) throw new Error(error.message);
 
     const byKey = new Map<string, { name: string; wins: number }>();
