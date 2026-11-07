@@ -24,7 +24,13 @@ export const ROOM_CODE_LENGTH = 5;
 // Sem caracteres ambíguos (0/O, 1/I)
 const ROOM_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-export function generateRoomCode(random: () => number = Math.random): string {
+function secureRandom(): number {
+  const value = new Uint32Array(1);
+  globalThis.crypto.getRandomValues(value);
+  return value[0]! / 0x1_0000_0000;
+}
+
+export function generateRoomCode(random: () => number = secureRandom): string {
   let code = "";
   for (let i = 0; i < ROOM_CODE_LENGTH; i++) {
     code += ROOM_ALPHABET[Math.floor(random() * ROOM_ALPHABET.length)];
