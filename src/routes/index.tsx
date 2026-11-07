@@ -32,6 +32,8 @@ import {
   DIFFICULTY_LABELS,
   DIFFICULTY_LEVELS,
   type GameDifficulty,
+  BOOK_OPTIONS,
+  type BookSelection,
 } from "@/lib/game-rules";
 import { cn } from "@/lib/utils";
 
@@ -132,6 +134,7 @@ export function Index() {
   const { user, profile } = useAuth();
   const [selectedRounds, setSelectedRounds] = useState<3 | 5 | 7 | 9>(3);
   const [selectedDifficulty, setSelectedDifficulty] = useState<GameDifficulty>("normal");
+  const [selectedBook, setSelectedBook] = useState<BookSelection>("todos");
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);
 
   useEffect(() => {
@@ -161,6 +164,26 @@ export function Index() {
           <p className="mx-auto mt-4 whitespace-nowrap text-[clamp(0.7rem,2.9vw,1.1rem)] font-extrabold tracking-wide text-ink/80">
             TESTE SEUS CONHECIMENTOS SOBRE A DOUTRINA ESPÍRITA
           </p>
+
+          {/* Seletor de livro */}
+          <div className="mt-7 flex w-full max-w-md flex-col items-center text-center">
+            <label htmlFor="livro-inicial" className="text-base font-bold tracking-wide text-ink sm:text-lg">
+              Escolha o livro:
+            </label>
+            <select
+              id="livro-inicial"
+              value={selectedBook}
+              onChange={(event) => setSelectedBook(event.target.value as BookSelection)}
+              className="mt-2.5 h-12 w-full rounded-xl border-2 border-border bg-card px-3 text-sm font-semibold text-ink shadow-sm outline-none focus:border-ink"
+            >
+              {BOOK_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {selectedBook === "todos" ? "Sorteio entre todas as obras disponíveis." : "A partida terá perguntas somente desta obra."}
+            </p>
+          </div>
 
           {/* Seletor de Rodadas */ }
   <div className="mt-8 flex flex-col items-center text-center">
@@ -237,7 +260,7 @@ export function Index() {
             size="xl"
             className="mt-7 h-auto min-h-12 max-w-full whitespace-normal px-5 py-3 text-center sm:px-10"
           >
-            <Link to="/jogar" search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty }}>
+            <Link to="/jogar" search={{ rodadas: selectedRounds, dificuldade: selectedDifficulty, livro: selectedBook }}>
               Iniciar partida ({selectedRounds} rodadas · {DIFFICULTY_LABELS[selectedDifficulty]})
             </Link>
           </Button>
