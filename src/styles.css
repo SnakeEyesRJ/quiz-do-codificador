@@ -55,10 +55,10 @@
 
 /*
  * QUIZ DO CODIFICADOR — Paleta oficial (4 faixas da imagem anexada):
- *   1. #FFEAD3 Creme suave / Pêssego claro (faixa 1 - base)
- *   2. #BFE7EA Aqua / Céu turquesa suave (faixa 2 - frescor e destaque)
- *   3. #E89B5B Âmbar alaranjado / Damasco (faixa 3 - secundário e badges)
- *   4. #D46743 Terracota / Ferrugem profundo (faixa 4 - primário e ênfase)
+ *   1. #FFBE91 Coral / Pêssego suave (faixa 1 - topo / destaque primário)
+ *   2. #FFDDB0 Damasco claro / Pêssego dourado (faixa 2 - secundário)
+ *   3. #FFFCE1 Creme baunilha luminoso (faixa 3 - base e superfícies)
+ *   4. #CFEBFF Azul celeste suave (faixa 4 - frescor e badges)
  *   Tinta de leitura: #2B1810 Café profundo / Alto contraste
  */
 
@@ -108,19 +108,19 @@
   --radius: 0.9rem;
 
   /* 4 faixas exatas extraídas da imagem anexada */
-  --cream: #ffead3;
-  --aqua: #bfe7ea;
-  --amber: #e89b5b;
-  --terracotta: #d46743;
+  --terracotta: #ffbe91;
+  --amber: #ffddb0;
+  --cream: #fffce1;
+  --aqua: #cfebff;
 
   /* Tinta de contraste profundo para máxima legibilidade */
   --ink: #2b1810;
 
   /* Variações tonais para contraste, relevo e elegância */
-  --card-bg: #fff5eb;
-  --peach: #bfe7ea;
-  --salmon: #e89b5b;
-  --rose: #fde8d7;
+  --card-bg: #fffef4;
+  --peach: #cfebff;
+  --salmon: #ffddb0;
+  --rose: #fff5d6;
   --forest: #237666;
   --forest-soft: #d3f0ed;
 
@@ -131,23 +131,23 @@
   --popover: var(--card-bg);
   --popover-foreground: var(--ink);
   --primary: var(--terracotta);
-  --primary-foreground: #ffffff;
+  --primary-foreground: var(--ink);
   --secondary: var(--amber);
   --secondary-foreground: var(--ink);
-  --muted: #f2decb;
+  --muted: #f5eed0;
   --muted-foreground: #6b4c3e;
   --accent: var(--aqua);
   --accent-foreground: var(--ink);
   --destructive: #c9382b;
   --destructive-foreground: #ffffff;
-  --border: #e3caa8;
-  --input: #e3caa8;
+  --border: #e6d4b5;
+  --input: #e6d4b5;
   --ring: var(--terracotta);
   --correct: var(--forest);
   --wrong: #c9382b;
 
-  --gradient-warm: linear-gradient(160deg, #ffead3 0%, #bfe7ea 35%, #e89b5b 70%, #d46743 100%);
-  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2b1810 22%, transparent);
+  --gradient-warm: linear-gradient(180deg, #ffbe91 0%, #ffddb0 34%, #fffce1 68%, #cfebff 100%);
+  --shadow-soft: 0 12px 30px -14px color-mix(in srgb, #2b1810 18%, transparent);
 }
 
 @utility bg-warm {
@@ -155,33 +155,6 @@
 }
 @utility shadow-soft {
   box-shadow: var(--shadow-soft);
-}
-
-@keyframes spiritFlareDrift {
-  0% {
-    transform: translate(-50%, -50%) translate3d(0px, 0px, 0);
-  }
-  50% {
-    transform: translate(-50%, -50%) translate3d(14px, -18px, 0);
-  }
-  100% {
-    transform: translate(-50%, -50%) translate3d(-12px, -32px, 0);
-  }
-}
-
-@keyframes spiritFlarePulse {
-  0% {
-    transform: scale(0.78);
-    opacity: 0.35;
-  }
-  50% {
-    transform: scale(1.12);
-    opacity: 0.92;
-  }
-  100% {
-    transform: scale(0.9);
-    opacity: 0.55;
-  }
 }
 
 @layer base {
