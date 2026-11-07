@@ -189,12 +189,27 @@ export async function createRoom(
     created_at: now.toISOString(),
   };
 
-  const { data: match, error: insertError } = await admin
+  let inserted = await admin
     .from("matches")
     .insert(payload as any)
     .select()
     .single();
-  if (insertError || !match) fail(insertError?.message ?? "Não foi possível criar a sala.");
+  const missingDifficultyColumn =
+    inserted.error?.code === "42703" ||
+    /column .*difficulty.* does not exist|difficulty.*column/i.test(inserted.error?.message ?? "");
+  if (missingDifficultyColumn) {
+    // Compatibility for older deployments only; never retry unrelated failures.
+    delete payload["difficulty"];
+    inserted = await admin
+      .from("matches")
+      .insert(payload as any)
+      .select()
+      .single();
+  }
+  if (inserted.error || !inserted.data) {
+    fail(inserted.error?.message ?? "Não foi possível criar a sala.");
+  }
+  const match = inserted.data as Row;
 
   const { error: rErr } = await admin.from("rounds").insert({ match_id: match["id"], number: 1 });
   if (rErr) fail(rErr.message);
