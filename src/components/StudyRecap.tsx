@@ -37,18 +37,7 @@ export function StudyRecap({
     setError(null);
     try {
       const { items } = await generateStudyRecap({
-        data: {
-          matchId,
-          answers: answers.map((a) => ({
-            book: a.bookLabel,
-            statement: a.statement,
-            options: a.options,
-            playerOption: a.playerOption,
-            correctOption: a.correctOption,
-            explanation: a.explanation,
-            reference: a.reference,
-          })),
-        },
+        data: { matchId },
       });
       if (!items.length) {
         setError("A IA não retornou explicações agora. Tente novamente mais tarde.");
