@@ -1,8 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import {
-  applyAnswer,
-  applyRoundWin,
   cleanPlayerName,
   DIFFICULTY_LEVELS,
   DIFFICULTY_QUESTION_MAP,
