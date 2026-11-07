@@ -742,15 +742,15 @@ export function Index() {
 
           <div className="mt-8 border-t border-white/30 pt-6 pb-2 text-center font-bold text-white">
             <p className="font-display text-sm font-bold tracking-wider text-white sm:text-base">
-              DESENVOLVIDO POR EMILDO LAHUD ABREU
+              SNAKEEYES DEV CORP.
             </p>
             <p className="mt-1 text-xs font-bold text-white sm:text-sm">
               E-Mail:{" "}
               <a
-                href="mailto:emildo.abreu@gmail.com"
+                href="mailto:snakeeyesdfa@gmail.com"
                 className="font-bold text-white underline decoration-white/70 underline-offset-4 hover:text-white/80"
               >
-                emildo.abreu@gmail.com
+                snakeeyesdfa@gmail.com
               </a>
             </p>
             <p className="mt-3 text-xs font-bold text-white sm:text-sm">
