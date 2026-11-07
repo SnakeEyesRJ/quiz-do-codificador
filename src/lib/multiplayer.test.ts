@@ -117,7 +117,7 @@ describe("fluxo da sala multiplayer", () => {
         correct_option: letters[i % 5],
         explanation: `Explicação ${i}`,
         reference: `Ref ${i}`,
-        difficulty: diffs[i % 3],
+        difficulty: diffs[i % diffs.length],
         active: true,
       });
     }
