@@ -86,6 +86,7 @@ export const QUESTION_DIFFICULTY_LABELS: Record<string, string> = {
   facil: "Fácil",
   medio: "Médio",
   dificil: "Difícil",
+  expert: "Expert",
 };
 
 export interface QuestionCandidate {
@@ -95,13 +96,13 @@ export interface QuestionCandidate {
 
 /**
  * Dificuldade da pergunta exigida por cada nível de jogo.
- * Não existe uma quarta classificação no banco, então "expert" usa "dificil".
+ * O nível Expert possui classificação própria no banco de perguntas.
  */
 export const DIFFICULTY_QUESTION_MAP: Record<GameDifficulty, QuestionCandidate["difficulty"]> = {
   facil: "facil",
   normal: "medio",
   dificil: "dificil",
-  expert: "dificil",
+  expert: "expert",
 };
 
 /**
