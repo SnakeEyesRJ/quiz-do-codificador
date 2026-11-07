@@ -12,6 +12,48 @@ export type Side = "player" | "codificador";
 export const DIFFICULTY_LEVELS = ["facil", "normal", "dificil", "expert"] as const;
 export type GameDifficulty = (typeof DIFFICULTY_LEVELS)[number];
 
+export type BookId =
+  | "livro_espiritos"
+  | "livro_mediuns"
+  | "evangelho"
+  | "ceu_inferno"
+  | "genese"
+  | "obras_postumas"
+  | "o_que_e_espiritismo"
+  | "nosso_lar"
+  | "os_mensageiros";
+export type BookSelection = "todos" | BookId;
+
+export const BOOK_OPTIONS: { value: BookSelection; label: string }[] = [
+  { value: "todos", label: "Todos os livros" },
+  { value: "livro_espiritos", label: "O Livro dos Espíritos" },
+  { value: "livro_mediuns", label: "O Livro dos Médiuns" },
+  { value: "evangelho", label: "O Evangelho Segundo o Espiritismo" },
+  { value: "ceu_inferno", label: "O Céu e o Inferno" },
+  { value: "genese", label: "A Gênese" },
+  { value: "obras_postumas", label: "Obras Póstumas" },
+  { value: "o_que_e_espiritismo", label: "O Que é o Espiritismo" },
+  { value: "nosso_lar", label: "Nosso Lar" },
+  { value: "os_mensageiros", label: "Os Mensageiros" },
+];
+
+export function extractMatchBook(match: any): BookSelection {
+  const tag = match?.player_name?.match(/\\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|o_que_e_espiritismo|nosso_lar|os_mensageiros)\\]/i);
+  return (tag?.[1]?.toLowerCase() as BookSelection) || "todos";
+}
+
+export function resolveQuestionBook(question: { book?: string | null; code?: number }): BookId | null {
+  if (question.code !== undefined) {
+    if ((question.code >= 351 && question.code <= 400) || (question.code >= 751 && question.code <= 800)) return "os_mensageiros";
+    if ((question.code >= 301 && question.code <= 350) || (question.code >= 701 && question.code <= 750)) return "nosso_lar";
+  }
+  const book = question.book;
+  return book && ["livro_espiritos", "livro_mediuns", "evangelho", "ceu_inferno", "genese", "obras_postumas", "o_que_e_espiritismo", "nosso_lar", "os_mensageiros"].includes(book)
+    ? (book as BookId)
+    : null;
+}
+
+
 export const DIFFICULTY_LABELS: Record<GameDifficulty, string> = {
   facil: "Fácil",
   normal: "Normal",
