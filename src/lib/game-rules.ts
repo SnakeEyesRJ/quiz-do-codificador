@@ -26,14 +26,14 @@ export type BookSelection = "todos" | BookId;
 
 export const BOOK_OPTIONS: { value: BookSelection; label: string }[] = [
   { value: "todos", label: "Todos os livros" },
+  { value: "genese", label: "A Gênese" },
+  { value: "nosso_lar", label: "Nosso Lar" },
+  { value: "ceu_inferno", label: "O Céu e o Inferno" },
+  { value: "evangelho", label: "O Evangelho Segundo o Espiritismo" },
   { value: "livro_espiritos", label: "O Livro dos Espíritos" },
   { value: "livro_mediuns", label: "O Livro dos Médiuns" },
-  { value: "evangelho", label: "O Evangelho Segundo o Espiritismo" },
-  { value: "ceu_inferno", label: "O Céu e o Inferno" },
-  { value: "genese", label: "A Gênese" },
-  { value: "obras_postumas", label: "Obras Póstumas" },
   { value: "o_que_e_espiritismo", label: "O Que é o Espiritismo" },
-  { value: "nosso_lar", label: "Nosso Lar" },
+  { value: "obras_postumas", label: "Obras Póstumas" },
   { value: "os_mensageiros", label: "Os Mensageiros" },
 ];
 
