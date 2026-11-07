@@ -131,6 +131,7 @@ export function cleanPlayerName(rawName: string): string {
     .replace(/\s*\[GN:[^\]]*\]/g, "")
     .replace(/\s*\[[3579]R\]/g, "")
     .replace(/\s*\[D:[a-z]+\]/gi, "")
+    .replace(/\s*\[B:[a-z_]+\]/gi, "")
     .trim();
 }
 
