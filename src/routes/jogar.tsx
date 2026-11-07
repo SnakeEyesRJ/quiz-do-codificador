@@ -19,6 +19,8 @@ import {
   DIFFICULTY_LABELS,
   DIFFICULTY_LEVELS,
   type GameDifficulty,
+  BOOK_OPTIONS,
+  type BookSelection,
 } from "@/lib/game-rules";
 import {
   nextQuestion,
@@ -40,15 +42,18 @@ const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[]
 export const Route = createFileRoute("/jogar")({
   validateSearch: (
     search: Record<string, unknown>,
-  ): { rodadas?: 3 | 5 | 7 | 9; dificuldade?: GameDifficulty } => {
+  ): { rodadas?: 3 | 5 | 7 | 9; dificuldade?: GameDifficulty; livro?: BookSelection } => {
     const r = Number(search["rodadas"]);
     const d = String(search["dificuldade"] || search["difficulty"] || "normal").toLowerCase();
     const validD: GameDifficulty = (DIFFICULTY_LEVELS as readonly string[]).includes(d)
       ? (d as GameDifficulty)
       : "normal";
+    const b = String(search["livro"] || "todos");
+    const validBook = BOOK_OPTIONS.some((option) => option.value === b) ? (b as BookSelection) : "todos";
     return {
       rodadas: [3, 5, 7, 9].includes(r) ? (r as 3 | 5 | 7 | 9) : 3,
       dificuldade: validD,
+      livro: validBook,
     };
   },
   head: () => ({
@@ -82,7 +87,7 @@ const BOOK_LABEL: Record<string, string> = {
 };
 
 function Play() {
-  const { rodadas, dificuldade } = Route.useSearch();
+  const { rodadas, dificuldade, livro } = Route.useSearch();
   const { user, profile, loading } = useAuth();
   const start = useServerFn(startMatch);
   const fetchNext = useServerFn(nextQuestion);
@@ -92,6 +97,7 @@ function Play() {
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);
   const [rounds, setRounds] = useState<3 | 5 | 7 | 9>(rodadas ?? 3);
   const [difficulty, setDifficulty] = useState<GameDifficulty>(dificuldade ?? "normal");
+  const [book, setBook] = useState<BookSelection>(livro ?? "todos");
   const [state, setState] = useState<MatchState | null>(null);
   const [question, setQuestion] = useState<PublicQuestion | null>(null);
   const [result, setResult] = useState<AnswerResult | null>(null);
@@ -124,6 +130,7 @@ function Play() {
           playerName: (user ? profile?.display_name : name) || name || undefined,
           totalRounds: rounds,
           difficulty: difficulty,
+          book,
         },
       });
       setState(s);
@@ -213,6 +220,26 @@ function Play() {
           <p className="mt-1.5 text-sm font-bold text-ink/85 sm:text-base">
             Disputa melhor de {rounds}: o primeiro a vencer {Math.floor(rounds / 2) + 1} rodadas
             ganha a partida.
+          </p>
+        </div>
+
+        {/* Seletor de livro */}
+        <div className="mt-6 text-left">
+          <label htmlFor="livro-partida" className="text-base font-bold text-ink sm:text-lg">
+            Escolha o livro:
+          </label>
+          <select
+            id="livro-partida"
+            value={book}
+            onChange={(event) => setBook(event.target.value as BookSelection)}
+            className="mt-2 h-11 w-full rounded-xl border-2 border-border bg-card px-3 text-sm font-semibold text-ink shadow-sm outline-none focus:border-ink"
+          >
+            {BOOK_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {book === "todos" ? "As perguntas poderão vir de qualquer obra disponível." : "A partida usará exclusivamente perguntas desta obra."}
           </p>
         </div>
 
