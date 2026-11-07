@@ -46,6 +46,27 @@ const DIFFICULTY_OPTIONS: { key: GameDifficulty; label: string; hint: string }[]
 
 const PDF_BOOKS = [
   {
+    title: "A Gênese",
+    year: "1868",
+    filename: "A-Genese.pdf",
+    url: "/livros/A-Genese.pdf",
+    size: "9.2 MB",
+  },
+  {
+    title: "O Céu e o Inferno",
+    year: "1865",
+    filename: "O-Ceu-e-o-inferno.pdf",
+    url: "/livros/O-Ceu-e-o-inferno.pdf",
+    size: "2.4 MB",
+  },
+  {
+    title: "O Evangelho Segundo o Espiritismo",
+    year: "1864",
+    filename: "O-Evangelho-Segundo-O-Espiritismo.pdf",
+    url: "/livros/O-Evangelho-Segundo-O-Espiritismo.pdf",
+    size: "1.2 MB",
+  },
+  {
     title: "O Livro dos Espíritos",
     year: "1857",
     filename: "O-Livro-Dos-Espiritos.pdf",
@@ -60,25 +81,18 @@ const PDF_BOOKS = [
     size: "1.4 MB",
   },
   {
-    title: "O Evangelho Segundo o Espiritismo",
-    year: "1864",
-    filename: "O-Evangelho-Segundo-O-Espiritismo.pdf",
-    url: "/livros/O-Evangelho-Segundo-O-Espiritismo.pdf",
+    title: "Os Mensageiros",
+    year: "1944",
+    filename: "Os-Mensageiros.pdf",
+    url: "/livros/Os-Mensageiros.pdf",
+    size: "1.1 MB",
+  },
+  {
+    title: "Nosso Lar",
+    year: "1944",
+    filename: "Nosso-Lar.pdf",
+    url: "/livros/Nosso-Lar.pdf",
     size: "1.2 MB",
-  },
-  {
-    title: "O Céu e o Inferno",
-    year: "1865",
-    filename: "O-Ceu-e-o-inferno.pdf",
-    url: "/livros/O-Ceu-e-o-inferno.pdf",
-    size: "2.4 MB",
-  },
-  {
-    title: "A Gênese",
-    year: "1868",
-    filename: "A-Genese.pdf",
-    url: "/livros/A-Genese.pdf",
-    size: "9.2 MB",
   },
   {
     title: "Obras Póstumas",
@@ -93,20 +107,6 @@ const PDF_BOOKS = [
     filename: "O-Que-E-O-Espiritismo.pdf",
     url: "/livros/O-Que-E-O-Espiritismo.pdf",
     size: "1.5 MB",
-  },
-  {
-    title: "Nosso Lar",
-    year: "1944",
-    filename: "Nosso-Lar.pdf",
-    url: "/livros/Nosso-Lar.pdf",
-    size: "1.2 MB",
-  },
-  {
-    title: "Os Mensageiros",
-    year: "1944",
-    filename: "Os-Mensageiros.pdf",
-    url: "/livros/Os-Mensageiros.pdf",
-    size: "1.1 MB",
   },
 ];
 
@@ -713,14 +713,14 @@ export function Index() {
             </div>
 
             <ul className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-              {PDF_BOOKS.map((book) => (
+              {PDF_BOOKS.map((book, index) => (
                 <li
                   key={book.filename}
                   className="flex flex-col items-center justify-between rounded-xl border border-border/80 bg-card/60 p-3.5 text-center transition-all hover:border-ink/30 hover:bg-peach/20"
                 >
                   <div>
                     <p className="font-display text-xs sm:text-sm font-bold leading-snug text-ink">
-                      {book.title}
+                      {`${String(index + 1).padStart(2, "0")} - ${book.title}`}
                     </p>
                     <p className="mt-1 text-[11px] text-muted-foreground">
                       Ano {book.year} · {book.size}
