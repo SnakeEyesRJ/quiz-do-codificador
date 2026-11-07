@@ -44,6 +44,7 @@ export function extractMatchBook(match: any): BookSelection {
 
 export function resolveQuestionBook(question: { book?: string | null; code?: number }): BookId | null {
   if (question.code !== undefined) {
+    if (question.code >= 801 && question.code <= 900) return "o_que_e_espiritismo";
     if ((question.code >= 351 && question.code <= 400) || (question.code >= 751 && question.code <= 800)) return "os_mensageiros";
     if ((question.code >= 301 && question.code <= 350) || (question.code >= 701 && question.code <= 750)) return "nosso_lar";
   }
