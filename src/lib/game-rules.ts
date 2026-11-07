@@ -19,7 +19,6 @@ export type BookId =
   | "ceu_inferno"
   | "genese"
   | "obras_postumas"
-  | "o_que_e_espiritismo"
   | "nosso_lar"
   | "os_mensageiros";
 export type BookSelection = "todos" | BookId;
@@ -40,11 +39,10 @@ export const BOOK_OPTIONS: { value: BookSelection; label: string; disabled?: boo
   { value: "os_mensageiros", label: "06 - Os Mensageiros" },
   { value: "nosso_lar", label: "07 - Nosso Lar" },
   { value: "obras_postumas", label: "08 - Obras Póstumas" },
-  { value: "o_que_e_espiritismo", label: "09 - O Que é o Espiritismo" },
 ];
 
 export function extractMatchBook(match: any): BookSelection {
-  const tag = match?.player_name?.match(/\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|o_que_e_espiritismo|nosso_lar|os_mensageiros)\]/i);
+  const tag = match?.player_name?.match(/\[B:(todos|livro_espiritos|livro_mediuns|evangelho|ceu_inferno|genese|obras_postumas|nosso_lar|os_mensageiros)\]/i);
   return (tag?.[1]?.toLowerCase() as BookSelection) || "todos";
 }
 
@@ -56,7 +54,6 @@ export function resolveQuestionBook(question: { book?: string | null; code?: num
     "ceu_inferno",
     "genese",
     "obras_postumas",
-    "o_que_e_espiritismo",
     "nosso_lar",
     "os_mensageiros",
   ];
@@ -66,7 +63,6 @@ export function resolveQuestionBook(question: { book?: string | null; code?: num
     return question.book as BookId;
   }
   if (question.code !== undefined) {
-    if (question.code >= 801 && question.code <= 900) return "o_que_e_espiritismo";
     if ((question.code >= 351 && question.code <= 400) || (question.code >= 751 && question.code <= 800)) return "os_mensageiros";
     if ((question.code >= 301 && question.code <= 350) || (question.code >= 701 && question.code <= 750)) return "nosso_lar";
   }
